@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="EDT" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="11dc8a93-0301-4f53-a51a-0caa7626e417">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/home/tchipi/NetBeansProjects/HighSchool/src/com/tsoft/appli/highschool/timetable/service/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nomecole" class="java.lang.String"/>
+	<parameter name="adressecole" class="java.lang.String"/>
+	<parameter name="telecole" class="java.lang.String"/>
+	<parameter name="annee" class="java.lang.String"/>
+	<parameter name="codeannee" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[select code,libelle from Classe order by code_serie]]>
+	</queryString>
+	<field name="code" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="libelle" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<detail>
+		<band height="363" splitType="Stretch">
+			<subreport>
+				<reportElement x="-17" y="0" width="765" height="351" uuid="2611df86-b24e-42fb-8273-3a126bb00f9e"/>
+				<subreportParameter name="tel_ecole">
+					<subreportParameterExpression><![CDATA[$P{telecole}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="codeclasse">
+					<subreportParameterExpression><![CDATA[$F{code}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="classe">
+					<subreportParameterExpression><![CDATA[$F{libelle}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="image"/>
+				<subreportParameter name="codeannee">
+					<subreportParameterExpression><![CDATA[$P{codeannee}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="annee">
+					<subreportParameterExpression><![CDATA[$P{annee}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="nom_ecole">
+					<subreportParameterExpression><![CDATA[$P{nomecole}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="address_ecole">
+					<subreportParameterExpression><![CDATA[$P{adressecole}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "EDTClasse.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

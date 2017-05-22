@@ -1,0 +1,148 @@
+<div class="bg-light lter b-b wrapper-md" >
+    <h1 class="m-n font-thin h3">Creneau</h1>
+    <small class="text-muted">{{'search.legend'| translate }}</small>
+</div>
+
+<div class="wrapper-md"  ng-controller="CreneauList">
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <form class="form-inline">
+                <label>Show</label>
+                <select class="form-control" ng-model="itemsByPage">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                </select>
+            </form>
+        </div>
+        <div class="panel-body table-responsive">
+            <table class="table table-striped table-bordered table-hover"  st-safe-src="rowCollection"  st-table="displayedCollection">
+                <thead>
+                    <tr>
+                        <th st-sort="heureFin">HeureFin</th>
+ <th st-sort="heureDebut">HeureDebut</th>
+ <th st-sort="libelle">Libelle</th>
+ <th st-sort="disponible">Pause</th>
+ 
+                        <th> 
+                            <button type="button" class="btn btn-primary" ng-click="add();"  
+                                    tooltip="{{'form.add'| translate}}">
+                                <i class="fa fa-plus"></i>  
+                            </button>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="displayedCollection.length == 0">
+                        Aucune Donnée à afficher
+                    </tr>
+                    <tr ng-repeat="row in displayedCollection">
+                        <td>{{row.heureFin}}</td>
+<td>{{row.heureDebut}}</td>
+<td>{{row.libelle}}</td>
+<td>{{row.disponible}}</td>
+
+                        <td>
+                            <button type="button" ng-click="edit(row);" class="btn btn-sm btn-default"  tooltip="{{'form.edit'| translate}}">
+                                <i class="fa fa-edit">
+                                </i>
+                            </button>
+
+                            <button type="button" ng-click="delete(row);" class="btn btn-sm btn-danger"  tooltip="{{'form.delete'| translate}}">
+                                <i class="fa fa-trash">
+                                </i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td   class="text-center">
+                            <div st-pagination="" st-items-by-page="itemsByPage"  class="no-margin"></div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+<script type="text/javascript" >
+
+    app.controller("CreneauList",
+            function CreneauList($timeout, $http, $scope, CrudService, toaster, $modal, $log, DateUtils) {
+            $scope.categorie = 'Creneau';
+            $scope.rowCollection = CrudService.query({categorie: $scope.categorie});
+            //  pagination
+            $scope.itemsByPage = 5;
+            $scope.delete = function (row) {
+            var r = confirm("Confirm ?");
+            if (r == true) {
+            CrudService.delete({categorie: $scope.categorie, id: row.code}, function (data) {
+            var index = $scope.rowCollection.indexOf(row);
+            if (index !== - 1) {
+            $scope.rowCollection.splice(index, 1);
+            }
+            toaster.pop("success", "Success", "Suppression Effectuée avec Succès");
+            }, function (error) {
+            toaster.pop("error", "Error", error);
+            });
+            };
+            };
+            $scope.edit = function (row) {
+            CrudService.get({categorie: $scope.categorie, id: row.code}, function (data) {
+            $scope.tsoftitem = data;
+            $scope.tsoftitem.heureDebut = DateUtils.convertLocalTimeFromServer($scope.tsoftitem.heureDebut);
+$scope.tsoftitem.heureFin = DateUtils.convertLocalTimeFromServer($scope.tsoftitem.heureFin);
+
+            $scope.openForm($scope.tsoftitem, $scope.rowCollection.indexOf(row));
+            });
+            };
+            $scope.add = function () {
+            $scope.tsoftitem = {};
+            $scope.openForm($scope.tsoftitem, - 1);
+            };
+            
+            $scope.openForm = function (row, rowindex) {
+            var modalInstance = $modal.open({
+            templateUrl: 'tpl/form.html',
+                    controller:  'FormController',
+                    size: 'lg',
+                    resolve: {
+                    row: function () {
+                    return row;
+                    },
+                            formmodel: function($stateParams, $http) {
+                            var datas = $http.get($scope.categorie + '/formmodel/').
+                                    success(function(data, status, headers, config) {
+                                    return data;
+                                    });
+                            return datas;
+                            },
+                            deps: ['$ocLazyLoad',
+                                    function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['ui.select']);
+                                    }]
+
+                    }
+            });
+            modalInstance.result.then(function (item) {
+            if (rowindex === - 1) {
+            $scope.rowCollection.push(item);
+            } else {
+            $scope.rowCollection.splice(rowindex, 1, item);
+            }
+            $log.info('Modal closed at: ' + new Date());
+            }, function () {
+            $log.info('Modal dismissed at: ' + new Date());
+            });
+            };
+            });
+           
+</script>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AbsenceSeq" language="groovy" pageWidth="140" pageHeight="194" whenNoDataType="AllSectionsNoDetail" columnWidth="120" leftMargin="10" rightMargin="10" topMargin="10" bottomMargin="10" uuid="d9831300-a793-483d-8511-c8f89267a4e2">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<title>
+		<band height="173">
+			<rectangle>
+				<reportElement mode="Transparent" x="0" y="0" width="120" height="110" uuid="daf7aec6-cf19-4d2d-84a4-225dfb6dc86f"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="0" width="120" height="20" uuid="712bf457-8af9-4e4f-9636-6721d7b34192"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[CONDUITE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="20" width="80" height="15" uuid="281af71e-2481-494a-a9ee-a2e3643f91f7"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<text><![CDATA[Nbre Heures Absences:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="35" width="80" height="15" uuid="f438e628-2ce4-4d4b-8951-bf1f106bdffa"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<text><![CDATA[Non Justifiees:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="50" width="80" height="15" uuid="7dda5052-093e-4717-8a64-56cde991fe2b"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<text><![CDATA[Blame:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="65" width="80" height="15" uuid="bf430138-7264-470b-8b55-84ec0d560479"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<text><![CDATA[Avertissement:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="80" width="80" height="15" uuid="45f55520-d99f-4d48-a5f7-06350e5f196c"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<text><![CDATA[Exclusions:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="95" width="80" height="15" uuid="c6b2c831-b4ad-42e2-a589-3a415d700621"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<text><![CDATA[Conseil Discipline:]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement mode="Transparent" x="0" y="0" width="120" height="20" uuid="a12d694a-2808-44d1-a417-772f25b7ee77"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="121" width="120" height="50" uuid="ebbab7a5-377c-4d93-874c-b8c73c3bc1ed"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="121" width="120" height="20" uuid="a5350f02-4fdb-4601-81ba-ee7ecd1bb8ee"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="121" width="120" height="20" uuid="b818f646-c115-4ed0-8387-6601acc1caf2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Visa Parents]]></text>
+			</staticText>
+		</band>
+	</title>
+</jasperReport>

@@ -1,0 +1,264 @@
+<div class="bg-light lter b-b wrapper-md" >
+    <h1 class="m-n font-thin h3">Eleve</h1>
+    <small class="text-muted">{{'search.legend'| translate }}</small>
+</div>
+
+<div class="wrapper-md"  ng-controller="EleveList">
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row">
+
+                <div class="col-sm-4">
+                    <div class="form-group"><label  class="control-label sr-only">Classe</label>
+                        <div class="input-group">
+                            <ui-select ng-model="item.classe" theme="bootstrap" ng-change="getElevesByClasse()"  >
+                                <ui-select-match placeholder="Classe...">{{$select.selected.libelle}}</ui-select-match>
+                                <ui-select-choices repeat="item in classes | filter: $select.search">
+                                    <div ng-bind-html="item.libelle | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn" >
+                                <button ng-click="printCarteClasse()"       ng-disabled="!item.classe" 
+                                        class="btn btn-default" type="button" tooltip="Imprimer Carte Scolaire CLasse">
+                                    <span class="fa fa-file-pdf-o"></span>
+                                </button>
+
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-sm-4">
+                    <button type="button" class="btn btn-primary" ng-click="add();"  ng-disabled="!item.classe"
+                            >
+                        Inscrire Nouveau
+                    </button>
+                    <button type="button" class="btn btn-primary" ng-click="inscrire();"  ng-disabled="!item.classe"
+                            >  
+                        Inscrire Ancien
+                    </button>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label  class="control-label sr-only">Classe</label>
+                        <div class="input-group">
+                            <input  class="form-control" placeholder="Entrez le nom d'eleve"  type="text"  autocomplete="off"   required="true" ng-model="nom" />
+                            <span class="input-group-btn" >
+                                <button ng-click="findEleveByNom()"      ng-disabled="!nom"
+                                        class="btn btn-primary" type="button" >
+                                    <span class="fa fa-search"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="panel-body table-responsive">
+            <table class="table table-striped table-bordered table-hover"  st-safe-src="rowCollection"  st-table="displayedCollection">
+                <thead>
+                    <tr>
+                        <th >Classe</th>
+                        <th >Nom Et Prénom</th>
+                        <th>Matricule</th>
+                        <th>Civilite</th>
+                        <th>Né(e) le</th>
+                        <th>Année</th>
+                        <th >Redoublant</th>
+                        <th >Nouvel eleve</th>
+                        <th> 
+                            Actions
+                        </th>
+                    </tr>
+                    <tr>
+                        <th ></th>
+                        <th ><input st-search="eleve.nomprenom" class="form-control" placeholder="Filter..." type="text"/></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th> 
+
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="displayedCollection.length == 0">
+                        <td colspan="9" class="text-center">Aucune Donnée à afficher</td> 
+                    </tr>
+                    <tr ng-repeat="row in displayedCollection">
+                        <td>{{row.classe.libelle}}</td>
+                        <td>{{row.eleve.nomprenom}}</td>
+                        <td>{{row.eleve.matricule}}</td>
+                        <td>{{row.eleve.civilite}}</td>
+                        <td>{{row.eleve.date_naissance}}</td>
+                        <td>{{row.annee.libelle}}</td>
+                        <td>{{row.redoublant}}</td>
+                        <td>{{row.nouvel_eleve}}</td>
+                        <td>
+                            <button type="button" ng-click="edit(row);" class="btn btn-sm btn-default">
+                                <i class="fa fa-edit">
+                                </i>
+                            </button>
+                            <button type="button" ng-click="printCarteEleve(row);" class="btn btn-sm btn-default"  tooltip="Imprimer Carte Scolaire">
+                                <i class="fa fa-file-pdf-o">
+                                </i>
+                            </button>
+
+                            <button type="button" ng-click="delete(row);" class="btn btn-sm btn-danger">
+                                <i class="fa fa-trash">
+                                </i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td  colspan="9" class="text-center">
+                            <div st-pagination="" st-items-by-page="itemsByPage"  class="no-margin"></div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+<script type="text/javascript" >
+
+    app.controller("EleveList",
+            function EleveList($scope, CrudService, toaster, $modal, $log, $http,DateUtils) {
+                $scope.categorie = 'Eleve';
+                $scope.rowCollection = [];
+                $scope.classes = CrudService.query({categorie: 'Classe'});
+                $scope.item = {};
+                $scope.getElevesByClasse = function () {
+                    $http.get('findEleveByClasse/' + $scope.item.classe.code)
+                            .success(function (data) {
+                                $scope.rowCollection = data;
+                            });
+                };
+                $scope.findEleveByNom = function () {
+                    $http.post('findEleveByNom', $scope.nom)
+                            .success(function (data) {
+                                $scope.rowCollection = data;
+                            });
+                };
+                //  pagination
+                $scope.itemsByPage = 7;
+                $scope.delete = function (row) {
+                    var r = confirm("Confirm ?");
+                    if (r == true) {
+                        CrudService.delete({categorie: $scope.categorie, id: row.eleve.code}, function (data) {
+                            var index = $scope.rowCollection.indexOf(row);
+                            if (index !== -1) {
+                                $scope.rowCollection.splice(index, 1);
+                            }
+                            toaster.pop("success", "Success", "Suppression Effectuée avec Succès");
+                        }, function (error) {
+                            toaster.pop("error", "Error", error);
+                        });
+                    }
+                    ;
+                };
+                $scope.edit = function (row) {
+                    CrudService.get({categorie: $scope.categorie, id: row.eleve.code}, function (data) {
+                        $scope.tsoftitem = data;
+                        $scope.tsoftitem.date_naissance = DateUtils.convertLocalDateFromServer($scope.tsoftitem.date_naissance);
+                        $scope.tsoftitem.date_delivrance_cni = DateUtils.convertLocalDateFromServer($scope.tsoftitem.date_delivrance_cni);
+
+                        $scope.openForm($scope.tsoftitem, $scope.rowCollection.indexOf(row));
+                    });
+                };
+
+                 $scope.add = function () {
+                    $scope.tsoftitem = {};
+                    $scope.openForm($scope.tsoftitem, -1);
+                };
+
+                function getFileNameFromHeader(header) {
+                    if (!header)
+                        return null;
+                    var result = header.split(";")[1].trim().split("=")[1];
+                    return result.replace(/"/g, '');
+                }
+                ;
+                $scope.printCarteClasse = function () {
+                    $scope.download('printCarteByClasse/' + $scope.item.classe.code);
+                };
+                $scope.printCarteEleve = function (row) {
+                    $scope.download('printCarteByEleve/' + row.eleve.code);
+                };
+                $scope.download = function (url) {
+                    $http({
+                        method: 'GET',
+                        url: url,
+                        responseType: 'arraybuffer',
+                        transformResponse: function (data, headersGetter, status) {
+                            var file = null;
+                            if (data) {
+                                file = new Blob([data], {
+                                    type: 'octet/stream' //or whatever you need, should match the 'accept headers' above
+                                });
+                            }
+                            //server should sent content-disposition header
+                            var fileName = getFileNameFromHeader(headersGetter('content-disposition'));
+                            var result = {
+                                blob: file,
+                                fileName: fileName
+                            };
+
+                            return {
+                                response: result
+                            };
+                        },
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded'}  // set the headers so angular passing info as form data (not request payload)
+                    })
+                            .success(function (data) {
+                                saveAs(data.response.blob, data.response.fileName);
+                            });
+                };
+                $scope.openForm = function (row, rowindex) {
+                    var modalInstance = $modal.open({
+                        templateUrl: 'tpl/form.html',
+                        controller: 'FormController',
+                        size: 'lg',
+                        resolve: {
+                            row: function () {
+                                return row;
+                            },
+                            formmodel: function ($stateParams, $http) {
+                                var datas = $http.get($scope.categorie + '/formmodel/').
+                                        success(function (data, status, headers, config) {
+                                            return data;
+                                        });
+                                return datas;
+                            }
+
+                        }
+                    });
+                    modalInstance.result.then(function (item) {
+                        if (rowindex === -1) {
+                            $scope.rowCollection.push(item);
+                            //EleveIncrist
+                            CrudService.save({categorie: 'EleveInscrit'}, {eleve: item, classe: $scope.item.classe});
+                        } else {
+                            $scope.rowCollection.splice(rowindex, 1, item);
+                        }
+                        $log.info('Modal closed at: ' + new Date());
+                    }, function () {
+                        $log.info('Modal dismissed at: ' + new Date());
+                    });
+                };
+            });
+</script>

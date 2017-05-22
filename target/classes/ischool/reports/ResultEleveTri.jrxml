@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ResultEleveTri" language="groovy" pageWidth="300" pageHeight="226" whenNoDataType="AllSectionsNoDetail" columnWidth="280" leftMargin="10" rightMargin="10" topMargin="10" bottomMargin="10" uuid="a2e1ac4a-b26a-42c9-ab70-49fba36ac5ec">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="code_eleve" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="code_classe" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="numtri" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<parameter name="code_annee" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[select * from (
+  select result2.*,@row_number:=@row_number+1 AS rang from  (
+ select matricule,sum(coefvaleur) as totalcoefs,sum(note*coefvaleur) as totalpts,sum(note*coefvaleur)/sum(coefvaleur) as moyseq,appreceate(sum(note*coefvaleur)/sum(coefvaleur) ) as mention
+ from (
+select e.code as matricule,m.libelle,s.code as seqcode,coef.code as coefcode,ei.code as eicode,coef.valeur as coefvaleur
+from Coefficient coef join Matiere m on (m.code=coef.code_matiere) join Classe c on (c.code_serie=coef.code_serie) join EleveInscrit ei on (ei.code_classe=c.code) join Eleve e on (ei.code_eleve=e.code),Sequence s
+where c.code=$P{code_classe}  and ei.code_annee=$P{code_annee}  and s.code in (($P{numtri}*2)-1,$P{numtri}*2) ) as result1
+ left join Notes n on (n.code_eleveinscrit=eicode and n.code_coefficient=coefcode  and (n.code_sequence=seqcode))
+ group by matricule  order by moyseq  desc
+  ) as result2,(SELECT @row_number:=0) AS t ) as result3  where matricule = $P{code_eleve}]]>
+	</queryString>
+	<field name="matricule" class="java.lang.Integer"/>
+	<field name="totalcoefs" class="java.math.BigDecimal"/>
+	<field name="totalpts" class="java.lang.Double"/>
+	<field name="moyseq" class="java.lang.Double"/>
+	<field name="mention" class="java.lang.String"/>
+	<field name="rang" class="java.lang.Double"/>
+	<variable name="counter" class="java.lang.Integer">
+		<variableExpression><![CDATA[$V{counter}+1]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<title>
+		<band height="170">
+			<frame>
+				<reportElement x="0" y="0" width="260" height="108" uuid="c97db621-c4fa-4eb4-bcee-2a86420c34c2"/>
+				<rectangle>
+					<reportElement mode="Transparent" x="0" y="0" width="260" height="60" uuid="7a73e0d5-8580-493e-a7e1-3429e8e3b2dc"/>
+				</rectangle>
+				<staticText>
+					<reportElement x="0" y="0" width="260" height="20" uuid="16033855-1a58-4767-8d69-ff7a9bcf8617"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="12" isBold="true" isUnderline="false"/>
+					</textElement>
+					<text><![CDATA[Resultats Eleve]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="20" width="64" height="20" uuid="5b2766e1-3b44-4a4d-a130-67cdeb6a76bb"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Total Pts]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="64" y="20" width="65" height="20" uuid="a3dc1ed0-55cd-4f35-8eca-2460c68d511d"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Total Coefs]]></text>
+				</staticText>
+				<textField pattern="###0.00" isBlankWhenNull="true">
+					<reportElement x="0" y="40" width="64" height="20" uuid="ba161eb4-0571-4969-a0a2-820d02dfe8dc"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{totalpts}/2]]></textFieldExpression>
+				</textField>
+				<textField pattern="###0.00" isBlankWhenNull="true">
+					<reportElement x="64" y="40" width="65" height="20" uuid="8596083e-51da-4dc4-b2a0-cdafcdf7c472"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{totalcoefs}/2]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="188" y="20" width="72" height="20" uuid="423f1a2b-d98c-40a0-8f1c-01858555110a"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Rang]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="129" y="20" width="59" height="20" uuid="3d041380-e4ac-4168-8c32-6f344c9df832"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Moy]]></text>
+				</staticText>
+				<textField pattern="###0.00" isBlankWhenNull="true">
+					<reportElement x="129" y="40" width="59" height="20" uuid="b721fb30-53fe-4e5a-8a0c-172ce216105c"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{moyseq}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="0" y="85" width="260" height="23" uuid="e3452c49-a590-4e99-8a19-c75dd1cf9bc6"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="false" isItalic="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{mention}.toUpperCase()]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="186" y="40" width="74" height="20" uuid="9bcecc2f-9f06-48d4-959e-394acdf1eba4"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{rang}.intValue()]]></textFieldExpression>
+				</textField>
+				<rectangle>
+					<reportElement mode="Transparent" x="0" y="0" width="260" height="20" uuid="e497f3d8-e2ab-4eae-98c5-6b38c6683c48"/>
+				</rectangle>
+				<rectangle>
+					<reportElement mode="Transparent" x="0" y="20" width="64" height="20" uuid="97bc111c-11f6-45bd-886d-8675c20886c5"/>
+				</rectangle>
+				<rectangle>
+					<reportElement mode="Transparent" x="129" y="40" width="59" height="20" uuid="f75bc271-834b-4eca-8642-9788fd740e0f"/>
+				</rectangle>
+				<rectangle>
+					<reportElement mode="Transparent" x="64" y="20" width="65" height="20" uuid="be976fd2-4e22-4b87-8467-9a1de679c14d"/>
+				</rectangle>
+				<rectangle>
+					<reportElement mode="Transparent" x="64" y="40" width="65" height="20" uuid="2839bc56-791e-4ebc-98d4-33b1d83a71ac"/>
+				</rectangle>
+				<rectangle>
+					<reportElement mode="Transparent" x="129" y="40" width="59" height="20" uuid="c16eb92b-5717-4b3e-8a6b-8337d6ae4bd7"/>
+				</rectangle>
+				<rectangle>
+					<reportElement mode="Transparent" x="188" y="20" width="72" height="20" uuid="c75b32a9-57d7-4bec-8c9f-ff8892cc274a"/>
+				</rectangle>
+				<rectangle>
+					<reportElement mode="Transparent" x="0" y="40" width="64" height="20" uuid="fe4a422f-8466-43bd-a3c2-0d1302779f1d"/>
+				</rectangle>
+				<rectangle>
+					<reportElement mode="Transparent" x="129" y="20" width="59" height="20" uuid="c90a766b-4e37-43e9-b1df-1b2c93e354e4"/>
+				</rectangle>
+				<rectangle>
+					<reportElement mode="Transparent" x="188" y="40" width="72" height="20" uuid="5932d15b-4941-435c-bb4a-c80b1bd43314"/>
+				</rectangle>
+				<rectangle>
+					<reportElement mode="Transparent" x="0" y="68" width="260" height="40" uuid="828cf21a-77d6-45fe-8623-e316f05405d7"/>
+				</rectangle>
+				<rectangle>
+					<reportElement mode="Transparent" x="0" y="85" width="260" height="23" uuid="d05e86cc-12da-4264-997b-c4e21f9fdbd7"/>
+				</rectangle>
+				<staticText>
+					<reportElement x="0" y="68" width="260" height="20" uuid="c0742de7-61e4-4f86-b10d-c9b393fad5ed"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Appreciations et Sanction du travail]]></text>
+				</staticText>
+			</frame>
+			<rectangle>
+				<reportElement x="0" y="118" width="260" height="50" uuid="7624b2fa-fd1a-414d-ad80-c1bedacc7bfb"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="118" width="260" height="20" uuid="91ea451e-13ec-402d-9ee6-32c2cda17c07"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="118" width="260" height="20" uuid="d7d3bcef-1484-4fab-a63f-b1149f006b53"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Visa Chef Etablissement]]></text>
+			</staticText>
+		</band>
+	</title>
+</jasperReport>

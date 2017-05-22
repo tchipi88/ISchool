@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="bulletinSeqAll" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="0" bottomMargin="0" uuid="849c25a3-53a9-4605-9076-fe9bf78e3575">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="code_classe" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="numseq" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nom_ecole" class="java.lang.String"/>
+	<parameter name="logo_ecole" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/home/tchipi/NetBeansProjects/HighSchool/src/com/tsoft/appli/highschool/reports/bulletin/seq/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="annee" class="java.lang.String"/>
+	<parameter name="code_annee" class="java.lang.Integer"/>
+	<parameter name="upload_dir" class="java.lang.String"/>
+	<parameter name="effectif" class="java.lang.String"/>
+	<parameter name="adress_ecole" class="java.lang.String"/>
+	<parameter name="slogan_ecole" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select result.*,@row_number:=@row_number+1 AS rang from  (
+select e.code,sum(note*coef.valeur)/sum(coef.valeur) as moyseq
+from Coefficient coef join Matiere m on (m.code=coef.code_matiere) join Classe c on (c.code_serie=coef.code_serie) join EleveInscrit ei on (ei.code_classe=c.code and ei.code_annee = $P{code_annee}) join Eleve e on (ei.code_eleve=e.code)  left join Notes n on (n.code_eleveinscrit=ei.code and n.code_coefficient=coef.code  and (n.code_sequence= $P{numseq}))  
+ where c.code =  $P{code_classe}   group by e.code  order by moyseq  desc
+) as result,(SELECT @row_number:=0) AS t]]>
+	</queryString>
+	<field name="code" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="moyseq" class="java.lang.Double"/>
+	<field name="rang" class="java.lang.Long"/>
+	<detail>
+		<band height="234" splitType="Stretch">
+			<subreport>
+				<reportElement positionType="Float" x="-20" y="14" width="437" height="136" uuid="d0808bbf-d87b-4b4c-8caa-805111bfdeca"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="code_classe">
+					<subreportParameterExpression><![CDATA[$P{code_classe}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="numseq">
+					<subreportParameterExpression><![CDATA[$P{numseq}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="code_annee">
+					<subreportParameterExpression><![CDATA[$P{code_annee}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="slogan_ecole">
+					<subreportParameterExpression><![CDATA[$P{slogan_ecole}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="upload_dir">
+					<subreportParameterExpression><![CDATA[$P{upload_dir}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="effectif">
+					<subreportParameterExpression><![CDATA[$P{effectif}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="code_eleve">
+					<subreportParameterExpression><![CDATA[$F{code}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="adress_ecole">
+					<subreportParameterExpression><![CDATA[$P{adress_ecole}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="logo_ecole">
+					<subreportParameterExpression><![CDATA[$P{logo_ecole}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="annee">
+					<subreportParameterExpression><![CDATA[$P{annee}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="nom_ecole">
+					<subreportParameterExpression><![CDATA[$P{nom_ecole}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "BulletinSeq.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,141 @@
+<div class="bg-light lter b-b wrapper-md" >
+    <h1 class="m-n font-thin h3">Notes</h1>
+    <small class="text-muted">{{'search.legend'| translate }}</small>
+</div>
+
+<div class="wrapper-md"  ng-controller="NotesList">
+
+    <form name="form1" id="form1"   class="form-validation"
+          method="POST"     role="form"    ng-submit="save()"  novalidate="true" >
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <ui-select ng-model="item.classe" theme="bootstrap" ng-change="loadmatiere()"  >
+                            <ui-select-match placeholder="Classe...">{{$select.selected.libelle}}</ui-select-match>
+                            <ui-select-choices repeat="item in classes | filter: $select.search">
+                                <div ng-bind-html="item.libelle | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <ui-select ng-model="item.numseq" theme="bootstrap" ng-change="getdata()"  >
+                            <ui-select-match placeholder="Sequence...">{{$select.selected.libelle}}</ui-select-match>
+                            <ui-select-choices repeat="item in sequences | filter: $select.search">
+                                <div ng-bind-html="item.libelle | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <ui-select ng-model="item.matiere" theme="bootstrap" ng-change="getdata()"   ng-disabled="!item.classe || !item.numseq" >
+                            <ui-select-match placeholder="Matiere...">{{$select.selected.libelle}}</ui-select-match>
+                            <ui-select-choices repeat="item in matieres | filter: $select.search">
+                                <div ng-bind-html="item.libelle | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body table-responsive">
+
+                <table class="table table-striped table-bordered table-hover" id="dataTables-example" width="100%"  
+                       st-safe-src="listsObjects"  st-table="displayedCollection">
+                    <thead>
+                    <th >Matricule</th>
+                    <th >Nom Prenom</th>
+                    <th >Notes(/20)</th>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="displayedCollection.length == 0">
+                            <td colspan="3">Aucune Donnée à afficher</td> 
+                        </tr>
+                        <tr  ng-repeat="n in displayedCollection">
+                            <td>{{n.matricule}} </td> 
+                            <td>{{n.nom_prenom}} </td> 
+                            <td>
+                                <div class="form-group"  >
+                                    <ng-form name="subForm">
+                                        <input class="form-control"   type="number"   
+                                               name="note"       required="true"    id="note"  
+                                               min="0"  max="20"   ng-model="n.note"  ng-readonly="n.cycle_vie == 'VALIDE'"   />
+                                    </ng-form>
+                                </div>
+                            </td> 
+                        </tr> 
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td   class="text-center">
+                                <div st-pagination="" st-items-by-page="7"  class="no-margin"></div>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="panel-footer"    ng-show="item.classe && item.numseq && item.matiere">
+                <button type="submit" class="btn btn-primary btn-block"   ng-disabled="form1.$invalid || form1.$pristine" >
+                    <i class="fa fa-check"  ng-show="!errorService.waiting">{{'form.save'| translate }}</i>
+                    <i class="fa fa-spinner faa-spin animated" ng-show="errorService.waiting"></i>
+                    <span ng-show="errorService.waiting">Loading...</span>
+                </button>
+            </div>
+
+        </div>
+
+    </form>
+</div>
+
+
+
+
+<script type="text/javascript" >
+
+    app.controller("NotesList",
+            function NotesList($http, $scope, CrudService, toaster, ErrorService) {
+                $scope.errorService = ErrorService;
+                $scope.classes = CrudService.query({categorie: 'Classe'});
+                $scope.sequences = CrudService.query({categorie: 'Sequence'});
+                $scope.item = {};
+                $scope.listsObjects = [];
+
+
+                $scope.loadmatiere = function () {
+                    $http.get('matiereclasse/' + $scope.item.classe.code)
+                            .success(function (data) {
+                                $scope.errorService.clear();
+                                $scope.item.numseq = null;
+                                $scope.item.matiere = null;
+                                $scope.matieres = data;
+                                $scope.form1.$setPristine();
+                            });
+                };
+
+                $scope.getdata = function () {
+                    if ($scope.item.matiere == null)
+                        return;
+                    $http.get('notes/data/' + $scope.item.classe.code + '/' + $scope.item.matiere.code + '/' + $scope.item.numseq.code)
+                            .success(function (data) {
+                                $scope.listsObjects = data;
+                                $scope.form1.$setPristine();
+                            });
+                };
+
+
+                $scope.save = function () {
+                    $scope.errorService.setwaiting();
+                    $http.post('notes/data/' + $scope.item.classe.code + '/' + $scope.item.matiere + '/' + $scope.item.numseq.code, $scope.listsObjects)
+                            .success(function (data) {
+                                toaster.pop("success", "Success", "Operation Effectuée avec Succès");
+                                $scope.errorService.setSucces();
+                            });
+
+                };
+
+
+
+            });
+
+</script>

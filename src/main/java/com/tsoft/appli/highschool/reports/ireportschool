@@ -1,0 +1,55 @@
+-- requete des notes par type par eleve
+select tm.libelle as typematiere,m.libelle as discipline,note,coef.valeur as coef,note*coef.valeur as total,rangmatiere(m.libelle,e.matricule,'SEQ1') as rang,minnotematiere(m.libelle,e.matricule,'SEQ1') as min,maxnotematiere(m.libelle,e.matricule,'SEQ1') as max,appreceate(note) as appreciations
+from Notes n join EleveInscrit ei on (n.code_eleveinscrit=ei.code)   join AnneeScolaire a on (a.code=ei.code_annee) join Coefficient coef on (coef.code=n.code_coefficient)  join Eleve e on (ei.code_eleve=e.code) join Matiere m on (m.code=coef.code_matiere) join TypeMatiere tm on (tm.code=m.type)
+where e.matricule like 'Enl4925' and n.numerosequence like 'SEQ1' and a.isenabled like 'OUI'  order by tm.libelle desc ;
+
+-- stat des notes par type  par elevee
+select sum(coef.valeur) as totalcoefs,sum(note*coef.valeur) as totalpts,sum(note*coef.valeur)/sum(coef.valeur) as moyseq
+from Notes n join EleveInscrit ei on (n.code_eleveinscrit=ei.code)   join AnneeScolaire a on (a.code=ei.code_annee) join Coefficient coef on (coef.code=n.code_coefficient)  join Eleve e on (ei.code_eleve=e.code) join Matiere m on (m.code=coef.code_matiere) 
+where e.matricule like 'Enl4925' and n.numerosequence like 'SEQ1' and a.isenabled like 'OUI' and m.type=1; 
+
+
+
+-- stat par matiere min et max dans un classe pr une sequence
+
+select m.libelle,min(n.note),max(n.note)
+from Notes n join EleveInscrit ei on (n.code_eleveinscrit=ei.code)  join Classe c on (ei.code_classe=c.code) join AnneeScolaire a on (a.code=ei.code_annee) join Coefficient coef on (coef.code=n.code_coefficient)  join Matiere m on (m.code=coef.code_matiere)   
+where c.code in (
+select c.code from EleveInscrit ei join Classe c on (c.code=ei.code_classe) join Eleve e on (ei.code_eleve=e.code) join AnneeScolaire a on (a.code=ei.code_annee) where e.matricule like 'Enl4925' and a.isenabled like 'OUI'
+)
+ and n.numerosequence like 'SEQ1' and a.isenabled like 'OUI'  group by m.libelle;
+
+
+-- requete pour le classeement de la classe par matiere a une sequence
+select  rangmatiere from (
+select result.*,@row_number:=@row_number+1 AS rangmatiere from  (
+select m.libelle,e.matricule,note
+from Notes n join EleveInscrit ei on (n.code_eleveinscrit=ei.code)  join Classe c on (ei.code_classe=c.code) join AnneeScolaire a on (a.code=ei.code_annee) join Coefficient coef on (coef.code=n.code_coefficient  and coef.code_serie=c.code_serie)  join Matiere m on (m.code=coef.code_matiere)  join Eleve e on (ei.code_eleve=e.code)
+ where c.code in (
+select c.code from EleveInscrit ei join Classe c on (c.code=ei.code_classe) join Eleve e on (ei.code_eleve=e.code) join AnneeScolaire a on (a.code=ei.code_annee) where e.matricule like 'Enl4925' and a.isenabled like 'OUI'
+)
+ and n.numerosequence like 'SEQ1' and a.isenabled like 'OUI' and m.libelle like 'Anglais' order by note desc
+) as result,(SELECT @row_number:=0) AS t )  as result1 where matricule like 'Enl4925';
+
+-- requete pour le classement de la classe a une sequence
+select * from (
+select result.*,@row_number:=@row_number+1 AS rang from  (
+select e.matricule,sum(coef.valeur) as totalcoefs,sum(note*coef.valeur) as totalpts,sum(note*coef.valeur)/sum(coef.valeur) as moyseq,
+appreceate(sum(note*coef.valeur)/sum(coef.valeur) ) as mention
+ from Notes n join EleveInscrit ei on (n.code_eleveinscrit=ei.code)  join Classe c on (ei.code_classe=c.code) join AnneeScolaire a on (a.code=ei.code_annee) join Coefficient coef on (coef.code=n.code_coefficient)  join Eleve e on (ei.code_eleve=e.code) where    
+  c.code in (
+select c.code from EleveInscrit ei join Classe c on (c.code=ei.code_classe) join Eleve e on (ei.code_eleve=e.code) join AnneeScolaire a on (a.code=ei.code_annee) where e.matricule like 'Enl4925' and a.isenabled like 'OUI'
+)
+ and n.numerosequence like 'SEQ1' and a.isenabled like 'OUI'  group by code_eleveinscrit  order by moyseq  desc
+) as result,(SELECT @row_number:=0) AS t ) as result1  where matricule like 'Enl4925';
+
+
+-- classe summary
+select max(moyseq),min(moyseq),avg(moyseq),count(moyseq),sum(moyennesup) from
+(
+select code_eleveinscrit,sum(coef.valeur) as totalcoefs,sum(note*coef.valeur) as totalpts,sum(note*coef.valeur)/sum(coef.valeur) as moyseq,if (sum(note*coef.valeur)/sum(coef.valeur)>10,1,0) as moyennesup
+ from Notes n join EleveInscrit ei on (n.code_eleveinscrit=ei.code)  join Classe c on (ei.code_classe=c.code) join AnneeScolaire a on (a.code=ei.code_annee) join Coefficient coef on (coef.code=n.code_coefficient)  
+ where c.code in (
+select c.code from EleveInscrit ei join Classe c on (c.code=ei.code_classe) join Eleve e on (ei.code_eleve=e.code) join AnneeScolaire a on (a.code=ei.code_annee) where e.matricule like 'Enl4925' and a.isenabled like 'OUI'
+)
+and n.numerosequence like 'SEQ1' and a.isenabled like 'OUI'  group by code_eleveinscrit  order by code_eleveinscrit) as result

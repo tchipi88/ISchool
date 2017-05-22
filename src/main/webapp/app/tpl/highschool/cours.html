@@ -1,0 +1,227 @@
+<div class="bg-light lter b-b wrapper-md" >
+    <h1 class="m-n font-thin h3">Cours</h1>
+    <small class="text-muted">{{'search.legend'| translate }}</small>
+</div>
+
+<div class="wrapper-md"  ng-controller="CoursList">
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-lg-4"> 
+                    <ui-select ng-model="item.prof" theme="bootstrap" ng-change="getcours()"  >
+                        <ui-select-match placeholder="Professeur...">{{$select.selected.nomprenom}}</ui-select-match>
+                        <ui-select-choices repeat="item in profs | filter: $select.search">
+                            <div ng-bind-html="item.nomprenom | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body table-responsive">
+            <table class="table table-striped table-bordered table-hover"  st-safe-src="rowCollection"  st-table="displayedCollection">
+                <thead>
+                    <tr>
+                        <th st-sort="professeur.nomprenom">Professeur</th>
+                        <th st-sort="classe.libelle">Classe</th>
+                        <th st-sort="matiere.libelle">Matiere</th>
+                        <th st-sort="annee.libelle">Annee</th>
+                        <th st-sort="duree_heures">Duree heures</th>
+                        <th st-sort="duree_minutes">Duree minutes</th>
+
+                        <th> 
+                            <button type="button" class="btn btn-primary" ng-click="add();"   ng-disabled="!item.prof"
+                                    tooltip="{{'form.add'| translate}}">
+                                <i class="fa fa-plus"></i>  
+                            </button>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="row in displayedCollection">
+                        <td>{{row.professeur.nomprenom}}</td>
+                        <td>{{row.classe.libelle}}</td>
+                        <td>{{row.matiere.libelle}}</td>
+                        <td>{{row.annee.libelle}}</td>
+                        <td>{{row.duree_heures}}</td>
+                        <td>{{row.duree_minutes}}</td>
+
+                        <td>
+                            <button type="button" ng-click="edit(row);" class="btn btn-sm btn-default"  tooltip="{{'form.edit'| translate}}">
+                                <i class="fa fa-edit">
+                                </i>
+                            </button>
+
+                            <button type="button" ng-click="delete(row);" class="btn btn-sm btn-danger"  tooltip="{{'form.delete'| translate}}">
+                                <i class="fa fa-trash">
+                                </i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td   class="text-center">
+                            <div st-pagination="" st-items-by-page="itemsByPage"  class="no-margin"></div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+<script type="text/javascript" >
+
+    app.controller("CoursList",
+            function CoursList($scope, CrudService, toaster, $modal, $log, $http) {
+                $scope.categorie = 'Cours';
+                $scope.profs = CrudService.query({categorie: 'Professeur'});
+                //  pagination
+                $scope.itemsByPage = 5;
+                $scope.item = {};
+                $scope.rowCollection = [];
+
+                $scope.getcours = function () {
+                    $http.get('CoursByProf/' + $scope.item.prof.code)
+                            .success(function (data) {
+                                $scope.rowCollection = data;
+                            });
+                };
+                $scope.delete = function (row) {
+                    var r = confirm("Confirm ?");
+                    if (r == true) {
+                        CrudService.delete({categorie: $scope.categorie, id: row.code}, function (data) {
+                            var index = $scope.rowCollection.indexOf(row);
+                            if (index !== -1) {
+                                $scope.rowCollection.splice(index, 1);
+                            }
+                            toaster.pop("success", "Success", "Suppression Effectuée avec Succès");
+                        }, function (error) {
+                            toaster.pop("error", "Error", error);
+                        });
+                    }
+                    ;
+                };
+                $scope.edit = function (row) {
+                    CrudService.get({categorie: $scope.categorie, id: row.code}, function (data) {
+                        $scope.tsoftitem = data;
+                        $scope.openForm('lg', $scope.tsoftitem, $scope.rowCollection.indexOf(row));
+                    });
+                };
+                $scope.add = function () {
+                    $scope.tsoftitem = {professeur: $scope.item.prof,duree_heures:0};
+                    $scope.openForm('lg', $scope.tsoftitem, -1);
+                };
+                $scope.openForm = function (size, row, rowindex) {
+                    var modalInstance = $modal.open({
+                        templateUrl: 'tpl/form.html',
+                        controller: $scope.categorie + 'Form',
+                        size: size,
+                        resolve: {
+                            row: function () {
+                                return row;
+                            },
+                            formmodel: function ($stateParams, $http) {
+                                var datas = $http.get($scope.categorie + '/formmodel/').
+                                        success(function (data, status, headers, config) {
+                                            return data;
+                                        });
+                                return datas;
+                            },
+                            deps: ['$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['ui.select']);
+                                }]
+
+                        }
+                    });
+                    modalInstance.result.then(function (item) {
+                        if (rowindex === -1) {
+                            $scope.rowCollection.push(item);
+                        } else {
+                            $scope.rowCollection.splice(rowindex, 1, item);
+                        }
+                        $log.info('Modal closed at: ' + new Date());
+                    }, function () {
+                        $log.info('Modal dismissed at: ' + new Date());
+                    });
+                };
+            });
+    app.controller("CoursForm",
+            function CoursForm($timeout, $scope, $modalInstance, $http, toaster, ErrorService, CrudService, row, formmodel, DateUtils, DataUtils) {
+                $scope.categorie = 'Cours';
+                $scope.errorService = ErrorService;
+                $scope.errorService.clear();
+                $scope.tsoftitem = row;
+                $scope.formmodel = formmodel.data;
+                $scope.selects = [];
+                $scope.datePickerOpenStatus = {};
+                $scope.byteSize = DataUtils.byteSize;
+                $scope.openFile = DataUtils.openFile;
+
+                $timeout(function () {
+                    angular.element('.form-group:eq(1)>input').focus();
+                    angular.forEach($scope.formmodel.datecolumns, function (value, key) {
+                        $scope.tsoftitem[value.name] = DateUtils.convertLocalDateFromServer($scope.tsoftitem[value.name]);
+                        ;
+                    });
+                });
+
+                $scope.save = function () {
+                    $scope.errorService.setwaiting();
+                    angular.forEach($scope.formmodel.datecolumns, function (value, key) {
+                        $scope.tsoftitem[value.name] = DateUtils.convertLocalDateToServer($scope.tsoftitem[value.name]);
+                        ;
+                    });
+                    CrudService.save({categorie: $scope.categorie}, $scope.tsoftitem,
+                            function (data) {
+                                toaster.pop("success", "Success", "Operation Effectuée avec Succès");
+                                $scope.errorService.setSucces();
+                                $modalInstance.close(data);
+                            });
+                };
+
+                $scope.openCalendar = function ($event, date) {
+                    $event.preventDefault();
+                    $event.stopPropagation();
+                    $scope.datePickerOpenStatus[date] = true;
+                };
+                $scope.dateOptions = {
+                    formatYear: 'yy',
+                    startingDay: 1,
+                    class: 'datepicker'
+                };
+
+                $scope.closemodal = function () {
+                    $modalInstance.dismiss('cancel');
+                };
+
+                $scope.selects.matiere = CrudService.query({categorie: 'Matiere'});
+                $scope.selects.professeur = CrudService.query({categorie: 'Professeur'});
+                $scope.selects.classe = CrudService.query({categorie: 'Classe'});
+                $scope.selects.annee = CrudService.query({categorie: 'AnneeScolaire'});
+
+
+                $scope.setMimage = function ($file, fieldName) {
+                    if ($file && $file.$error === 'pattern') {
+                        return;
+                    }
+                    if ($file) {
+                        DataUtils.toBase64($file, function (base64Data) {
+                            $scope.$apply(function () {
+                                $scope.tsoftitem[fieldName] = base64Data;
+                                $scope.tsoftitem[fieldName + 'ContentType'] = $file.type;
+                            });
+                        });
+                    }
+                };
+
+            });
+</script>

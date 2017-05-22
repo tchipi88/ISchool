@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="EDTClasse" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="5" bottomMargin="5" uuid="f6073641-7b58-475a-a3f5-24042b3fbc94">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Serif" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Serif" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Serif" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Serif" fontSize="12"/>
+	<style name="Row" mode="Transparent" fontName="Serif" fontSize="9">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="annee" class="java.lang.String"/>
+	<parameter name="nom_ecole" class="java.lang.String"/>
+	<parameter name="address_ecole" class="java.lang.String"/>
+	<parameter name="tel_ecole" class="java.lang.String"/>
+	<parameter name="image" class="java.io.File"/>
+	<parameter name="codeclasse" class="java.lang.Integer"/>
+	<parameter name="classe" class="java.lang.String"/>
+	<parameter name="codeannee" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[select lundi.libCreneau,lundi.prof as lundiprof,lundi.matiere as lundimatiere,mardi.prof as mardiprof,mardi.matiere as mardimatiere,mercredi.prof as mercrediprof,mercredi.matiere as mercredimatiere,jeudi.prof as jeudiprof,jeudi.matiere as jeudimatiere,vendredi.prof as vendrediprof,vendredi.matiere as vendredimatiere
+
+from
+
+(select plage.*,edt.prof,edt.matiere  from (SELECT concat(date_format(heure_debut,'%H:%i'),concat('-',date_format(heure_fin,'%H:%i'))) as libCreneau,c.code as code_c,j.code as code_j,j.libelle as jour FROM Creneau c ,Jour j  where j.code=1) as plage
+left join 
+(SELECT t.code_creneau,t.code_jour,p.nom_prenom as prof,m.libelle as matiere FROM  Timetable t join Cours c on (t.code_cours=c.code) join Professeur p on p.code=c.code_professeur join Matiere m on m.code=p.code_matiere  where c.code_classe=$P{codeclasse} and c.code_annee=$P{codeannee}) as edt
+on (edt.code_creneau=plage.code_c and edt.code_jour=plage.code_j)) as lundi join
+
+(select plage.*,edt.prof,edt.matiere   from (SELECT c.code as code_c,j.code as code_j,j.libelle as jour FROM Creneau c ,Jour j  where j.code=2) as plage
+left join 
+(SELECT t.code_creneau,t.code_jour,p.nom_prenom as prof,m.libelle as matiere FROM  Timetable t join Cours c on (t.code_cours=c.code)join Professeur p on p.code=c.code_professeur join Matiere m on m.code=p.code_matiere join Classe cl on cl.code=c.code_classe where c.code_classe=$P{codeclasse} and c.code_annee=$P{codeannee}) as edt
+on (edt.code_creneau=plage.code_c and edt.code_jour=plage.code_j)) as mardi  on (lundi.code_c=mardi.code_c)  join
+
+(select plage.*,edt.prof,edt.matiere  from (SELECT c.code as code_c,j.code as code_j,j.libelle as jour FROM Creneau c ,Jour j  where j.code=3) as plage
+left join 
+(SELECT t.code_creneau,t.code_jour,p.nom_prenom as prof,m.libelle as matiere FROM  Timetable t join Cours c on (t.code_cours=c.code)join Professeur p on p.code=c.code_professeur join Matiere m on m.code=p.code_matiere join Classe cl on cl.code=c.code_classe where c.code_classe=$P{codeclasse} and c.code_annee=$P{codeannee})  as edt
+on (edt.code_creneau=plage.code_c and edt.code_jour=plage.code_j)) as mercredi  on (lundi.code_c=mercredi.code_c)
+
+join
+
+(select plage.*,edt.prof,edt.matiere  from (SELECT c.code as code_c,j.code as code_j,j.libelle as jour FROM Creneau c ,Jour j  where j.code=4) as plage
+left join 
+(SELECT t.code_creneau,t.code_jour,p.nom_prenom as prof,m.libelle as matiere FROM  Timetable t join Cours c on (t.code_cours=c.code )join Professeur p on p.code=c.code_professeur join Matiere m on m.code=p.code_matiere join Classe cl on cl.code=c.code_classe where c.code_classe=$P{codeclasse} and c.code_annee=$P{codeannee}) as edt
+on (edt.code_creneau=plage.code_c and edt.code_jour=plage.code_j)) as jeudi  on (lundi.code_c=jeudi.code_c)
+join
+
+(select plage.*,edt.prof,edt.matiere  from (SELECT c.code as code_c,j.code as code_j,j.libelle as jour FROM Creneau c ,Jour j  where j.code=5) as plage
+left join 
+(SELECT t.code_creneau,t.code_jour,p.nom_prenom as prof,m.libelle as matiere FROM  Timetable t join Cours c on (t.code_cours=c.code)join Professeur p on p.code=c.code_professeur join Matiere m on m.code=p.code_matiere join Classe cl on cl.code=c.code_classe where c.code_classe=$P{codeclasse} and c.code_annee=$P{codeannee}) as edt
+on (edt.code_creneau=plage.code_c and edt.code_jour=plage.code_j)) as vendredi  on (lundi.code_c=vendredi.code_c)]]>
+	</queryString>
+	<field name="libCreneau" class="java.lang.String"/>
+	<field name="lundiprof" class="java.lang.String"/>
+	<field name="lundimatiere" class="java.lang.String"/>
+	<field name="mardiprof" class="java.lang.String"/>
+	<field name="mardimatiere" class="java.lang.String"/>
+	<field name="mercrediprof" class="java.lang.String"/>
+	<field name="mercredimatiere" class="java.lang.String"/>
+	<field name="jeudiprof" class="java.lang.String"/>
+	<field name="jeudimatiere" class="java.lang.String"/>
+	<field name="vendrediprof" class="java.lang.String"/>
+	<field name="vendredimatiere" class="java.lang.String"/>
+	<title>
+		<band height="99" splitType="Stretch">
+			<staticText>
+				<reportElement x="49" y="65" width="171" height="25" uuid="8e9bb7ce-23c4-4a7b-a61c-3b05095db84f"/>
+				<textElement>
+					<font size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[EMPLOI DE TEMPS DE ]]></text>
+			</staticText>
+			<frame>
+				<reportElement x="1" y="0" width="801" height="56" uuid="0b0e4eac-e16e-465e-8458-2e2ab212fea5"/>
+				<staticText>
+					<reportElement x="0" y="0" width="244" height="15" uuid="194748a5-e9c0-40b3-bd49-23b59833d142"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<text><![CDATA[Ministere des Enseignements Secondaires]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="0" y="15" width="207" height="15" uuid="9993a368-24b3-4b08-a376-16109dd602cf"/>
+					<textFieldExpression><![CDATA[$P{nom_ecole}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="0" y="30" width="125" height="15" uuid="f4efed58-76cd-41e4-b04b-12af3d02a627"/>
+					<textFieldExpression><![CDATA[$P{address_ecole}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="653" y="0" width="148" height="15" uuid="1a38ec65-b31b-4e48-87c4-4300416748b7"/>
+					<text><![CDATA[Republique du Cameroun]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="653" y="30" width="76" height="15" uuid="9203051f-b2bc-430d-8ca5-8a032a9cc6c4"/>
+					<text><![CDATA[Annee Scolaire ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="653" y="15" width="144" height="15" uuid="6fad02ee-bb61-4da0-8f3a-29e66f5d3bae"/>
+					<text><![CDATA[         Paix-Travail-Patrie]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="740" y="30" width="57" height="15" uuid="d0e9b3a5-9748-4380-9c68-c962c26c59b7"/>
+					<textFieldExpression><![CDATA[$P{annee}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="125" y="30" width="137" height="15" uuid="31195914-6fd8-42be-9ab9-9cd703438de7"/>
+					<textFieldExpression><![CDATA[$P{tel_ecole}]]></textFieldExpression>
+				</textField>
+				<image onErrorType="Blank">
+					<reportElement x="392" y="0" width="100" height="50" uuid="50d5bf5a-3532-433b-bd70-b9bbaaf40652"/>
+					<imageExpression><![CDATA[$P{image}]]></imageExpression>
+				</image>
+			</frame>
+			<line>
+				<reportElement x="2" y="56" width="801" height="1" uuid="dbe44833-a255-4e4d-8e39-ceadfa96e899"/>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement x="305" y="66" width="282" height="24" uuid="bb47e3c1-4a75-4ca6-a203-f20d18631e4e"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{classe}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="1" y="0" width="802" height="29" backcolor="#666666" uuid="de65b514-7983-4b0b-bc03-be93de9bbe9d"/>
+				<staticText>
+					<reportElement x="0" y="0" width="156" height="29" forecolor="#FFFFFF" uuid="c2272e15-c074-40d1-9ef6-a1502758c191"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[HORAIRES]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Transparent" x="156" y="0" width="129" height="29" forecolor="#FFFFFF" uuid="91c65124-2eb5-4a83-97e8-99e5981c8f20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[LUNDI]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="285" y="0" width="130" height="29" forecolor="#FFFFFF" uuid="fcc1529a-8870-41b6-82bf-6963d09103f1"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[MARDI]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="415" y="0" width="130" height="29" forecolor="#FFFFFF" uuid="87a35bde-a419-42b4-97c6-9943d116c7dc"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[MERCREDI]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="545" y="0" width="128" height="29" forecolor="#FFFFFF" uuid="f289ee83-ae5e-4631-b496-c783f0e70203"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[JEUDI]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="673" y="0" width="129" height="29" forecolor="#FFFFFF" uuid="b87625cf-d54a-465c-aacd-38b4faad0d8d"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[VENDREDI]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="41" splitType="Stretch">
+			<frame>
+				<reportElement x="1" y="0" width="803" height="40" uuid="a17609b2-4b20-484e-98a1-c708c93062e1"/>
+				<textField pattern="HH.mm" isBlankWhenNull="true">
+					<reportElement x="2" y="0" width="154" height="40" uuid="57112133-c9bc-4bef-88b6-3410c559506f"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{libCreneau}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="156" y="0" width="129" height="20" uuid="8c06c6cb-b67d-4a85-988f-85d33ee028f5"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9" isBold="true" isItalic="false" isUnderline="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{lundimatiere}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="285" y="0" width="130" height="20" uuid="f9341f85-a146-43dd-bed9-36c127bab272"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9" isBold="true" isItalic="false" isUnderline="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{mardimatiere}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="415" y="0" width="130" height="20" uuid="91ecf9fa-5bc8-488d-a996-5131cc18fb04"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{mercredimatiere}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="545" y="0" width="128" height="20" uuid="994c2a1c-6cdb-4b7f-843b-33f6e2d32fb2"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9" isBold="true" isItalic="false" isUnderline="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{jeudimatiere}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="673" y="0" width="130" height="20" uuid="c3a4d9ae-a51a-4cbc-ac67-3d37ab4f2350"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{vendredimatiere}]]></textFieldExpression>
+				</textField>
+				<rectangle>
+					<reportElement mode="Transparent" x="673" y="0" width="128" height="40" uuid="21e3beb2-996b-4ce9-b48b-a7bf083054b5"/>
+				</rectangle>
+				<rectangle>
+					<reportElement mode="Transparent" x="545" y="0" width="128" height="40" uuid="d50d29dc-80c2-4d4c-9a7d-5e0d5eb04743"/>
+				</rectangle>
+				<rectangle>
+					<reportElement mode="Transparent" x="415" y="0" width="130" height="40" uuid="592d8f90-1d30-418a-bd9f-ac1d6ee80489"/>
+				</rectangle>
+				<rectangle>
+					<reportElement mode="Transparent" x="285" y="0" width="130" height="40" uuid="8030bd2b-a049-4000-9b20-6b597626835c"/>
+				</rectangle>
+				<rectangle>
+					<reportElement mode="Transparent" x="156" y="0" width="129" height="40" uuid="131454c7-c2e7-4e01-97fa-5ab24ef3e036"/>
+				</rectangle>
+				<rectangle>
+					<reportElement mode="Transparent" x="3" y="0" width="153" height="40" uuid="a6c37651-121f-46e6-86e5-fe0adc3aaea6"/>
+				</rectangle>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="156" y="20" width="129" height="20" uuid="2333f64f-ae32-4cdd-9b88-f9f5e8ae6b19"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="false" isItalic="true" isUnderline="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{lundiprof}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="285" y="20" width="130" height="20" uuid="1d0c3189-4135-49a0-811d-9c9d24fe88e5"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="false" isItalic="true" isUnderline="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{mardiprof}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="415" y="20" width="130" height="20" uuid="3027b2e0-e759-4fc1-be04-bef644f947dd"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="false" isItalic="true" isUnderline="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{mercrediprof}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="545" y="20" width="128" height="20" uuid="d61fa663-a1b1-4741-acbe-f1205a36d787"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="false" isItalic="true" isUnderline="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{jeudiprof}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="673" y="20" width="130" height="20" uuid="79e5da0e-5220-49fd-bb7f-25da5b2ed8dc"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="false" isItalic="true" isUnderline="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{vendrediprof}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<line>
+				<reportElement x="3" y="40" width="797" height="1" uuid="fe8e722d-ba12-467b-8337-2886a2b7a766"/>
+			</line>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="33" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-18" y="0" width="831" height="24" forecolor="#D0B48E" backcolor="#F2EBDF" uuid="328ba49a-b97f-415e-ba9f-ed2b3964f981"/>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343" uuid="c48b719e-703f-48b6-9805-822faa8c7ebb"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="317" y="1" width="204" height="20" uuid="45e56d40-4347-412e-bdec-d45e1eeeae59"/>
+					<textFieldExpression><![CDATA[$P{nom_ecole}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+</jasperReport>

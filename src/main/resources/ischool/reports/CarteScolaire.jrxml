@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Carte Scolaire" pageWidth="297" pageHeight="205" columnWidth="287" leftMargin="5" rightMargin="5" topMargin="5" bottomMargin="0" uuid="38198a64-dcc6-4247-99f8-2ed69537d1f4">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="code_eleve" class="java.lang.Integer"/>
+	<parameter name="code_annee" class="java.lang.Integer"/>
+	<parameter name="annee" class="java.lang.String"/>
+	<parameter name="nom_ecole" class="java.lang.String"/>
+	<parameter name="adress_ecole" class="java.lang.String"/>
+	<parameter name="logo_ecole" class="java.awt.Image"/>
+	<parameter name="cmr" class="java.lang.String"/>
+	<parameter name="slogan_ecole" class="java.lang.String"/>
+	<parameter name="upload_dir" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select e.nom_prenom,e.civilite,c.libelle as classe,e.adresse,e.date_naissance,e.lieu_naissance,(concat(e.code,concat('E',date_format(e.created_date,'%Y')))) as matricule,e.photo from Eleve e join EleveInscrit ei on e.code=ei.code_eleve  join Classe c on ei.code_classe=c.code where e.code=$P{code_eleve}  and ei.code_annee=$P{code_annee}]]>
+	</queryString>
+	<field name="nom_prenom" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="civilite" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="classe" class="java.lang.String"/>
+	<field name="adresse" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="date_naissance" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="lieu_naissance" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="matricule" class="java.lang.String"/>
+	<field name="photo" class="java.awt.Image">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<detail>
+		<band height="200" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="87" y="70" width="200" height="11" uuid="049b6278-c11b-406a-8a53-7850c57463c5"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nom_prenom}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="87" y="81" width="34" height="11" uuid="f3ee0cd2-dab9-42fc-b3ae-c0bab0bc622b"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Née le]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="121" y="81" width="59" height="11" uuid="0364c4b3-8615-46c5-99a0-896e20f91861"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{date_naissance}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="188" y="81" width="16" height="11" uuid="ce3f84d4-36fd-447f-b240-36ec1ff0df9f"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[à]]></text>
+			</staticText>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="204" y="81" width="83" height="11" uuid="885308d2-caf3-42ed-bac6-763d70e3ee6f"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{lieu_naissance}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="87" y="92" width="34" height="11" uuid="cd6a5ca6-727e-4f29-b0f3-f5849934e86b"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Civilité]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="166" y="92" width="53" height="11" uuid="28759bfd-9055-48cc-b264-4a26602ccbb5"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Matricule]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="87" y="103" width="50" height="11" uuid="f166c7f2-004c-4aa8-8730-751874842b2b"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Classe]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="87" y="114" width="89" height="11" uuid="b7f6e8a9-27e8-4d4b-b0b5-7b6b75517d82"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Adresse Parents]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="45" y="2" width="195" height="9" uuid="76d48cae-da71-4fbb-9010-3d87cf7ad267"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[MINISTERE DES ENSEIGNEMENTS SECONDAIRES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="137" y="135" width="39" height="11" uuid="665f3e58-83b5-4648-998c-2aef2e8f819d"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Fait le,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="180" y="145" width="107" height="15" uuid="cfc1f364-bfdd-4130-b03d-9b349c92323d"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Le Principal]]></text>
+			</staticText>
+			<textField pattern="dd-MMM-yyyy" isBlankWhenNull="true">
+				<reportElement x="176" y="135" width="115" height="11" uuid="069a6286-6673-4ba0-b9ae-7a1e5629d336"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="45" y="53" width="159" height="11" forecolor="#000000" uuid="1215847a-6392-45d9-a5b3-f6f0caee2720"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CARTE D'IDENTITE SCOLAIRE:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="204" y="53" width="83" height="11" uuid="126ca504-d4d1-4efe-8dd6-9f1f612dd850"/>
+				<textElement>
+					<font size="9" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{annee}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="137" y="103" width="150" height="11" uuid="4e1bbc52-ec89-4857-849c-de0a359c0735"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{classe}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="176" y="114" width="111" height="11" uuid="988c2c1b-c3ac-422d-8ae4-03552882bba5"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{adresse}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="121" y="92" width="35" height="11" uuid="9ea9f9ba-6326-49d7-8397-6c760cd2f3a4"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{civilite}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="219" y="92" width="68" height="11" uuid="6106c5fa-e26a-414a-8f36-66bbcdd3aaae"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{matricule}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="45" y="11" width="194" height="10" uuid="bb6df035-4445-4ace-ab67-4b609ab07e4f"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nom_ecole}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="45" y="21" width="195" height="8" uuid="7595904b-7b62-4183-b7cd-a3be372b0c6e"/>
+				<textElement textAlignment="Center">
+					<font size="6" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{slogan_ecole}]]></textFieldExpression>
+			</textField>
+			<image hAlign="Center" vAlign="Middle" onErrorType="Blank">
+				<reportElement x="240" y="0" width="45" height="45" uuid="61097b21-d2d7-472c-9873-625b303f7a9c"/>
+				<imageExpression><![CDATA[$P{logo_ecole}]]></imageExpression>
+			</image>
+			<image hAlign="Center" vAlign="Middle" onErrorType="Blank">
+				<reportElement x="0" y="2" width="45" height="45" uuid="a85c0a3a-259b-453e-95f2-ba99fbf21272"/>
+				<imageExpression><![CDATA[$P{cmr}]]></imageExpression>
+			</image>
+			<textField isBlankWhenNull="true">
+				<reportElement x="45" y="29" width="195" height="8" uuid="1ea7b69e-ef95-43e6-80c4-7c7f2b53f7fe"/>
+				<textElement textAlignment="Center">
+					<font size="6" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{adress_ecole}]]></textFieldExpression>
+			</textField>
+			<image hAlign="Center" vAlign="Top" onErrorType="Blank">
+				<reportElement x="1" y="73" width="83" height="87" uuid="c5272151-3192-428d-b190-d215c7956e1e"/>
+				<imageExpression><![CDATA[$F{photo}]]></imageExpression>
+			</image>
+		</band>
+	</detail>
+</jasperReport>

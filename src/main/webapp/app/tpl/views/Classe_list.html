@@ -1,0 +1,110 @@
+<div class="bg-light lter b-b wrapper-md" >
+    <h1 class="m-n font-thin h3">Classe</h1>
+    <small class="text-muted">{{'search.legend'| translate }}</small>
+</div>
+
+<div class="wrapper-md"  ng-controller="ClasseList">
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-lg-4">  
+                    <div class="form-group"   >
+                        <ui-select ng-model="item.serie" theme="bootstrap" ng-change="load()"  >
+                            <ui-select-match placeholder="Serie...">{{$select.selected.libelle}}</ui-select-match>
+                            <ui-select-choices repeat="item in series | filter: $select.search">
+                                <div ng-bind-html="item.libelle | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body table-responsive">
+            <table class="table table-striped table-bordered table-hover"  st-safe-src="rowCollection"  st-table="displayedCollection">
+                <thead>
+                    <tr>
+                        <th st-sort="codeSerie.libelle">Serie</th>
+                        <th st-sort="libelle">Libelle</th>
+                        <th st-sort="nbre_Eleves">Nbre Eleves</th>
+
+                        <th> 
+                            <button type="button" class="btn btn-primary" ng-click="add();"  ng-disabled="!item.serie"
+                                    tooltip="{{'form.add'| translate}}">
+                                <i class="fa fa-plus"></i>  
+                            </button>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="displayedCollection.length == 0">
+                        <td colspan="4">Aucune Donnée à afficher</td> 
+                    </tr>
+                    <tr ng-repeat="row in displayedCollection">
+                        <td>{{row.serie.libelle}}</td>
+                        <td>{{row.libelle}}</td>
+                        <td>{{row.nbre_Eleves}}</td>
+
+                        <td>
+
+                            <button type="button" ng-click="delete(row);" class="btn btn-sm btn-danger"  tooltip="{{'form.delete'| translate}}">
+                                <i class="fa fa-trash">
+                                </i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td   class="text-center">
+                            <div st-pagination="" st-items-by-page="itemsByPage"  class="no-margin"></div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+<script type="text/javascript" >
+
+    app.controller("ClasseList",
+            function ClasseList($scope, $http, CrudService, toaster, $modal, $log, DateUtils) {
+                $scope.item = {};
+                $scope.categorie = 'Classe';
+                $scope.series = CrudService.query({categorie: 'Serie'});
+                $scope.rowCollection = CrudService.query({categorie: $scope.categorie});
+                //  pagination
+                $scope.itemsByPage = 5;
+                $scope.load = function () {
+                    $http.get('ClasseBulk/' + $scope.item.serie.code)
+                            .success(function (data) {
+                                $scope.rowCollection = data;
+                            });
+                };
+                $scope.delete = function (row) {
+                    var r = confirm("Confirm ?");
+                    if (r == true) {
+                        CrudService.delete({categorie: $scope.categorie, id: row.code}, function (data) {
+                            var index = $scope.rowCollection.indexOf(row);
+                            if (index !== -1) {
+                                $scope.rowCollection.splice(index, 1);
+                            }
+                            toaster.pop("success", "Success", "Suppression Effectuée avec Succès");
+                        }, function (error) {
+                            toaster.pop("error", "Error", error);
+                        });
+                    }
+                    ;
+                };
+
+
+
+            });
+</script>
