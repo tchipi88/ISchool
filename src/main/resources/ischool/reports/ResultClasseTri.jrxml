@@ -69,7 +69,7 @@ where c.code = $P{code_classe}  and ei.code_annee=$P{code_annee}  and s.code in 
 			<staticText>
 				<reportElement x="0" y="35" width="80" height="15" uuid="0ebea186-913d-406c-87ac-416bd27c0e54"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
-				<text><![CDATA[Moy Dernier]]></text>
+				<text><![CDATA[Moy Dernier:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
 				<reportElement x="80" y="65" width="60" height="15" uuid="e7dd3a13-005b-4fa0-8089-0e2c370646bd"/>
@@ -79,12 +79,12 @@ where c.code = $P{code_classe}  and ei.code_annee=$P{code_annee}  and s.code in 
 			<staticText>
 				<reportElement x="0" y="65" width="80" height="15" uuid="c56aa0f5-4fc7-436c-ac0e-016f79907e88"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
-				<text><![CDATA[Effectif]]></text>
+				<text><![CDATA[Effectif:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="20" width="77" height="15" uuid="712ce19e-f8ca-4eb8-bfcf-958ef70157d3"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
-				<text><![CDATA[Moy Premier]]></text>
+				<text><![CDATA[Moy Premier:]]></text>
 			</staticText>
 			<rectangle>
 				<reportElement mode="Transparent" x="0" y="0" width="140" height="110" uuid="0caca452-5749-4024-b4da-7bfb144c26ed"/>
@@ -97,7 +97,7 @@ where c.code = $P{code_classe}  and ei.code_annee=$P{code_annee}  and s.code in 
 			<staticText>
 				<reportElement x="0" y="95" width="80" height="15" uuid="b47967b6-1bd3-4bb5-8d21-73310588d3df"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
-				<text><![CDATA[Taux Reussite]]></text>
+				<text><![CDATA[Taux Reussite:]]></text>
 			</staticText>
 			<rectangle>
 				<reportElement mode="Transparent" x="0" y="0" width="140" height="20" uuid="58a6614d-8aaf-42f4-a9f0-87cb7c44e889"/>

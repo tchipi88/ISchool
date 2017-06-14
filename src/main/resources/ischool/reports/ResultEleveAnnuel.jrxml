@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ResultEleveAnnuel" language="groovy" pageWidth="200" pageHeight="175" columnWidth="190" leftMargin="5" rightMargin="5" topMargin="5" bottomMargin="5" uuid="1a2b35db-6309-4924-9839-699584d22225">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="code_annee" class="java.lang.Integer"/>
+	<parameter name="code_eleve" class="java.lang.Integer"/>
+	<parameter name="code_classe" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[select * from (
+  select result2.*,@row_number:=@row_number+1 AS rang from  (
+ select matricule,sum(coefvaleur) as totalcoefs,sum(note*coefvaleur) as totalpts,sum(note*coefvaleur)/sum(coefvaleur) as moyseq,appreceate(sum(note*coefvaleur)/sum(coefvaleur) ) as mention
+ from (
+select e.code as matricule,m.libelle,s.code as seqcode,coef.code as coefcode,ei.code as eicode,coef.valeur as coefvaleur
+from Coefficient coef join Matiere m on (m.code=coef.code_matiere) join Classe c on (c.code_serie=coef.code_serie) join EleveInscrit ei on (ei.code_classe=c.code) join Eleve e on (ei.code_eleve=e.code),Sequence s
+where c.code=$P{code_classe}  and ei.code_annee=$P{code_annee}  and s.code in (1,2,3,4,5,6 )) as result1
+ left join Notes n on (n.code_eleveinscrit=eicode and n.code_coefficient=coefcode  and (n.code_sequence=seqcode))
+ group by matricule  order by moyseq  desc
+  ) as result2,(SELECT @row_number:=0) AS t ) as result3  where matricule = $P{code_eleve}]]>
+	</queryString>
+	<field name="matricule" class="java.lang.Integer"/>
+	<field name="totalcoefs" class="java.math.BigDecimal"/>
+	<field name="totalpts" class="java.lang.Double"/>
+	<field name="moyseq" class="java.lang.Double"/>
+	<field name="mention" class="java.lang.String"/>
+	<field name="rang" class="java.lang.Double"/>
+	<title>
+		<band height="165" splitType="Stretch">
+			<frame>
+				<reportElement x="0" y="0" width="188" height="110" uuid="665fa7b7-8554-4e92-9161-9621cc479723"/>
+				<rectangle>
+					<reportElement mode="Transparent" x="0" y="0" width="188" height="110" uuid="e0547d67-0e1c-44b0-a4b3-ac10779c8a96"/>
+				</rectangle>
+				<staticText>
+					<reportElement x="0" y="0" width="188" height="20" uuid="3aeeb477-52ec-41e9-9ea6-cb5b2ead3cc1"/>
+					<textElement>
+						<font size="12" isBold="true" isUnderline="true"/>
+					</textElement>
+					<text><![CDATA[Resultats Eleve]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="20" width="100" height="15" uuid="78d8754b-d7b7-401b-80dc-e2884cca70f2"/>
+					<text><![CDATA[Moy Annuel:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="35" width="100" height="15" uuid="fbf84772-725e-4282-804c-dd3e3ca2188e"/>
+					<text><![CDATA[Total Coefs:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="50" width="100" height="15" uuid="b1ffd64e-95b4-43a3-9e35-521a7b8fbf39"/>
+					<text><![CDATA[Total Pts:]]></text>
+				</staticText>
+				<textField pattern="###0.00" isBlankWhenNull="true">
+					<reportElement x="98" y="50" width="88" height="15" uuid="508b6e5d-3f1f-4173-9b05-1843cfb479c5"/>
+					<textElement>
+						<font size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{totalpts}]]></textFieldExpression>
+				</textField>
+				<textField pattern="###0.00" isBlankWhenNull="true">
+					<reportElement x="100" y="35" width="88" height="15" uuid="413fee64-7d8d-4a4c-ae20-fea28c6c5469"/>
+					<textFieldExpression><![CDATA[$F{totalcoefs}/6]]></textFieldExpression>
+				</textField>
+				<textField pattern="###0.00" isBlankWhenNull="true">
+					<reportElement x="100" y="20" width="88" height="15" uuid="9122a5e1-62be-4fc7-ba0d-c5562ae50ba3"/>
+					<textElement verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{moyseq}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="100" y="65" width="88" height="15" uuid="06968003-3a09-468c-8373-2cf04b8feab7"/>
+					<textFieldExpression><![CDATA[$F{mention}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="80" width="100" height="15" uuid="7788a078-7327-4f94-af7b-fb4f6fd7e7d7"/>
+					<text><![CDATA[Rang  Annuel:]]></text>
+				</staticText>
+				<textField pattern="###0" isBlankWhenNull="true">
+					<reportElement x="100" y="80" width="86" height="15" uuid="78a3393c-d87d-428f-9fd4-12be9fbe0619"/>
+					<textElement>
+						<font size="11" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{rang}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="65" width="100" height="15" uuid="18096e7c-25a6-4b6a-a592-af5d7a2b9e31"/>
+					<text><![CDATA[Mention:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="95" width="100" height="15" uuid="ac666810-6363-4150-9e30-64187b435502"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Decision:]]></text>
+				</staticText>
+			</frame>
+			<staticText>
+				<reportElement x="0" y="113" width="186" height="20" uuid="1633a278-52a0-42ff-9d94-b27c84d0daf8"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Visa Chef Etablissement]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement mode="Transparent" x="0" y="113" width="188" height="50" uuid="edf1d267-f2c9-4e5e-9b91-87b32fe89c1e"/>
+			</rectangle>
+		</band>
+	</title>
+</jasperReport>
