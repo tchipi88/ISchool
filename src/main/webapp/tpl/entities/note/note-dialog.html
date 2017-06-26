@@ -1,0 +1,97 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()"   class="form-validation">
+
+    <div class="modal-header">
+        <button type="button" class="btn btn-link pull-right" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()"><i class="fa fa-remove"></i>  </button>
+        <h3 class="modal-title" id="myNoteLabel" >Créer ou modifier  Note</h3>
+         <small class="text-muted" >Les champs * sont obligatoires</small>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="row">
+              <div class="col-sm-6">
+ <div class="form-group">
+ <label class="control-label"  for="field_id">Id</label>
+  <input  class="form-control"   type="text"  autocomplete="off"   id="field_id" ng-model="vm.note.id"                     ng-readonly="true"  ng-required="false"    ng-maxlength="255"                      />
+ </div>
+ </div>
+ <div class="col-sm-6">
+ <div class="form-group">
+ <label class="control-label"  for="field_classeEleve">Classe Eleve <span style="color:red" >*</span></label>
+ <div class="input-group">
+                        <ui-select ng-model="vm.note.classeEleve"    ng-required="true">
+                            <ui-select-match placeholder="Select ClasseEleve">{{$select.selected.id}}</ui-select-match>
+                            <ui-select-choices repeat="classeeleve in vm.classeeleves | filter: $select.search">
+                                <div ng-bind-html="classeeleve.id | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>  
+                        <span class="input-group-btn" >
+                            <button   ng-click="vm.zoomColumn('ClasseEleve','classe-eleve','classeEleve', vm.note.classeEleve)" 
+                                      class="btn btn-default" type="button"  ng-hide="!vm.note.classeEleve">
+                                <span class="fa fa-eye"></span>
+                            </button>
+                            <button ng-click="vm.zoomColumn('ClasseEleve', 'classe-eleve','classeEleve', {})"      
+                                    class="btn btn-default" type="button"  ng-hide="vm.note.classeEleve">
+                                <span class="fa fa-plus fw"></span>
+                            </button>
+                        </span>
+                    </div> </div>
+ </div>
+ <div class="col-sm-6">
+ <div class="form-group">
+ <label class="control-label"  for="field_coefficient">Coefficient <span style="color:red" >*</span></label>
+ <div class="input-group">
+                        <ui-select ng-model="vm.note.coefficient"    ng-required="true">
+                            <ui-select-match placeholder="Select Coefficient">{{$select.selected.id}}</ui-select-match>
+                            <ui-select-choices repeat="coefficient in vm.coefficients | filter: $select.search">
+                                <div ng-bind-html="coefficient.id | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>  
+                        <span class="input-group-btn" >
+                            <button   ng-click="vm.zoomColumn('Coefficient','coefficient','coefficient', vm.note.coefficient)" 
+                                      class="btn btn-default" type="button"  ng-hide="!vm.note.coefficient">
+                                <span class="fa fa-eye"></span>
+                            </button>
+                            <button ng-click="vm.zoomColumn('Coefficient', 'coefficient','coefficient', {})"      
+                                    class="btn btn-default" type="button"  ng-hide="vm.note.coefficient">
+                                <span class="fa fa-plus fw"></span>
+                            </button>
+                        </span>
+                    </div> </div>
+ </div>
+ <div class="col-sm-6">
+ <div class="form-group">
+ <label class="control-label"  for="field_valeur">Valeur <span style="color:red" >*</span></label>
+  <input  class="form-control"   type="number"  autocomplete="off"  id="field_valeur" ng-model="vm.note.valeur"                     ng-readonly="false"  ng-required="true"    ng-min="0"     ng-max="20"                      />
+ </div>
+ </div>
+ <div class="col-sm-6">
+ <div class="form-group">
+ <label class="control-label"  for="field_numeroSequence">Numero Sequence <span style="color:red" >*</span></label>
+  <input  class="form-control"   type="number"  autocomplete="off"  id="field_numeroSequence" ng-model="vm.note.numeroSequence"                     ng-readonly="false"  ng-required="true"    ng-min="1"     ng-max="6"                      />
+ </div>
+ </div>
+ <div class="col-sm-6">
+ <div class="form-group">
+ <label class="control-label"  for="field_statut">Statut</label>
+ <select class="form-control" name="statut"  ng-model="vm.note.statut"  id="field_statut" >
+<option value="DRAFT">DRAFT</option>
+<option value="VALIDE">VALIDE</option>
+            </select>
+ </div>
+ </div>
+
+        </div>
+       
+    </div>
+    <div class="modal-footer">
+        
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Annuler</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Enregister</span>
+        </button>
+    </div>
+</form>

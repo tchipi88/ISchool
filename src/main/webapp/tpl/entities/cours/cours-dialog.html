@@ -1,0 +1,112 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()"   class="form-validation">
+
+    <div class="modal-header">
+        <button type="button" class="btn btn-link pull-right" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()"><i class="fa fa-remove"></i>  </button>
+        <h3 class="modal-title" id="myCoursLabel" >Cr�er ou modifier  Cours</h3>
+        <small class="text-muted" >Les champs * sont obligatoires</small>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label"  for="field_id">Id</label>
+                    <input  class="form-control"   type="text"  autocomplete="off"   id="field_id" ng-model="vm.cours.id"                     ng-readonly="true"  ng-required="false"    ng-maxlength="255"                      />
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label"  for="field_professeur">Professeur <span style="color:red" >*</span></label>
+                    <div class="input-group">
+                        <ui-select ng-model="vm.cours.professeur"    ng-required="true"  ng-change="vm.checkMatiere()">
+                            <ui-select-match placeholder="Select Professeur">{{$select.selected.nom}}</ui-select-match>
+                            <ui-select-choices repeat="professeur in vm.professeurs | filter: $select.search">
+                                <div ng-bind-html="professeur.nom | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>  
+                        <span class="input-group-btn" >
+                            <button   ng-click="vm.zoomColumn('Professeur', 'professeur', 'professeur', vm.cours.professeur)" 
+                                      class="btn btn-default" type="button"  ng-hide="!vm.cours.professeur">
+                                <span class="fa fa-eye"></span>
+                            </button>
+                            <button ng-click="vm.zoomColumn('Professeur', 'professeur', 'professeur', {})"      
+                                    class="btn btn-default" type="button"  ng-hide="vm.cours.professeur">
+                                <span class="fa fa-plus fw"></span>
+                            </button>
+                        </span>
+                    </div> </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label"  for="field_classe">Classe <span style="color:red" >*</span></label>
+                    <div class="input-group">
+                        <ui-select ng-model="vm.cours.classe"    ng-required="true">
+                            <ui-select-match placeholder="Select Classe">{{$select.selected.id}}</ui-select-match>
+                            <ui-select-choices repeat="classe in vm.classes | filter: $select.search">
+                                <div ng-bind-html="classe.id | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>  
+                        <span class="input-group-btn" >
+                            <button   ng-click="vm.zoomColumn('Classe', 'classe', 'classe', vm.cours.classe)" 
+                                      class="btn btn-default" type="button"  ng-hide="!vm.cours.classe">
+                                <span class="fa fa-eye"></span>
+                            </button>
+                            <button ng-click="vm.zoomColumn('Classe', 'classe', 'classe', {})"      
+                                    class="btn btn-default" type="button"  ng-hide="vm.cours.classe">
+                                <span class="fa fa-plus fw"></span>
+                            </button>
+                        </span>
+                    </div> </div>
+            </div>
+            
+             <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label"  for="field_matiere">Matiere <span style="color:red" >*</span></label>
+                    <div class="input-group">
+                        <ui-select ng-model="vm.cours.matiere"    ng-required="true">
+                            <ui-select-match placeholder="Select Matiere">{{$select.selected.libelle}}</ui-select-match>
+                            <ui-select-choices repeat="matiere in vm.matieres | filter: $select.search">
+                                <div ng-bind-html="matiere.libelle | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>  
+                        <span class="input-group-btn" >
+                            <button   ng-click="vm.zoomColumn('Matiere', 'matiere', 'matiere', vm.cours.matiere)" 
+                                      class="btn btn-default" type="button"  ng-hide="!vm.cours.matiere">
+                                <span class="fa fa-eye"></span>
+                            </button>
+                            <button ng-click="vm.zoomColumn('Matiere', 'matiere', 'matiere', {})"      
+                                    class="btn btn-default" type="button"  ng-hide="vm.cours.matiere">
+                                <span class="fa fa-plus fw"></span>
+                            </button>
+                        </span>
+                    </div> </div>
+            </div>
+           
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label"  for="field_dureeHeures">Durée Heures <span style="color:red" >*</span></label>
+                    <input  class="form-control"   type="number"  autocomplete="off"  id="field_dureeHeures" ng-model="vm.cours.dureeHeures"                     ng-readonly="false"  ng-required="true"    ng-min="-32768"     ng-max="32767"                      />
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label"  for="field_dureeMinutes">Durée Minutes</label>
+                    <input  class="form-control"   type="number"  autocomplete="off"  id="field_dureeMinutes" ng-model="vm.cours.dureeMinutes"                     ng-readonly="true"  ng-required="false"    ng-min="-32768"     ng-max="32767"                      />
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="modal-footer">
+
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Annuler</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Enregister</span>
+        </button>
+    </div>
+</form>

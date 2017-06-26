@@ -1,0 +1,108 @@
+<div class="bg-light lter b-b wrapper-md" >
+    <h1 class="m-n font-thin h3">Eleves</h1>
+    <small class="text-muted"></small>
+</div>
+<div>
+    <jhi-alert></jhi-alert>
+</div>
+
+<div class="wrapper-md">
+    <div class="panel panel-default">
+         <div class="panel-heading">
+            <div class="row">
+                <div class="col-xs-12 no-padding-right">
+                    <form name="searchForm" class="form-inline">
+                        <div class="input-group pull-right" >
+                            <input type="text" class="form-control" ng-model="vm.searchQuery" id="searchQuery" placeholder="Recherche">
+                            <span  class="input-group-btn width-min" >
+                                <button class="btn btn-info" ng-click="vm.search(vm.searchQuery)">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </button>
+                            </span>
+                            <span class="input-group-btn width-min" ng-if="vm.currentSearch">
+                                <button class="btn btn-info" ng-click="vm.clear()">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body table-responsive">
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
+                        <th jh-sort-by="id"><span >ID</span> <span class="fa fa-sort"></span></th>
+                         <th jh-sort-by="nomPere"><span >Nom Pere</span> <span class="fa fa-sort"></span></th>
+ <th jh-sort-by="professionPere"><span >Profession Pere</span> <span class="fa fa-sort"></span></th>
+ <th jh-sort-by="telephonePere"><span >Telephone Pere</span> <span class="fa fa-sort"></span></th>
+ <th jh-sort-by="nomMere"><span >Nom Mere</span> <span class="fa fa-sort"></span></th>
+ <th jh-sort-by="telephoneMere"><span >Telephone Mere</span> <span class="fa fa-sort"></span></th>
+ <th jh-sort-by="professionMere"><span >Profession Mere</span> <span class="fa fa-sort"></span></th>
+ <th jh-sort-by="nom"><span >Nom</span> <span class="fa fa-sort"></span></th>
+ <th jh-sort-by="prenom"><span >Prenom</span> <span class="fa fa-sort"></span></th>
+ <th jh-sort-by="sexe"><span >Sexe</span> <span class="fa fa-sort"></span></th>
+ <th jh-sort-by="dateNaissance"><span >Date Naissance</span> <span class="fa fa-sort"></span></th>
+ <th jh-sort-by="lieuNaissance"><span >Lieu Naissance</span> <span class="fa fa-sort"></span></th>
+  <th jh-sort-by="email"><span >Email</span> <span class="fa fa-sort"></span></th>
+ <th jh-sort-by="telephone"><span >Telephone</span> <span class="fa fa-sort"></span></th>
+ <th jh-sort-by="adresse"><span >Adresse</span> <span class="fa fa-sort"></span></th>
+
+                        <th >
+                            <button class="btn btn-primary" ui-sref="eleve.new"   tooltip="Cr�er Eleve">
+                                <i class="fa fa-plus">
+                                </i>
+                            </button>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="eleve in vm.eleves track by eleve.id">
+                        <td>{{eleve.id}}</td>
+                         <td>{{eleve.nomPere}}</td>
+ <td>{{eleve.professionPere}}</td>
+ <td>{{eleve.telephonePere}}</td>
+ <td>{{eleve.nomMere}}</td>
+ <td>{{eleve.telephoneMere}}</td>
+ <td>{{eleve.professionMere}}</td>
+ <td>{{eleve.nom}}</td>
+ <td>{{eleve.prenom}}</td>
+ <td>{{eleve.sexe}}</td>
+ <td>{{eleve.dateNaissance | date:'mediumDate'}}</td>
+ <td>{{eleve.lieuNaissance}}</td>
+  <td>{{eleve.email}}</td>
+ <td>{{eleve.telephone}}</td>
+ <td>{{eleve.adresse}}</td>
+
+                        <td >
+
+                           
+                            <button type="submit"   ui-sref="eleve.edit({id:eleve.id})" class="btn btn-sm btn-default"  tooltip="Modifier">
+                                <i class="fa fa-edit">
+                                </i>
+                            </button>
+
+                            <button type="submit"  ui-sref="eleve.delete({id:eleve.id})"  class="btn btn-sm btn-danger"  tooltip="Supprimer">
+                                <i class="fa fa-trash">
+                                </i>
+                            </button>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-sm-6">
+                    <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
+                </div>
+                <div class="col-sm-6 text-right text-center-xs">
+                    <uib-pagination class="pagination-sm" total-items="vm.totalItems" items-per-page="vm.itemsPerPage" ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

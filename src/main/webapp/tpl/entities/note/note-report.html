@@ -1,0 +1,118 @@
+<div class="bg-light lter b-b wrapper-md" >
+    <h1 class="m-n font-thin h3"> Reports 
+
+    </h1>
+</div>
+<div>
+    <jhi-alert></jhi-alert>
+</div>
+<div class="wrapper-md">
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row"    >
+                <div class="col-sm-4">
+                    <ui-select ng-model="vm.classe" theme="bootstrap"  ng-change="vm.loadAll()">
+                        <ui-select-match placeholder="Classe...">{{$select.selected.id}}</ui-select-match>
+                        <ui-select-choices repeat="item in vm.classes | filter: $select.search">
+                            <div ng-bind-html="item.id | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="col-sm-3">
+                    <select class="form-control"  ng-model="vm.mode"  ng-change="vm.changeMode()">
+                        <option value="S">Sequence</option>
+                        <option value="T">Trimestre</option>
+                        <option value="A">Annuel</option>
+                    </select>
+                </div>
+
+                <div class="col-sm-2">
+                    <input  class="form-control"   type="number"  ng-show="vm.mode === 'S'"  ng-readonly="!vm.classe"   ng-model="vm.numseq" ng-change="vm.loadAllSeq()" placeholder="Numero Sequence"  min="1" max="6"  />  
+                    <input  class="form-control"   type="number" ng-show="vm.mode === 'T'" ng-readonly="!vm.classe"  ng-model="vm.numtri" ng-change="vm.loadAllTri()" placeholder="Numero Tri"  min="1" max="3"  />  
+                </div>
+
+                <div class="col-sm-3">
+                    <button class="btn btn-primary" ng-show="vm.mode === 'S'" ng-click="vm.printBulletinSeq()" ng-disabled="!vm.classe || !vm.numseq" > <i class="fa fa-file-pdf-o">Bulletins</i></button>
+                    <button class="btn btn-primary" ng-show="vm.mode === 'T'" ng-click="vm.printBulletinTri()" ng-disabled="!vm.classe || !vm.numtri" > <i class="fa fa-file-pdf-o">Bulletins</i></button>
+                    <button class="btn btn-primary" ng-show="vm.mode === 'A'" ng-click="vm.printBulletinAnnuel()" ng-disabled="!vm.classe" > <i class="fa fa-file-pdf-o">Bulletins</i></button>
+
+                </div>
+
+            </div>  
+        </div>
+
+        <div class="panel-body table-responsive">
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th colspan="3">STATITIQUES  <span ng-show="vm.mode === 'S'"> SEQUENTIELLES</span>  
+                            <span   ng-show="vm.mode === 'T'">TRIMESTRIELLES</span>  
+                            <span  ng-show="vm.mode === 'A'">ANNUELLES</span>  
+                            <button class="btn btn-primary"   type="button" tooltip="Imprimer">
+                                <i class="fa fa-print">
+                                </i>
+                            </button>
+                        </th>
+                        <th> Effectif  {{vm.pv.effectif}}</th>
+                    </tr>
+                    <tr >
+                        <th>Libelle</th>
+                        <th>Garcon</th>
+                        <th>Fille</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr >
+                        <td>Moyennes</td>
+                        <td>{{vm.pv.nbremoyG}}</td>
+                        <td>{{vm.pv.nbremoyF}}</td>
+                        <td>{{vm.pv.nbremoyF + vm.pv.nbremoyG}}</td>
+                    </tr>
+                    <tr >
+                        <td>Sous Moyennes</td>
+                        <td>{{vm.pv.nbresousmoyG}}</td>
+                        <td>{{vm.pv.nbresousmoyF}}</td>
+                        <td>{{vm.pv.nbresousmoyF + vm.pv.nbresousmoyG}}</td>
+                    </tr>
+                    <tr >
+                        <td>Moyenne Général</td>
+                        <td>{{vm.pv.avgmoyG| number}}</td>
+                        <td>{{vm.pv.avgmoyF| number}}</td>
+                        <td>{{vm.pv.avgmoy| number}}</td>
+                    </tr>
+                    <tr >
+                        <td>Taux reussite(%)</td>
+                        <td>{{vm.pv.nbremoyG / vm.pv.effectif| number}}</td>
+                        <td>{{vm.pv.nbremoyF / vm.pv.effectif| number}}</td>
+                        <td>{{(vm.pv.nbremoyF + vm.pv.nbremoyG)/ vm.pv.effectif | number}}</td>
+                    </tr>
+                    <tr >
+                        <td>Max Moyenne</td>
+                        <td>{{vm.pv.maxmoyG| number}}</td>
+                        <td>{{vm.pv.maxmoyF| number}}</td>
+                        <td></td>
+                    </tr>
+                    <tr >
+                        <td>Min Moyenne</td>
+                        <td>{{vm.pv.minmoyG| number}}</td>
+                        <td>{{vm.pv.minmoyF| number}}</td>
+                        <td></td>
+                    </tr>
+                    <tr >
+                        <td>Tableau d'honneur</td>
+                        <td>{{vm.pv.thG}}</td>
+                        <td>{{vm.pv.thF}}</td>
+                        <td>{{vm.pv.thF + vm.pv.thG}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+
+
+</div><!-- /.row -->
+

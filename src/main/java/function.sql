@@ -25,7 +25,7 @@ case
  when  (note>=18 and note<=20)   then 'Excellent'
   when note is null then ''
   else ''
-END ;;
+END ;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;

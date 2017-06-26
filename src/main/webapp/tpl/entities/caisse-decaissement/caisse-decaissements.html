@@ -1,0 +1,54 @@
+<div class="bg-light lter b-b wrapper-md" >
+    <h1 class="m-n font-thin h3">CaisseDecaissements <button class="btn btn-primary" ui-sref="caisse-decaissement.new"   tooltip="Cr�er CaisseDecaissement">
+                                <i class="fa fa-plus">
+                                </i>
+                            </button></h1>
+    <small class="text-muted"></small>
+</div>
+<div>
+    <jhi-alert></jhi-alert>
+</div>
+
+<div class="wrapper-md">
+    <div class="panel panel-default">
+        
+        <div class="panel-body table-responsive">
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
+                        <th jh-sort-by="id"><span >ID</span> <span class="fa fa-sort"></span></th>
+                         <th jh-sort-by="caisse"><span >Caisse</span> <span class="fa fa-sort"></span></th>
+ <th jh-sort-by="dateVersement"><span >Date Versement</span> <span class="fa fa-sort"></span></th>
+ <th jh-sort-by="montant"><span >Montant</span> <span class="fa fa-sort"></span></th>
+ <th jh-sort-by="modePaiement"><span >Mode Paiement</span> <span class="fa fa-sort"></span></th>
+ <th jh-sort-by="motif"><span >Motif</span> <span class="fa fa-sort"></span></th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="caisseDecaissement in vm.caisseDecaissements track by caisseDecaissement.id">
+                        <td>{{caisseDecaissement.id}}</td>
+                         <td>{{caisseDecaissement.caisse.id}}</td>
+ <td>{{caisseDecaissement.dateVersement | date:'mediumDate'}}</td>
+ <td>{{caisseDecaissement.montant | number }}</td>
+ <td>{{caisseDecaissement.modePaiement}}</td>
+ <td>{{caisseDecaissement.motif}}</td>
+
+                       
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-sm-6">
+                    <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
+                </div>
+                <div class="col-sm-6 text-right text-center-xs">
+                    <uib-pagination class="pagination-sm" total-items="vm.totalItems" items-per-page="vm.itemsPerPage" ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

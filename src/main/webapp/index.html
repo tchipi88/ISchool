@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en" data-ng-app="app">
+    <head>
+        <meta charset="utf-8" />
+        <title>Lycée </title>
+        <meta name="description" content="Angularjs, Html5, Music, Landing, 4 in 1 ui kits package" />
+        <meta name="keywords" content="AngularJS, angular, bootstrap, admin, dashboard, panel, app, charts, components,flat, responsive, layout, kit, ui, route, web, app, widgets" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+        <link rel="shortcut icon" type="image/ico" href="img/favicon.ico" />
+        <link rel="stylesheet" href="bower_components/animate.css/animate.css" type="text/css" />
+        <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css" type="text/css" />
+        <link rel="stylesheet" href="bower_components/simple-line-icons/css/simple-line-icons.css" type="text/css" />
+        <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" type="text/css" />
+
+
+        <!-- build:css css/app.min.css -->
+        <link rel="stylesheet" href="css/font.css" type="text/css" />
+        <link rel="stylesheet" href="css/app.css" type="text/css" />
+        <!-- endbuild -->
+    </head>
+    <body ng-controller="AppCtrl">
+        <div class="app" id="app" ng-class="{'app-header-fixed':app.settings.headerFixed, 
+                    'app-aside-fixed':app.settings.asideFixed, 
+                    'app-aside-folded':app.settings.asideFolded,
+                    'app-aside-dock':app.settings.asideDock, 
+                    'container':app.settings.container}" 
+             ui-view>
+
+        </div>
+
+        <!-- build:js js/app.angular.js -->
+        <!-- jQuery -->
+        <script src="bower_components/jquery/dist/jquery.js"></script>
+        <!-- Bootstrap -->
+        <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+
+        <!-- Angular -->
+        <script src="bower_components/angular/angular.js"></script>
+
+        <script src="bower_components/angular-animate/angular-animate.js"></script>
+        <script src="bower_components/angular-aria/angular-aria.js"></script>
+        <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+        <script src="bower_components/angular-messages/angular-messages.js"></script>
+        <script src="bower_components/angular-resource/angular-resource.js"></script>
+        <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+        <script src="bower_components/angular-touch/angular-touch.js"></script>
+
+        <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script> 
+        <script src="bower_components/ngstorage/ngStorage.js"></script>
+        <script src="bower_components/angular-ui-utils/ui-utils.js"></script>
+        <script src="bower_components/bootstrap-ui-datetime-picker/dist/datetime-picker.js"></script>
+        <script src="bower_components/ng-file-upload/ng-file-upload.js"></script>
+        <script src="bower_components/angular-cache-buster/angular-cache-buster.js"></script>
+
+        <!-- bootstrap -->
+        <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+        <!-- lazyload -->
+        <script src="bower_components/oclazyload/dist/ocLazyLoad.js"></script>
+        <script src="bower_components/angular-smart-table/dist/smart-table.min.js"></script>
+          <!-- FileSaver -->
+        <script src="bower_components/filesaver/FileSaver.js"></script>
+
+        <!-- translate -->
+
+
+        <!-- App -->
+        <script src="js/app.js"></script>
+        <script src="js/app.constants.js"></script>
+        <script src="js/config.js"></script>
+        <script src="js/config.lazyload.js"></script>
+        <script src="js/config.router.js"></script>
+        <script src="js/main.js"></script>
+        <script src="js/services/ui-load.js"></script>
+        <script src="js/services/user/user.service.js"></script>
+        <script src="js/services/profiles/profile.service.js"></script>
+        <script src="js/services/profiles/page-ribbon.directive.js"></script>
+        <script src="js/services/auth/sessions.service.js"></script>
+        <script src="js/services/auth/register.service.js"></script>
+        <script src="js/services/auth/principal.service.js"></script>
+        <script src="js/services/auth/password-reset-init.service.js"></script>
+        <script src="js/services/auth/password-reset-finish.service.js"></script>
+        <script src="js/services/auth/password.service.js"></script>
+        <script src="js/services/auth/has-authority.directive.js"></script>
+        <script src="js/services/auth/has-any-authority.directive.js"></script>
+        <script src="js/services/auth/auth.session.service.js"></script>
+        <script src="js/services/auth/auth.service.js"></script>
+        <script src="js/services/auth/activate.service.js"></script>
+        <script src="js/services/auth/account.service.js"></script>
+        <script src="js/filters/fromNow.js"></script>
+        <script src="js/directives/setnganimate.js"></script>
+        <script src="js/directives/ui-butterbar.js"></script>
+        <script src="js/directives/ui-focus.js"></script>
+        <script src="js/directives/ui-fullscreen.js"></script>
+        <script src="js/directives/ui-jq.js"></script>
+        <script src="js/directives/ui-module.js"></script>
+        <script src="js/directives/ui-nav.js"></script>
+        <script src="js/directives/ui-scroll.js"></script>
+        <script src="js/directives/ui-shift.js"></script>
+        <script src="js/directives/ui-toggleclass.js"></script>
+
+
+        <!-- endbuild -->
+        <script src="tpl/entities/entity.state.js"></script>
+
+
+
+        <script src="tpl/entities/classe-eleve/classe-eleve-dialog.controller.js"></script>
+        <script src="tpl/entities/classe-eleve/classe-eleve-delete-dialog.controller.js"></script>
+        <script src="tpl/entities/classe-eleve/classe-eleve.state.js"></script>
+        <script src="tpl/entities/classe-eleve/classe-eleve.service.js"></script>
+        <script src="tpl/entities/classe-eleve/classe-eleve.controller.js"></script>
+        <script src="tpl/entities/matiere/matiere-dialog.controller.js"></script>
+        <script src="tpl/entities/matiere/matiere-delete-dialog.controller.js"></script>
+        <script src="tpl/entities/matiere/matiere.state.js"></script>
+        <script src="tpl/entities/matiere/matiere.service.js"></script>
+        <script src="tpl/entities/matiere/matiere.controller.js"></script>
+        <script src="tpl/entities/frais-scolarite/frais-scolarite-dialog.controller.js"></script>
+        <script src="tpl/entities/frais-scolarite/frais-scolarite-delete-dialog.controller.js"></script>
+        <script src="tpl/entities/frais-scolarite/frais-scolarite.state.js"></script>
+        <script src="tpl/entities/frais-scolarite/frais-scolarite.service.js"></script>
+        <script src="tpl/entities/frais-scolarite/frais-scolarite.controller.js"></script>
+        <script src="tpl/entities/caisse-mouvement/caisse-mouvement-dialog.controller.js"></script>
+        <script src="tpl/entities/caisse-mouvement/caisse-mouvement-delete-dialog.controller.js"></script>
+        <script src="tpl/entities/caisse-mouvement/caisse-mouvement.state.js"></script>
+        <script src="tpl/entities/caisse-mouvement/caisse-mouvement.service.js"></script>
+        <script src="tpl/entities/caisse-mouvement/caisse-mouvement.controller.js"></script>
+        <script src="tpl/entities/professeur-absence/professeur-absence-dialog.controller.js"></script>
+        <script src="tpl/entities/professeur-absence/professeur-absence-delete-dialog.controller.js"></script>
+        <script src="tpl/entities/professeur-absence/professeur-absence.state.js"></script>
+        <script src="tpl/entities/professeur-absence/professeur-absence.service.js"></script>
+        <script src="tpl/entities/professeur-absence/professeur-absence.controller.js"></script>
+        <script src="tpl/entities/employe/employe-dialog.controller.js"></script>
+        <script src="tpl/entities/employe/employe-delete-dialog.controller.js"></script>
+        <script src="tpl/entities/employe/employe.state.js"></script>
+        <script src="tpl/entities/employe/employe.service.js"></script>
+        <script src="tpl/entities/employe/employe.search.service.js"></script>
+        <script src="tpl/entities/employe/employe.controller.js"></script>
+        <script src="tpl/entities/timetable/timetable-dialog.controller.js"></script>
+        <script src="tpl/entities/timetable/timetable-delete-dialog.controller.js"></script>
+        <script src="tpl/entities/timetable/timetable.state.js"></script>
+        <script src="tpl/entities/timetable/timetable.service.js"></script>
+        <script src="tpl/entities/timetable/timetable.controller.js"></script>
+        <script src="tpl/entities/compte-analytique/compte-analytique-dialog.controller.js"></script>
+        <script src="tpl/entities/compte-analytique/compte-analytique-delete-dialog.controller.js"></script>
+        <script src="tpl/entities/compte-analytique/compte-analytique.state.js"></script>
+        <script src="tpl/entities/compte-analytique/compte-analytique.service.js"></script>
+        <script src="tpl/entities/compte-analytique/compte-analytique.search.service.js"></script>
+        <script src="tpl/entities/compte-analytique/compte-analytique.controller.js"></script>
+        <script src="tpl/entities/note/note-dialog.controller.js"></script>
+        <script src="tpl/entities/note/note-report.controller.js"></script>
+        <script src="tpl/entities/note/note-delete-dialog.controller.js"></script>
+        <script src="tpl/entities/note/note.state.js"></script>
+        <script src="tpl/entities/note/note.service.js"></script>
+        <script src="tpl/entities/note/note.controller.js"></script>
+        <script src="tpl/entities/employe-fonction/employe-fonction-dialog.controller.js"></script>
+        <script src="tpl/entities/employe-fonction/employe-fonction-delete-dialog.controller.js"></script>
+        <script src="tpl/entities/employe-fonction/employe-fonction.state.js"></script>
+        <script src="tpl/entities/employe-fonction/employe-fonction.service.js"></script>
+        <script src="tpl/entities/employe-fonction/employe-fonction.controller.js"></script>
+        <script src="tpl/entities/notes-periode/notes-periode-dialog.controller.js"></script>
+        <script src="tpl/entities/notes-periode/notes-periode-delete-dialog.controller.js"></script>
+        <script src="tpl/entities/notes-periode/notes-periode.state.js"></script>
+        <script src="tpl/entities/notes-periode/notes-periode.service.js"></script>
+        <script src="tpl/entities/notes-periode/notes-periode.controller.js"></script>
+        <script src="tpl/entities/reglement/reglement-dialog.controller.js"></script>
+        <script src="tpl/entities/reglement/reglement-delete-dialog.controller.js"></script>
+        <script src="tpl/entities/reglement/reglement.state.js"></script>
+        <script src="tpl/entities/reglement/reglement.service.js"></script>
+        <script src="tpl/entities/reglement/reglement.controller.js"></script>
+        <script src="tpl/entities/creneau/creneau-dialog.controller.js"></script>
+        <script src="tpl/entities/creneau/creneau-delete-dialog.controller.js"></script>
+        <script src="tpl/entities/creneau/creneau.state.js"></script>
+        <script src="tpl/entities/creneau/creneau.service.js"></script>
+        <script src="tpl/entities/creneau/creneau.controller.js"></script>
+        <script src="tpl/entities/compte-analytique-ecriture/compte-analytique-ecriture-dialog.controller.js"></script>
+        <script src="tpl/entities/compte-analytique-ecriture/compte-analytique-ecriture-delete-dialog.controller.js"></script>
+        <script src="tpl/entities/compte-analytique-ecriture/compte-analytique-ecriture.state.js"></script>
+        <script src="tpl/entities/compte-analytique-ecriture/compte-analytique-ecriture.service.js"></script>
+        <script src="tpl/entities/compte-analytique-ecriture/compte-analytique-ecriture.controller.js"></script>
+        <script src="tpl/entities/annee/annee-dialog.controller.js"></script>
+        <script src="tpl/entities/annee/annee-delete-dialog.controller.js"></script>
+        <script src="tpl/entities/annee/annee.state.js"></script>
+        <script src="tpl/entities/annee/annee.service.js"></script>
+        <script src="tpl/entities/annee/annee.controller.js"></script>
+        <script src="tpl/entities/caisse/caisse-dialog.controller.js"></script>
+        <script src="tpl/entities/caisse/caisse-delete-dialog.controller.js"></script>
+        <script src="tpl/entities/caisse/caisse.state.js"></script>
+        <script src="tpl/entities/caisse/caisse.service.js"></script>
+        <script src="tpl/entities/caisse/caisse.controller.js"></script>
+        <script src="tpl/entities/eleve/eleve-dialog.controller.js"></script>
+        <script src="tpl/entities/eleve/eleve-delete-dialog.controller.js"></script>
+        <script src="tpl/entities/eleve/eleve.state.js"></script>
+        <script src="tpl/entities/eleve/eleve.service.js"></script>
+        <script src="tpl/entities/eleve/eleve.search.service.js"></script>
+        <script src="tpl/entities/eleve/eleve.controller.js"></script>
+        <script src="tpl/entities/serie/serie-dialog.controller.js"></script>
+        <script src="tpl/entities/serie/serie-delete-dialog.controller.js"></script>
+        <script src="tpl/entities/serie/serie.state.js"></script>
+        <script src="tpl/entities/serie/serie.service.js"></script>
+        <script src="tpl/entities/serie/serie.controller.js"></script>
+        <script src="tpl/entities/cours/cours-dialog.controller.js"></script>
+        <script src="tpl/entities/cours/cours-delete-dialog.controller.js"></script>
+        <script src="tpl/entities/cours/cours.state.js"></script>
+        <script src="tpl/entities/cours/cours.service.js"></script>
+        <script src="tpl/entities/cours/cours.controller.js"></script>
+        <script src="tpl/entities/compte/compte-dialog.controller.js"></script>
+        <script src="tpl/entities/compte/compte-delete-dialog.controller.js"></script>
+        <script src="tpl/entities/compte/compte.state.js"></script>
+        <script src="tpl/entities/compte/compte.service.js"></script>
+        <script src="tpl/entities/compte/compte.controller.js"></script>
+        <script src="tpl/entities/coefficient/coefficient-dialog.controller.js"></script>
+        <script src="tpl/entities/coefficient/coefficient-delete-dialog.controller.js"></script>
+        <script src="tpl/entities/coefficient/coefficient.state.js"></script>
+        <script src="tpl/entities/coefficient/coefficient.service.js"></script>
+        <script src="tpl/entities/coefficient/coefficient.controller.js"></script>
+        <script src="tpl/entities/caisse-decaissement/caisse-decaissement-dialog.controller.js"></script>
+        <script src="tpl/entities/caisse-decaissement/caisse-decaissement-delete-dialog.controller.js"></script>
+        <script src="tpl/entities/caisse-decaissement/caisse-decaissement.state.js"></script>
+        <script src="tpl/entities/caisse-decaissement/caisse-decaissement.service.js"></script>
+        <script src="tpl/entities/caisse-decaissement/caisse-decaissement.controller.js"></script>
+        <script src="tpl/entities/eleve-conduite/eleve-conduite-dialog.controller.js"></script>
+        <script src="tpl/entities/eleve-conduite/eleve-conduite-delete-dialog.controller.js"></script>
+        <script src="tpl/entities/eleve-conduite/eleve-conduite.state.js"></script>
+        <script src="tpl/entities/eleve-conduite/eleve-conduite.service.js"></script>
+        <script src="tpl/entities/eleve-conduite/eleve-conduite.controller.js"></script>
+        <script src="tpl/entities/eleve-absence/eleve-absence-dialog.controller.js"></script>
+        <script src="tpl/entities/eleve-absence/eleve-absence-delete-dialog.controller.js"></script>
+        <script src="tpl/entities/eleve-absence/eleve-absence.state.js"></script>
+        <script src="tpl/entities/eleve-absence/eleve-absence.service.js"></script>
+        <script src="tpl/entities/eleve-absence/eleve-absence.controller.js"></script>
+        <script src="tpl/entities/classe/classe-dialog.controller.js"></script>
+        <script src="tpl/entities/classe/classe-delete-dialog.controller.js"></script>
+        <script src="tpl/entities/classe/classe.state.js"></script>
+        <script src="tpl/entities/classe/classe.service.js"></script>
+        <script src="tpl/entities/classe/classe.controller.js"></script>
+        <script src="tpl/entities/professeur/professeur-dialog.controller.js"></script>
+        <script src="tpl/entities/professeur/professeur-delete-dialog.controller.js"></script>
+        <script src="tpl/entities/professeur/professeur.state.js"></script>
+        <script src="tpl/entities/professeur/professeur.service.js"></script>
+        <script src="tpl/entities/professeur/professeur.search.service.js"></script>
+        <script src="tpl/entities/professeur/professeur.controller.js"></script>
+        <script src="tpl/entities/caisse-encaissement/caisse-encaissement-dialog.controller.js"></script>
+        <script src="tpl/entities/caisse-encaissement/caisse-encaissement-delete-dialog.controller.js"></script>
+        <script src="tpl/entities/caisse-encaissement/caisse-encaissement.state.js"></script>
+        <script src="tpl/entities/caisse-encaissement/caisse-encaissement.service.js"></script>
+        <script src="tpl/entities/caisse-encaissement/caisse-encaissement.controller.js"></script>
+
+
+
+
+        <script src="js/components/util/truncate-words.filter.js"></script>
+        <script src="js/components/util/truncate-characters.filter.js"></script>
+        <script src="js/components/util/sort-by.directive.js"></script>
+        <script src="js/components/util/sort.directive.js"></script>
+        <script src="js/components/util/parse-links.service.js"></script>
+        <script src="js/components/util/pagination-util.service.js"></script>
+        <script src="js/components/util/jhi-item-count.directive.js"></script>
+        <script src="js/components/util/date-util.service.js"></script>
+        <script src="js/components/util/data-util.service.js"></script>
+        <script src="js/components/util/capitalize.filter.js"></script>
+        <script src="js/components/util/base64.service.js"></script>
+        <script src="js/components/form/pagination.constants.js"></script>
+        <script src="js/components/form/minbytes.directive.js"></script>
+        <script src="js/components/form/maxbytes.directive.js"></script>
+        <script src="js/components/alert/alert-error.directive.js"></script>
+        <script src="js/components/alert/alert.service.js"></script>
+        <script src="js/components/alert/alert.directive.js"></script>
+        <script src="js/components/login/login.controller.js"></script>
+
+
+        <script src="js/blocks/interceptor/notification.interceptor.js"></script>
+        <script src="js/blocks/interceptor/errorhandler.interceptor.js"></script>
+        <script src="js/blocks/interceptor/auth-expired.interceptor.js"></script>
+        <script src="js/blocks/handlers/state.handler.js"></script>
+        <script src="js/blocks/config/uib-pagination.config.js"></script>
+        <script src="js/blocks/config/uib-pager.config.js"></script>
+        <script src="js/blocks/config/localstorage.config.js"></script>
+        <script src="js/blocks/config/http.config.js"></script>
+        <script src="js/blocks/config/compile.config.js"></script>
+        <script src="js/blocks/config/alert.config.js"></script>
+
+
+
+
+
+
+
+        <script src="tpl/admin/user-management/user-management-dialog.controller.js"></script>
+        <script src="tpl/admin/user-management/user-management-detail.controller.js"></script>
+        <script src="tpl/admin/user-management/user-management-delete-dialog.controller.js"></script>
+        <script src="tpl/admin/user-management/user-management.state.js"></script>
+        <script src="tpl/admin/user-management/user-management.controller.js"></script>
+        <script src="tpl/admin/metrics/metrics.state.js"></script>
+        <script src="tpl/admin/metrics/metrics.service.js"></script>
+        <script src="tpl/admin/metrics/metrics.modal.controller.js"></script>
+        <script src="tpl/admin/metrics/metrics.controller.js"></script>
+        <script src="tpl/admin/logs/logs.state.js"></script>
+        <script src="tpl/admin/logs/logs.service.js"></script>
+        <script src="tpl/admin/logs/logs.controller.js"></script>
+        <script src="tpl/admin/health/health.state.js"></script>
+        <script src="tpl/admin/health/health.service.js"></script>
+        <script src="tpl/admin/health/health.modal.controller.js"></script>
+        <script src="tpl/admin/health/health.controller.js"></script>
+        <script src="tpl/admin/docs/docs.state.js"></script>
+        <script src="tpl/admin/configuration/configuration.state.js"></script>
+        <script src="tpl/admin/configuration/configuration.service.js"></script>
+        <script src="tpl/admin/configuration/configuration.controller.js"></script>
+        <script src="tpl/admin/audits/audits.state.js"></script>
+        <script src="tpl/admin/audits/audits.service.js"></script>
+        <script src="tpl/admin/audits/audits.controller.js"></script>
+        <script src="tpl/admin/admin.state.js"></script>
+        <script src="tpl/admin/role/role-dialog.controller.js"></script>
+        <script src="tpl/admin/role/role-detail.controller.js"></script>
+        <script src="tpl/admin/role/role-delete-dialog.controller.js"></script>
+        <script src="tpl/admin/role/role.state.js"></script>
+        <script src="tpl/admin/role/role.service.js"></script>
+        <script src="tpl/admin/role/role.controller.js"></script>
+        <script src="tpl/admin/privilege/privilege-dialog.controller.js"></script>
+        <script src="tpl/admin/privilege/privilege-detail.controller.js"></script>
+        <script src="tpl/admin/privilege/privilege-delete-dialog.controller.js"></script>
+        <script src="tpl/admin/privilege/privilege.state.js"></script>
+        <script src="tpl/admin/privilege/privilege.service.js"></script>
+        <script src="tpl/admin/privilege/privilege.controller.js"></script>
+
+        <script src="tpl/account/settings/settings.state.js"></script>
+        <script src="tpl/account/settings/settings.controller.js"></script>
+        <script src="tpl/account/sessions/sessions.state.js"></script>
+        <script src="tpl/account/sessions/sessions.controller.js"></script>
+        <script src="tpl/account/reset/request/reset.request.state.js"></script>
+        <script src="tpl/account/reset/request/reset.request.controller.js"></script>
+        <script src="tpl/account/reset/finish/reset.finish.state.js"></script>
+        <script src="tpl/account/reset/finish/reset.finish.controller.js"></script>
+        <script src="tpl/account/register/register.state.js"></script>
+        <script src="tpl/account/register/register.controller.js"></script>
+        <script src="tpl/account/password/password-strength-bar.directive.js"></script>
+        <script src="tpl/account/password/password.state.js"></script>
+        <script src="tpl/account/password/password.controller.js"></script>
+        <script src="tpl/account/account.state.js"></script>
+
+        <script src="js/navbar.controller.js"></script>
+        <script src="tpl/error/error.state.js"></script>
+
+
+
+        <!-- Lazy loading -->
+    </body>
+</html>

@@ -1,0 +1,101 @@
+<div class="bg-light lter b-b wrapper-md" >
+    <h1 class="m-n font-thin h3">ClasseEleves</h1>
+
+
+</div>
+<div>
+    <jhi-alert-error></jhi-alert-error>
+</div>
+
+<div class="wrapper-md">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-5">
+
+                    <ui-select ng-model="vm.classe"   ng-change="vm.filtre()" >
+                        <ui-select-match placeholder="Select Classe">{{$select.selected.id}}</ui-select-match>
+                        <ui-select-choices repeat="classe in vm.classes | filter: $select.search">
+                            <div ng-bind-html="classe.id | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>  
+
+                </div>
+                <div class="col-sm-4">
+                    <button class="btn btn-default" ng-click="vm.printCarteClasse()" ng-disabled="!vm.classe" > <i class="fa fa-file-pdf-o">Cartes</i></button>
+                    <button class="btn btn-default" ng-click="vm.printEleveClasse()" ng-disabled="!vm.classe" > <i class="fa fa-file-pdf-o">Liste Eleve</i></button>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="panel-body table-responsive">
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
+                        <th jh-sort-by="id"><span >Matricule</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="eleve"><span >Eleve</span> <span class="fa fa-sort"></span></th>
+                      
+                        <th>Né(e) le</th>
+                        <th>Téléphone</th>
+                        <th>Adresse</th>
+                        <th ><span >Redoublant</span> </th>
+
+                        <th >
+                            <button class="btn btn-primary" ui-sref="classe-eleve.new({classe:vm.classe})"   tooltip="Cr�er ClasseEleve">
+                                <i class="fa fa-plus">
+                                </i>
+                            </button>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="classeEleve in vm.classeEleves track by classeEleve.id">
+                        <td>{{classeEleve.eleve.id}}</td>
+                        <td>
+                            <i class="fa fa-male"  ng-if="classeEleve.eleve.sexe==='G'">
+                            </i>
+                            <i class="fa fa-female"  ng-if="classeEleve.eleve.sexe==='F'">
+                            </i>
+                            {{classeEleve.eleve.nom}}  {{classeEleve.eleve.prenom}}
+                        </td>
+                        <td>{{classeEleve.eleve.dateNaissance}}</td>
+                        <td>{{classeEleve.eleve.telephone}}</td>
+                        <td>{{classeEleve.eleve.adresse}}</td>
+                        <td>{{classeEleve.redoublant}}</td>
+
+                        <td >
+
+
+                            <button type="submit"   ui-sref="classe-eleve.edit({id:classeEleve.id})" class="btn btn-sm btn-default"  tooltip="Modifier">
+                                <i class="fa fa-edit">
+                                </i>
+                            </button>
+                            <button type="button" ng-click="vm.printCarteEleve(classeEleve.eleve.id);" class="btn btn-sm btn-default"  tooltip="Imprimer Carte Scolaire">
+                                <i class="fa fa-file-pdf-o">
+                                </i>
+                            </button>
+                            <button type="submit"  ui-sref="classe-eleve.delete({id:classeEleve.id})"  class="btn btn-sm btn-danger"  tooltip="Supprimer">
+                                <i class="fa fa-trash">
+                                </i>
+                            </button>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-sm-6">
+                    <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
+                </div>
+                <div class="col-sm-6 text-right text-center-xs">
+                    <uib-pagination class="pagination-sm" total-items="vm.totalItems" items-per-page="vm.itemsPerPage" ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

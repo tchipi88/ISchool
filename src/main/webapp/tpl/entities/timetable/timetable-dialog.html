@@ -1,0 +1,81 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()"   class="form-validation">
+
+    <div class="modal-header">
+        <button type="button" class="btn btn-link pull-right" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()"><i class="fa fa-remove"></i>  </button>
+        <h3 class="modal-title" id="myTimetableLabel" >Cr�er ou modifier  Timetable</h3>
+        <small class="text-muted" >Les champs * sont obligatoires</small>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label"  for="field_id">Id</label>
+                    <input  class="form-control"   type="text"  autocomplete="off"   id="field_id" ng-model="vm.timetable.id"                     ng-readonly="true"  ng-required="false"    ng-maxlength="255"                      />
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label"  for="field_cours">Cours <span style="color:red" >*</span></label>
+                    <div class="input-group">
+                        <ui-select ng-model="vm.timetable.cours"    ng-required="true">
+                            <ui-select-match placeholder="Select Cours">{{$select.selected.classe.id}}</ui-select-match>
+                            <ui-select-choices repeat="cours in vm.courss | filter: $select.search">
+                                <div ng-bind-html="cours.professeur.nom | highlight: $select.search"></div>
+                                <small>
+                                    Classe: <span ng-bind-html="cours.classe.id | highlight: $select.search"></span>
+                                    Matiere: <span ng-bind-html="cours.matiere.libelle | highlight: $select.search"></span>
+                                </small>
+                            </ui-select-choices>
+                        </ui-select>  
+                        <span class="input-group-btn" >
+                            <button   ng-click="vm.zoomColumn('Cours', 'cours', 'cours', vm.timetable.cours)" 
+                                      class="btn btn-default" type="button"  ng-hide="!vm.timetable.cours">
+                                <span class="fa fa-eye"></span>
+                            </button>
+                            <button ng-click="vm.zoomColumn('Cours', 'cours', 'cours', {})"      
+                                    class="btn btn-default" type="button"  ng-hide="vm.timetable.cours">
+                                <span class="fa fa-plus fw"></span>
+                            </button>
+                        </span>
+                    </div> </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label"  for="field_jour">Jour <span style="color:red" >*</span></label>
+                    <select class="form-control" name="jour"  ng-model="vm.timetable.jour"  id="field_jour" required>
+                        <option value="LUNDI">LUNDI</option>
+                        <option value="MARDI">MARDI</option>
+                        <option value="MERCREDI">MERCREDI</option>
+                        <option value="JEUDI">JEUDI</option>
+                        <option value="VENDREDI">VENDREDI</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label"  for="field_creneau">Creneau <span style="color:red" >*</span></label>
+                    <ui-select ng-model="vm.timetable.creneau"    ng-required="true">
+                        <ui-select-match placeholder="Select Creneau">{{$select.selected.heureDebut}}</ui-select-match>
+                        <ui-select-choices repeat="creneau in vm.creneaus | filter: $select.search">
+                            <div ng-bind-html="creneau.heureDebut | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>  
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="modal-footer">
+
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Annuler</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Enregister</span>
+        </button>
+    </div>
+</form>

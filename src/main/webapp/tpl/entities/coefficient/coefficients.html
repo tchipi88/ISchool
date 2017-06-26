@@ -1,0 +1,69 @@
+<div class="bg-light lter b-b wrapper-md" >
+    <h1 class="m-n font-thin h3">Coefficients<button class="btn btn-primary" ng-click="vm.edit = true" type="button"  tooltip="Modifier"  ng-disabled="!vm.matiere">
+                                    <i class="fa fa-edit">
+                                    </i>
+                                </button></h1>
+    <small class="text-muted"></small>
+</div>
+<div>
+    <jhi-alert-error></jhi-alert-error>
+</div>
+
+<div class="wrapper-md">
+    <form name="form" id="form"
+          role="form"    ng-submit="vm.save()"   class="form-validation">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-lg-4">  
+                        <div class="form-group"   >
+                            <ui-select ng-model="vm.matiere" theme="bootstrap" ng-change="vm.loadAll()"  >
+                                <ui-select-match placeholder="Matiere...">{{$select.selected.libelle}}</ui-select-match>
+                                <ui-select-choices repeat="matiere in vm.matieres | filter: $select.search">
+                                    <div ng-bind-html="matiere.libelle | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body table-responsive">
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr >
+                            <th >Serie</th>
+                            <th >Coefficient (entre 0 et 6)  </th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="coefficient in vm.coefficients track by coefficient.serie.id">
+                            <td>{{coefficient.serie.id}}</td>
+
+
+                            <td >
+                                <span ng-if="!vm.edit">{{coefficient.valeur}}</span>
+                                <span  ng-if="vm.edit">
+
+                                    <div class="form-group">
+                                        <ng-form name="subform">
+                                            <input class="form-control"   type="number"   autocomplete="off"
+                                                   required="true"   
+                                                   min="0"  max="6"   ng-model="coefficient.valeur"/>
+                                        </ng-form>
+                                    </div>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="panel-footer"  ng-show="vm.edit">
+                <button type="submit" class="btn btn-primary  btn-block"   ng-disabled="form.$invalid || form.$pristine"   ><i class="fa fa-save"></i></button>
+            </div>
+
+        </div>
+    </form>
+</div>

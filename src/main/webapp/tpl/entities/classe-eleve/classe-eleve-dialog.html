@@ -1,0 +1,76 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()"   class="form-validation">
+
+    <div class="modal-header">
+        <button type="button" class="btn btn-link pull-right" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()"><i class="fa fa-remove"></i>  </button>
+        <h3 class="modal-title" id="myClasseEleveLabel" >Cr�er ou modifier  ClasseEleve  {{vm.classeEleve.id}}</h3>
+        <small class="text-muted" >Les champs * sont obligatoires</small>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="row">
+           
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label"  for="field_classe">Classe <span style="color:red" >*</span></label>
+
+                    <ui-select ng-model="vm.classeEleve.classe"    ng-required="true"   >
+                        <ui-select-match placeholder="Select Classe">{{$select.selected.id}}</ui-select-match>
+                        <ui-select-choices repeat="classe in vm.classes | filter: $select.search"
+                                           >
+                            <div ng-bind-html="classe.id | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>  
+
+                </div> 
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label"  for="field_eleve">Eleve <span style="color:red" >*</span></label>
+                    <div class="input-group">
+                        <ui-select ng-model="vm.classeEleve.eleve"    ng-required="true" reset-search-input="false" >
+                            <ui-select-match placeholder="Saissir Nom Eleve">{{$select.selected.nom}}</ui-select-match>
+                            <ui-select-choices repeat="eleve in vm.eleves | filter: $select.search"
+                                               refresh="vm.search($select.search)"
+                                               refresh-delay="0">
+                                <div ng-bind-html="eleve.nom | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>  
+                        <span class="input-group-btn" >
+                            <button   ng-click="vm.zoomColumn('Eleve', 'eleve', 'eleve', vm.classeEleve.eleve)" 
+                                      class="btn btn-default" type="button"  ng-hide="!vm.classeEleve.eleve">
+                                <span class="fa fa-eye"></span>
+                            </button>
+                            <button ng-click="vm.zoomColumn('Eleve', 'eleve', 'eleve', {})"      
+                                    class="btn btn-default" type="button"  ng-hide="vm.classeEleve.eleve">
+                                <span class="fa fa-plus fw"></span>
+                            </button>
+                        </span>
+                    </div> </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label"  for="field_redoublant">Redoublant</label>
+                    <div class="form-control">
+                        <label class="i-checks">
+                            <input type="checkbox" checked  ng-model="vm.classeEleve.redoublant"   id="field_redoublant"  name="redoublant" /><i></i> 
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="modal-footer">
+
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Annuler</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Enregister</span>
+        </button>
+    </div>
+</form>

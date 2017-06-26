@@ -1,0 +1,176 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()"   class="form-validation">
+
+    <div class="modal-header">
+        <button type="button" class="btn btn-link pull-right" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()"><i class="fa fa-remove"></i>  </button>
+        <h3 class="modal-title" id="myEleveLabel" >Cr�er ou modifier  Eleve   {{vm.eleve.id}}</h3>
+        <small class="text-muted" >Les champs * sont obligatoires</small>
+    </div>
+    <div class="modal-body">
+       
+        <jhi-alert-error></jhi-alert-error>
+        <div class="row">
+
+            <div class="col-sm-12">
+                <uib-tabset class="uib-tab-container" justified="true"   vertical="false"  type="pills">
+                    <uib-tab>
+                        <uib-tab-heading  >
+                            General
+                        </uib-tab-heading>
+                        <br>
+                        <div class="row">
+                           
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label"  for="field_photo">Photo</label>
+                                    <div ngf-drop ngf-change="vm.setMimage($file, 'photo')" ngf-pattern="'image/*'"    ngf-capture="'camera'">
+                                        <img data-ng-src="{{'data:' + vm.eleve.photoContentType  + ';base64,' + vm.eleve.photo}}" style="max-height: 100px;" ng-if="vm.eleve.photo"/>
+                                        <div ng-if="vm.eleve.photo" class="help-block clearfix">
+                                            <span class="pull-left">{{vm.eleve.photoContentType}}, {{byteSize(vm.eleve.photo)}}</span>
+                                            <button ng-click="vm.eleve.photo = null;vm.eleve.photoContentType = null;"
+                                                    class="btn btn-default btn-xs pull-right">
+                                                <span class="glyphicon glyphicon-remove"></span>
+                                            </button>
+                                        </div>
+                                        <button type="file" ngf-select class="btn btn-default btn-block"
+                                                ngf-change="vm.setMimage($file,  'photo')" accept="image/*" >
+                                            Add image
+                                        </button>
+                                    </div>
+                                    <input type="hidden" class="form-control" id="field_photo"  name="photo"
+                                           ng-model="vm.eleve.photo"      minbytes="5" />
+                                    <input type="hidden" class="form-control" name="photoContentType" id="photoContentType"
+                                           ng-model="vm.eleve.photoContentType" />
+
+                                </div>
+                            </div>
+                           
+                            
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label"  for="field_nom">Nom <span style="color:red" >*</span></label>
+                                    <input  class="form-control"   type="text"  autocomplete="off"   id="field_nom" ng-model="vm.eleve.nom"                     ng-readonly="false"  ng-required="true"    ng-maxlength="255"                      />
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label"  for="field_prenom">Prenom</label>
+                                    <input  class="form-control"   type="text"  autocomplete="off"   id="field_prenom" ng-model="vm.eleve.prenom"                     ng-readonly="false"  ng-required="false"    ng-maxlength="255"                      />
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label"  for="field_sexe">Sexe   <span style="color:red" >*</span></label>
+                                    <select class="form-control" name="sexe"  ng-model="vm.eleve.sexe"  id="field_sexe"   required>
+                                        <option value="G">Garcon</option>
+                                        <option value="F">Fille</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label"  for="field_dateNaissance">Date Naissance<span style="color:red" >*</span></label>
+                                    <div class="input-group">
+                                        <input  id="field_dateNaissance" type="text" class="form-control" name="dateNaissance"    ng-required="true"  uib-datepicker-popup="{{dateformat}}"  ng-model="vm.eleve.dateNaissance"  is-open="vm.datePickerOpenStatus.dateNaissance"
+                                                />
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="vm.openCalendar('dateNaissance')"><i class="glyphicon glyphicon-calendar"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label"  for="field_lieuNaissance">Lieu Naissance</label>
+                                    <input  class="form-control"   type="text"  autocomplete="off"   id="field_lieuNaissance" ng-model="vm.eleve.lieuNaissance"                     ng-readonly="false"  ng-required="false"    ng-minlength="0"     ng-maxlength="100"                      />
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label"  for="field_telephone">Telephone</label>
+                                    <div class="input-group"> <input  class="form-control"   type="text"  autocomplete="off"  id="field_telephone"  ng-model="vm.eleve.telephone"                     ng-readonly="false"  ng-required="false"                     /><span class="input-group-addon" >  <span >
+                                                <i class="fa fa-phone"></i>
+                                            </span> </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label"  for="field_adresse">Adresse</label>
+                                    <input  class="form-control"   type="text"  autocomplete="off"   id="field_adresse" ng-model="vm.eleve.adresse"                     ng-readonly="false"  ng-required="false"    ng-maxlength="255"                      />
+                                </div>
+                            </div>
+
+                        </div>
+                    </uib-tab>
+                    <uib-tab>
+                        <uib-tab-heading  >
+                            Informations Complémentaires
+                        </uib-tab-heading>
+                        <br>
+                        <div class="row">
+                           <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label"  for="field_nomPere">Nom Pere</label>
+                                    <input  class="form-control"   type="text"  autocomplete="off"   id="field_nomPere" ng-model="vm.eleve.nomPere"                     ng-readonly="false"  ng-required="false"    ng-maxlength="255"                      />
+                                </div>
+                            </div>
+                             <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label"  for="field_nomMere">Nom Mere</label>
+                                    <input  class="form-control"   type="text"  autocomplete="off"   id="field_nomMere" ng-model="vm.eleve.nomMere"                     ng-readonly="false"  ng-required="false"    ng-maxlength="255"                      />
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label"  for="field_professionPere">Profession Pere</label>
+                                    <input  class="form-control"   type="text"  autocomplete="off"   id="field_professionPere" ng-model="vm.eleve.professionPere"                     ng-readonly="false"  ng-required="false"    ng-maxlength="255"                      />
+                                </div>
+                            </div>
+                             <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label"  for="field_professionMere">Profession Mere</label>
+                                    <input  class="form-control"   type="text"  autocomplete="off"   id="field_professionMere" ng-model="vm.eleve.professionMere"                     ng-readonly="false"  ng-required="false"    ng-maxlength="255"                      />
+                                </div>
+                            </div> 
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label"  for="field_telephonePere">Telephone Pere</label>
+                                    <div class="input-group"> <input  class="form-control"   type="text"  autocomplete="off"  id="field_telephonePere"  ng-model="vm.eleve.telephonePere"                     ng-readonly="false"  ng-required="false"                     /><span class="input-group-addon" >  <span >
+                                                <i class="fa fa-phone"></i>
+                                            </span> </span>
+                                    </div>
+                                </div>
+                            </div>
+                           
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label"  for="field_telephoneMere">Telephone Mere</label>
+                                    <div class="input-group"> <input  class="form-control"   type="text"  autocomplete="off"  id="field_telephoneMere"  ng-model="vm.eleve.telephoneMere"                     ng-readonly="false"  ng-required="false"                     /><span class="input-group-addon" >  <span >
+                                                <i class="fa fa-phone"></i>
+                                            </span> </span>
+                                    </div>
+                                </div>
+                            </div>
+                           
+                        </div>
+                    </uib-tab>
+                </uib-tabset>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="modal-footer">
+
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Annuler</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Enregister</span>
+        </button>
+    </div>
+</form>

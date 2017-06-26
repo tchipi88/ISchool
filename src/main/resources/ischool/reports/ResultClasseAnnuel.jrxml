@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ResultClasseAnnuel" language="groovy" pageWidth="190" pageHeight="177" columnWidth="180" leftMargin="5" rightMargin="5" topMargin="5" bottomMargin="5" uuid="8418ae6b-4d24-46e4-8a5f-5a7eeac2f174">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="code_annee" class="java.lang.Integer"/>
+	<parameter name="code_classe" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select max(moyseq),min(moyseq),avg(moyseq),count(elevecode),sum(moyennesup) from
+(
+select elevecode,sum(coefvaleur) as totalcoefs,sum(note*coefvaleur) as totalpts,sum(note*coefvaleur)/sum(coefvaleur) as moyseq,if (sum(note*coefvaleur)/sum(coefvaleur)>10,1,0) as moyennesup
+ from (
+select e.code as elevecode,m.libelle,s.code as seqcode,coef.code as coefcode,ei.code as eicode,coef.valeur as coefvaleur
+from Coefficient coef join Matiere m on (m.code=coef.code_matiere) join Classe c on (c.code_serie=coef.code_serie) join EleveInscrit ei on (ei.code_classe=c.code) join Eleve e on (ei.code_eleve=e.code),Sequence s
+where c.code = $P{code_classe}  and ei.code_annee=$P{code_annee}  and s.code in (1,2,3,4,5,6) ) as result1
+ left join Notes n on (n.code_eleveinscrit=eicode and n.code_coefficient=coefcode  and (n.code_sequence=seqcode))
+ group by elevecode  order by moyseq  desc
+) as result;]]>
+	</queryString>
+	<field name="max(moyseq)" class="java.lang.Double"/>
+	<field name="min(moyseq)" class="java.lang.Double"/>
+	<field name="avg(moyseq)" class="java.lang.Double"/>
+	<field name="count(elevecode)" class="java.lang.Long"/>
+	<field name="sum(moyennesup)" class="java.math.BigDecimal"/>
+	<title>
+		<band height="167" splitType="Stretch">
+			<textField pattern="###0.00" isBlankWhenNull="true">
+				<reportElement x="110" y="50" width="60" height="15" uuid="165cc459-a3bf-4ffa-b0f4-e73063862760"/>
+				<textFieldExpression><![CDATA[$F{avg(moyseq)}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="80" width="100" height="15" uuid="51cec976-c4eb-45f3-a554-6d46cfc0e665"/>
+				<text><![CDATA[Nbre Moy.]]></text>
+			</staticText>
+			<textField pattern="###0.00" isBlankWhenNull="true">
+				<reportElement x="110" y="35" width="60" height="15" uuid="abde8bda-2fc5-452d-bd95-34f8b956444b"/>
+				<textFieldExpression><![CDATA[$F{min(moyseq)}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00" isBlankWhenNull="true">
+				<reportElement x="110" y="20" width="60" height="15" uuid="4abd3e63-6580-4319-a64f-50d0e102e9e6"/>
+				<textFieldExpression><![CDATA[$F{max(moyseq)}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="50" width="100" height="15" uuid="8cffdac6-23be-4f71-ba8f-e9c0b35c2497"/>
+				<text><![CDATA[Moy Gen.Classe]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="110" y="80" width="60" height="15" uuid="deb82499-b33c-408b-970b-dd121e27ab9e"/>
+				<textFieldExpression><![CDATA[$F{sum(moyennesup)}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="0" width="173" height="20" uuid="a92cc6b1-f127-4fef-a37f-585420468d3b"/>
+				<textElement>
+					<font size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Resultats Classe]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="35" width="100" height="15" uuid="c1ca5d26-7bad-4ad0-9e37-4079e81ca8c8"/>
+				<text><![CDATA[Moy Dernier:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="110" y="65" width="60" height="15" uuid="7fe774b1-12a5-49ae-a72c-35f0d2e11f01"/>
+				<textFieldExpression><![CDATA[$F{count(elevecode)}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="65" width="100" height="15" uuid="ab1f8306-22a0-4a4e-905d-2c5d6200722e"/>
+				<text><![CDATA[Effectif:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="20" width="77" height="15" uuid="e8be1850-a96b-442d-b205-a07a3f6dcbf6"/>
+				<text><![CDATA[Moy Premier:]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement mode="Transparent" x="0" y="0" width="175" height="110" uuid="ef196e8d-e9f7-44c3-bd36-720273812b11"/>
+			</rectangle>
+			<textField pattern="###0.00" isBlankWhenNull="true">
+				<reportElement x="110" y="95" width="55" height="15" uuid="44fd8e47-c9e5-4c87-b741-7de2ea63bd9f"/>
+				<textFieldExpression><![CDATA[($F{sum(moyennesup)}.intValue()/$F{count(elevecode)}.intValue())*100]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="95" width="100" height="15" uuid="3dba9d54-3d23-41bf-aecb-783feede0538"/>
+				<text><![CDATA[Taux Reussite:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="165" y="96" width="5" height="15" uuid="f0aa7631-31b1-4e27-9ae1-4dd0941bf795"/>
+				<text><![CDATA[%]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="113" width="175" height="50" uuid="1bf02f8f-3355-469d-8571-dc07b1533a6b"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="113" width="175" height="20" uuid="0547eaf2-267d-43d2-8d24-342747b18030"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Visa Prof Principal]]></text>
+			</staticText>
+		</band>
+	</title>
+</jasperReport>

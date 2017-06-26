@@ -1,0 +1,192 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()"   class="form-validation">
+
+    <div class="modal-header">
+        <button type="button" class="btn btn-link pull-right" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()"><i class="fa fa-remove"></i>  </button>
+        <h3 class="modal-title" id="myProfesseurLabel" >Cr�er ou modifier  Professeur   {{vm.professeur.id}}</h3>
+        <small class="text-muted" >Les champs * sont obligatoires</small>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="row">
+            <div class="col-sm-12">
+                <uib-tabset class="uib-tab-container" justified="true"   vertical="false"  type="pills">
+                    <uib-tab>
+                        <uib-tab-heading  >
+                            General
+                        </uib-tab-heading>
+                        <br>
+                        <div class="row">
+                           
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label"  for="field_nom">Nom <span style="color:red" >*</span></label>
+                                    <input  class="form-control"   type="text"  autocomplete="off"   id="field_nom" ng-model="vm.professeur.nom"                     ng-readonly="false"  ng-required="true"    ng-maxlength="255"                      />
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label"  for="field_prenom">Prenom</label>
+                                    <input  class="form-control"   type="text"  autocomplete="off"   id="field_prenom" ng-model="vm.professeur.prenom"                     ng-readonly="false"  ng-required="false"    ng-maxlength="255"                      />
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label"  for="field_civilite">Civilite</label>
+                                    <select class="form-control" name="civilite"  ng-model="vm.professeur.civilite"  id="field_civilite" >
+                                        <option value="MR">MR</option>
+                                        <option value="MME">MME</option>
+                                    </select>
+                                </div>
+                            </div>
+                              <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label"  for="field_matiere">Matiere <span style="color:red" >*</span></label>
+                                    <div class="input-group">
+                                        <ui-select ng-model="vm.professeur.matiere"    ng-required="true">
+                                            <ui-select-match placeholder="Select Matiere">{{$select.selected.libelle}}</ui-select-match>
+                                            <ui-select-choices repeat="matiere in vm.matieres | filter: $select.search">
+                                                <div ng-bind-html="matiere.libelle | highlight: $select.search"></div>
+                                            </ui-select-choices>
+                                        </ui-select>  
+                                        <span class="input-group-btn" >
+                                            <button   ng-click="vm.zoomColumn('Matiere', 'matiere', 'matiere', vm.professeur.matiere)" 
+                                                      class="btn btn-default" type="button"  ng-hide="!vm.professeur.matiere">
+                                                <span class="fa fa-eye"></span>
+                                            </button>
+                                            <button ng-click="vm.zoomColumn('Matiere', 'matiere', 'matiere', {})"      
+                                                    class="btn btn-default" type="button"  ng-hide="vm.professeur.matiere">
+                                                <span class="fa fa-plus fw"></span>
+                                            </button>
+                                        </span>
+                                    </div> </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label"  for="field_dateNaissance">Date Naissance</label>
+                                    <div class="input-group">
+                                        <input  id="field_dateNaissance" type="text" class="form-control" name="dateNaissance"    ng-required="false"  uib-datepicker-popup="{{dateformat}}"  ng-model="vm.professeur.dateNaissance"  is-open="vm.datePickerOpenStatus.dateNaissance"
+                                                />
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="vm.openCalendar('dateNaissance')"><i class="glyphicon glyphicon-calendar"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label"  for="field_lieuNaissance">Lieu Naissance</label>
+                                    <input  class="form-control"   type="text"  autocomplete="off"   id="field_lieuNaissance" ng-model="vm.professeur.lieuNaissance"                     ng-readonly="false"  ng-required="false"    ng-minlength="0"     ng-maxlength="100"                      />
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label"  for="field_email">Email</label>
+                                    <div class="input-group"> <input  class="form-control"   type="email"  autocomplete="off"  id="field_email"  ng-model="vm.professeur.email"                     ng-readonly="false"  ng-required="false"                     /><span class="input-group-addon" >  <span >
+                                                <i class="fa fa-envelope"></i>
+                                            </span> </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label"  for="field_telephone">Telephone</label>
+                                    <div class="input-group"> <input  class="form-control"   type="text"  autocomplete="off"  id="field_telephone"  ng-model="vm.professeur.telephone"                     ng-readonly="false"  ng-required="false"                     /><span class="input-group-addon" >  <span >
+                                                <i class="fa fa-phone"></i>
+                                            </span> </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label"  for="field_adresse">Adresse</label>
+                                    <input  class="form-control"   type="text"  autocomplete="off"   id="field_adresse" ng-model="vm.professeur.adresse"                     ng-readonly="false"  ng-required="false"    ng-maxlength="255"                      />
+                                </div>
+                            </div>
+
+                        </div>
+                    </uib-tab>
+                    <uib-tab>
+                        <uib-tab-heading  >
+                            Infos Complementaires
+                        </uib-tab-heading>
+                        <br>
+                        <div class="row">
+                             <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label"  for="field_dateRecrutement">Date Recrutement</label>
+                                    <div class="input-group">
+                                        <input  id="field_dateRecrutement" type="text" class="form-control" name="dateRecrutement"    ng-required="false"  uib-datepicker-popup="{{dateformat}}"  ng-model="vm.professeur.dateRecrutement"  is-open="vm.datePickerOpenStatus.dateRecrutement"
+                                                />
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="vm.openCalendar('dateRecrutement')"><i class="glyphicon glyphicon-calendar"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label"  for="field_diplome">Diplome</label>
+                                    <input  class="form-control"   type="text"  autocomplete="off"   id="field_diplome" ng-model="vm.professeur.diplome"                     ng-readonly="false"  ng-required="false"    ng-maxlength="255"                      />
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label"  for="field_vacataire">Vacataire</label>
+                                    <div class="form-control">
+                                        <label class="i-checks">
+                                            <input type="checkbox" checked  ng-model="vm.professeur.vacataire"   id="field_vacataire"  name="vacataire" /><i></i> 
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label"  for="field_quotaHoraireHebdomadaire">Quota Horaire Hebdomadaire</label>
+                                    <input  class="form-control"   type="number"  autocomplete="off"  id="field_quotaHoraireHebdomadaire" ng-model="vm.professeur.quotaHoraireHebdomadaire"                     ng-readonly="false"  ng-required="false"    ng-min="1"     ng-max="128"                      />
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label"  for="field_numeroCNI">Numero CNI</label>
+                                    <input  class="form-control"   type="number"  autocomplete="off"  id="field_numeroCNI" ng-model="vm.professeur.numeroCNI"                     ng-readonly="false"  ng-required="false"                     />
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label"  for="field_dateDelivranceCNI">Date Delivrance CNI</label>
+                                    <div class="input-group">
+                                        <input  id="field_dateDelivranceCNI" type="text" class="form-control" name="dateDelivranceCNI"    ng-required="false"  uib-datepicker-popup="{{dateformat}}"  ng-model="vm.professeur.dateDelivranceCNI"  is-open="vm.datePickerOpenStatus.dateDelivranceCNI"
+                                                />
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="vm.openCalendar('dateDelivranceCNI')"><i class="glyphicon glyphicon-calendar"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label"  for="field_lieuDelivranceCNI">Lieu Delivrance CNI</label>
+                                    <input  class="form-control"   type="text"  autocomplete="off"   id="field_lieuDelivranceCNI" ng-model="vm.professeur.lieuDelivranceCNI"                     ng-readonly="false"  ng-required="false"    ng-maxlength="255"                      />
+                                </div>
+                            </div>
+                        </div>
+                    </uib-tab>
+                </uib-tabset>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="modal-footer">
+
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Annuler</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Enregister</span>
+        </button>
+    </div>
+</form>

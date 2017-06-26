@@ -1,0 +1,315 @@
+<!-- list -->
+<ul class="nav">
+    <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+        <span >Navigation</span>
+    </li>
+    <li ui-sref-active="active">
+        <a ui-sref="home">
+            <i class="fa fa-home icon text-info-lter"></i>
+            <span class="font-bold" >Accueil</span>
+        </a>
+    </li>
+    <li ng-class="{active: vm.$state.includes('admin')}"  has-authority="ROLE_ADMIN" >
+        <a href class="auto">      
+            <span class="pull-right text-muted">
+                <i class="fa fa-fw fa-angle-right text"></i>
+                <i class="fa fa-fw fa-angle-down text-active"></i>
+            </span>
+            <i class="glyphicon glyphicon-lock icon text-primary-dker"></i>
+            <span class="font-bold" >Securite</span>
+        </a>
+        <ul class="nav nav-sub dk">
+            <li class="nav-sub-header">
+                <a href>
+                    <span >Securite</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="user-management">
+                    <span>Users</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="role">
+                    <span>Roles</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="privilege">
+                    <span>Privilèges</span>
+                </a>
+            </li>
+
+
+        </ul>
+    </li>
+
+    <li  class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+        <span > Modules</span>
+    </li>
+
+    <li>
+        <a href class="auto">
+            <span class="pull-right text-muted">
+                <i class="fa fa-fw fa-angle-right text"></i>
+                <i class="fa fa-fw fa-angle-down text-active"></i>
+            </span>
+            <i class="fa fa-users icon text-success"></i>
+            <span class="font-bold">Personnel</span>
+        </a>
+        <ul class="nav nav-sub dk">
+            <li class="nav-sub-header">
+                <a href>
+                    <span>Personnel</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="professeur">
+                    <span>Professeur</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="employe">
+                    <span>Employe</span>
+                </a>
+            </li>
+        </ul>
+    </li>
+
+    <li>
+        <a href class="auto">
+            <span class="pull-right text-muted">
+                <i class="fa fa-fw fa-angle-right text"></i>
+                <i class="fa fa-fw fa-angle-down text-active"></i>
+            </span>
+            <i class="fa fa-bank icon text-success"></i>
+            <span class="font-bold">Ecole</span>
+        </a>
+        <ul class="nav nav-sub dk">
+            <li class="nav-sub-header">
+                <a href>
+                    <span>Ecole</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="annee">
+                    <span>Annee</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="classe">
+                    <span>Classe</span>
+                </a>
+            </li>
+             <li ui-sref-active="active">
+                <a ui-sref="serie">
+                    <span>Serie</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="frais-scolarite">
+                    <span>Ecolage</span>
+                </a>
+            </li>
+           
+            
+        </ul>
+    </li>
+    
+    <li>
+        <a href class="auto">
+            <span class="pull-right text-muted">
+                <i class="fa fa-fw fa-angle-right text"></i>
+                <i class="fa fa-fw fa-angle-down text-active"></i>
+            </span>
+            <i class="fa fa-users icon text-success"></i>
+            <span class="font-bold">Eleve</span>
+        </a>
+        <ul class="nav nav-sub dk">
+            <li class="nav-sub-header">
+                <a href>
+                    <span>Eleve</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="classe-eleve">
+                    <span>Eleves Inscrits</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="eleve-absence">
+                    <span>Absence</span>
+                </a>
+            </li>
+           
+             <li ui-sref-active="active">
+                <a ui-sref="compte-analytique">
+                    <span>Compte Eleve</span>
+                </a>
+            </li>
+             <li ui-sref-active="active">
+                <a ui-sref="reglement">
+                    <span>Reglements</span>
+                </a>
+            </li>
+           
+            
+        </ul>
+    </li>
+
+    <li>
+        <a href class="auto">
+            <span class="pull-right text-muted">
+                <i class="fa fa-fw fa-angle-right text"></i>
+                <i class="fa fa-fw fa-angle-down text-active"></i>
+            </span>
+            <i class="fa fa-calendar icon text-success"></i>
+            <span class="font-bold">Emploi de temps</span>
+        </a>
+        <ul class="nav nav-sub dk">
+            <li class="nav-sub-header">
+                <a href>
+                    <span>Emploi de Temps</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="creneau">
+                    <span>Creneau</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="cours">
+                    <span>Cours</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="timetable">
+                    <span>Emploi de temps</span>
+                </a>
+            </li>
+
+        </ul>
+    </li>
+
+
+
+  
+
+
+    <li>
+        <a href class="auto">
+            <span class="pull-right text-muted">
+                <i class="fa fa-fw fa-angle-right text"></i>
+                <i class="fa fa-fw fa-angle-down text-active"></i>
+            </span>
+            <i class="glyphicon glyphicon-th-large icon text-success"></i>
+            <span class="font-bold"> Caisse</span>
+        </a>
+        <ul class="nav nav-sub dk">
+            <li class="nav-sub-header">
+                <a href>
+                    <span> Caisse</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="caisse">
+                    <span>Caisse</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="caisse-decaissement">
+                    <span>Decaissement</span>
+                </a>
+            </li>
+
+            <li ui-sref-active="active">
+                <a ui-sref="caisse-encaissement">
+                    <span>Encaissement</span>
+                </a>
+            </li>
+
+
+        </ul>
+    </li>
+
+    <li>
+        <a href class="auto">
+            <span class="pull-right text-muted">
+                <i class="fa fa-fw fa-angle-right text"></i>
+                <i class="fa fa-fw fa-angle-down text-active"></i>
+            </span>
+            <i class="fa fa-money icon text-success"></i>
+            <span class="font-bold"> Comptabilite</span>
+        </a>
+        <ul class="nav nav-sub dk">
+            <li class="nav-sub-header">
+                <a href>
+                    <span> Comptabilite</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="compte">
+                    <span>General</span>
+                </a>
+            </li>
+           
+
+            <li ui-sref-active="active">
+                <a ui-sref="compte-analytique-ecriture">
+                    <span>Ecritures</span>
+                </a>
+            </li>
+
+        </ul>
+    </li>
+
+
+    <li>
+        <a href class="auto">
+            <span class="pull-right text-muted">
+                <i class="fa fa-fw fa-angle-right text"></i>
+                <i class="fa fa-fw fa-angle-down text-active"></i>
+            </span>
+            <i class="fa fa-mortar-board icon  text-info"></i>
+            <span class="font-bold"> Exams</span>
+        </a>
+        <ul class="nav nav-sub dk">
+            <li class="nav-sub-header">
+                <a href>
+                    <span> Exams</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="matiere">
+                    <span>Matiere</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="coefficient">
+                    <span>Coefficient</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="note">
+                    <span>Notes</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="notes-periode">
+                    <span>Periode Saisie Notes</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="notereport">
+                    <span>Reports</span>
+                </a>
+            </li>
+
+
+        </ul>
+    </li>
+
+
+
+</ul>
+<!-- / list -->
