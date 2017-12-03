@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="EDTClasse" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="5" bottomMargin="5" uuid="f6073641-7b58-475a-a3f5-24042b3fbc94">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="EDTClasse" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="5" bottomMargin="5" uuid="f6073641-7b58-475a-a3f5-24042b3fbc94">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -54,24 +54,17 @@ left join
 (SELECT t.code_creneau,t.code_jour,p.nom_prenom as prof,m.libelle as matiere FROM  Timetable t join Cours c on (t.code_cours=c.code)join Professeur p on p.code=c.code_professeur join Matiere m on m.code=p.code_matiere join Classe cl on cl.code=c.code_classe where c.code_classe=$P{codeclasse} and c.code_annee=$P{codeannee}) as edt
 on (edt.code_creneau=plage.code_c and edt.code_jour=plage.code_j)) as vendredi  on (lundi.code_c=vendredi.code_c)]]>
 	</queryString>
-	<field name="creneau" class="com.reports.Creneau">
-		<fieldDescription><![CDATA[creneau]]></fieldDescription>
-	</field>
-	<field name="jeudi" class="com.reports.Timetable">
-		<fieldDescription><![CDATA[jeudi]]></fieldDescription>
-	</field>
-	<field name="lundi" class="com.reports.Timetable">
-		<fieldDescription><![CDATA[lundi]]></fieldDescription>
-	</field>
-	<field name="mardi" class="com.reports.Timetable">
-		<fieldDescription><![CDATA[mardi]]></fieldDescription>
-	</field>
-	<field name="mercredi" class="com.reports.Timetable">
-		<fieldDescription><![CDATA[mercredi]]></fieldDescription>
-	</field>
-	<field name="vendredi" class="com.reports.Timetable">
-		<fieldDescription><![CDATA[vendredi]]></fieldDescription>
-	</field>
+	<field name="libCreneau" class="java.lang.String"/>
+	<field name="lundiprof" class="java.lang.String"/>
+	<field name="lundimatiere" class="java.lang.String"/>
+	<field name="mardiprof" class="java.lang.String"/>
+	<field name="mardimatiere" class="java.lang.String"/>
+	<field name="mercrediprof" class="java.lang.String"/>
+	<field name="mercredimatiere" class="java.lang.String"/>
+	<field name="jeudiprof" class="java.lang.String"/>
+	<field name="jeudimatiere" class="java.lang.String"/>
+	<field name="vendrediprof" class="java.lang.String"/>
+	<field name="vendredimatiere" class="java.lang.String"/>
 	<title>
 		<band height="99" splitType="Stretch">
 			<staticText>
@@ -181,7 +174,7 @@ on (edt.code_creneau=plage.code_c and edt.code_jour=plage.code_j)) as vendredi  
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font isBold="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{creneau}.getHeureDebut()]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{libCreneau}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 					<reportElement x="156" y="0" width="129" height="20" uuid="8c06c6cb-b67d-4a85-988f-85d33ee028f5"/>

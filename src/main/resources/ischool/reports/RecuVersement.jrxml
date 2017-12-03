@@ -19,73 +19,63 @@
 		</field>
 		<field name="date_reglement" class="java.sql.Timestamp"/>
 	</subDataset>
-	<parameter name="code_annee" class="java.lang.Integer"/>
-	<parameter name="annee" class="java.lang.String"/>
-	<parameter name="code_eleve" class="java.lang.Integer"/>
+	<parameter name="code_annee" class="java.lang.String"/>
 	<parameter name="nom_ecole" class="java.lang.String"/>
 	<parameter name="adress_ecole" class="java.lang.String"/>
 	<parameter name="logo_ecole" class="java.lang.String"/>
 	<parameter name="slogan_ecole" class="java.lang.String"/>
-	<parameter name="code_versement" class="java.lang.Integer"/>
+	<parameter name="code_versement" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="solde" class="java.math.BigDecimal"/>
+	<parameter name="cumul" class="java.math.BigDecimal"/>
 	<queryString>
-		<![CDATA[select *,if  (restetranche2=0,
-                if(cumulverse-inscription-tranche1-tranche2-tranche3<0,cumulverse-inscription-tranche1-tranche2-tranche3,0),-tranche3) as restetranche3
-  from (
-select *,if (restetranche1=0,
-                if(cumulverse-inscription-tranche1-tranche2<0,cumulverse-inscription-tranche1-tranche2,
-                0),-tranche2) as restetranche2
-                                from(
-                select *,
-                if (resteinscription=0,
-                if(cumulverse-inscription-tranche1<0,cumulverse-inscription-tranche1,
-                0),-tranche1) as restetranche1
-                from(
-                select   *,
-                if (cumulverse<inscription,cumulverse-inscription,0) as resteinscription
-                from (
-                select (concat(e.code,concat('E',date_format(e.date_creation,'%Y')))) as matricule,e.nom_prenom,
-                ifnull(sum(r.montant),0) as cumulverse,ei.statut,
-                (if(statut,inscription_new,inscription)) as inscription,
-                (if(statut,tranche1_new,tranche1)) as tranche1,
-                (if(statut,tranche2_new,tranche2)) as tranche2,
-                (if(statut,tranche3_new,tranche3)) as tranche3,c.libelle as libelleclasse
-                from EleveInscrit ei join Eleve e on (ei.code_eleve=e.code and ei.code_eleve=$P{code_eleve}  and ei.code_annee=$P{code_annee} )  
-                join Classe c on(c.code =ei.code_classe) join Serie s on (s.code=c.code_serie)
-                 left join Reglement r on (ei.code=r.code_eleveinscrit) group by ei.code
-                ) as result
-                )as result1
-                )as result2
-                )as result3]]>
+		<![CDATA[select r.*,e.nom,e.prenom,e.id as matricule from reglement r join eleve e on r.eleve_id=e.id where r.id=$P{code_versement}]]>
 	</queryString>
-	<field name="matricule" class="java.lang.String"/>
-	<field name="nom_prenom" class="java.lang.String">
+	<field name="id" class="java.lang.Long">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="cumulverse" class="java.math.BigDecimal"/>
-	<field name="statut" class="java.lang.Boolean">
+	<field name="created_by" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="inscription" class="java.math.BigDecimal">
+	<field name="created_date" class="java.sql.Timestamp">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="tranche1" class="java.math.BigDecimal">
+	<field name="last_modified_by" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="tranche2" class="java.math.BigDecimal">
+	<field name="last_modified_date" class="java.sql.Timestamp">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="tranche3" class="java.math.BigDecimal">
+	<field name="date_versement" class="java.sql.Date">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="libelleclasse" class="java.lang.String"/>
-	<field name="resteinscription" class="java.math.BigDecimal"/>
-	<field name="restetranche1" class="java.math.BigDecimal"/>
-	<field name="restetranche2" class="java.math.BigDecimal"/>
-	<field name="restetranche3" class="java.math.BigDecimal"/>
+	<field name="mode_paiement" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="montant" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="motif" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="caisse_id" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="eleve_id" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nom" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="prenom" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="matricule" class="java.lang.Long"/>
 	<title>
-		<band height="181" splitType="Stretch">
+		<band height="123" splitType="Stretch">
 			<frame>
-				<reportElement x="0" y="0" width="555" height="181" uuid="c0078640-dbdb-476f-b3d5-c8e1c92c5000"/>
+				<reportElement x="-1" y="1" width="555" height="117" uuid="c0078640-dbdb-476f-b3d5-c8e1c92c5000"/>
 				<staticText>
 					<reportElement x="0" y="16" width="178" height="10" uuid="80f78113-1f3d-4c25-b949-95521b521ba7"/>
 					<textElement textAlignment="Center">
@@ -96,7 +86,7 @@ select *,if (restetranche1=0,
 				<staticText>
 					<reportElement x="0" y="0" width="178" height="10" uuid="0156e195-a881-4b21-9b9a-2e61e7612417"/>
 					<textElement textAlignment="Center">
-						<font size="8"/>
+						<font size="9"/>
 					</textElement>
 					<text><![CDATA[Republique du Cameroun]]></text>
 				</staticText>
@@ -140,7 +130,7 @@ select *,if (restetranche1=0,
 					<textElement textAlignment="Center">
 						<font isBold="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$P{annee}.toUpperCase()]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$P{code_annee}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement x="0" y="97" width="66" height="15" uuid="91fe1e58-7fce-486a-9cf1-143baf245d77"/>
@@ -180,7 +170,7 @@ select *,if (restetranche1=0,
 				</textField>
 				<textField isBlankWhenNull="true">
 					<reportElement x="100" y="82" width="279" height="15" uuid="6c2dca6d-186d-4640-8982-d57a31245754"/>
-					<textFieldExpression><![CDATA[$F{nom_prenom}.toUpperCase()]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{nom}.toUpperCase()+" "+ ($F{prenom}==null?"":$F{prenom})]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement x="178" y="97" width="42" height="15" uuid="6fb516e5-0c76-4852-9e9e-f8ae9e542cd4"/>
@@ -194,7 +184,6 @@ select *,if (restetranche1=0,
 					<textElement>
 						<font isBold="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{libelleclasse}.toUpperCase()]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
 					<reportElement x="0" y="39" width="178" height="10" uuid="4a1cee54-7fa0-44fe-ade1-49520551710a"/>
@@ -210,78 +199,58 @@ select *,if (restetranche1=0,
 					</textElement>
 					<textFieldExpression><![CDATA[$P{adress_ecole}]]></textFieldExpression>
 				</textField>
-				<componentElement>
-					<reportElement key="table" x="-1" y="125" width="556" height="50" uuid="fc64b419-af06-4c21-90dc-b0726bbc2702"/>
-					<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-						<datasetRun subDataset="versement" uuid="3fb68af6-db20-435d-9017-dca749570f98">
-							<datasetParameter name="code_versement">
-								<datasetParameterExpression><![CDATA[$P{code_versement}]]></datasetParameterExpression>
-							</datasetParameter>
-							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-						</datasetRun>
-						<jr:column width="90" uuid="552ef3fd-eb8a-4dbc-b8aa-6f715c6cb545">
-							<jr:columnHeader height="21" rowSpan="1">
-								<staticText>
-									<reportElement x="0" y="0" width="90" height="20" uuid="a864f562-90fc-48cd-a602-d8b151c6beb9"/>
-									<text><![CDATA[N°]]></text>
-								</staticText>
-							</jr:columnHeader>
-							<jr:detailCell height="20" rowSpan="1">
-								<textField isBlankWhenNull="true">
-									<reportElement x="0" y="0" width="90" height="20" uuid="54ce3e5d-a2bd-4e89-bb6f-9c5e5274eb64"/>
-									<textFieldExpression><![CDATA[$F{code}]]></textFieldExpression>
-								</textField>
-							</jr:detailCell>
-						</jr:column>
-						<jr:column width="90" uuid="c8dafefa-6303-4f0e-b655-07438ef54168">
-							<jr:columnHeader height="21" rowSpan="1">
-								<staticText>
-									<reportElement x="0" y="0" width="90" height="20" uuid="bd8e93dc-0700-4fc6-8918-17a482d8abf0"/>
-									<text><![CDATA[Montant]]></text>
-								</staticText>
-							</jr:columnHeader>
-							<jr:detailCell height="20" rowSpan="1">
-								<textField pattern="#,##0" isBlankWhenNull="true">
-									<reportElement x="0" y="0" width="90" height="20" uuid="b3026a02-89e9-41fc-9135-a3d19314b7d8"/>
-									<textFieldExpression><![CDATA[$F{montant}]]></textFieldExpression>
-								</textField>
-							</jr:detailCell>
-						</jr:column>
-						<jr:column width="119" uuid="82c8ab56-877e-42f4-8558-eadc17c4643d">
-							<jr:columnHeader height="21" rowSpan="1">
-								<staticText>
-									<reportElement x="0" y="0" width="119" height="20" uuid="5f93cc6b-bcf6-42d9-b5e3-ccd11588ba5b"/>
-									<text><![CDATA[Agent]]></text>
-								</staticText>
-							</jr:columnHeader>
-							<jr:detailCell height="20" rowSpan="1">
-								<textField isBlankWhenNull="true">
-									<reportElement x="0" y="0" width="119" height="20" uuid="f843aea0-641c-4b48-a3a2-24a98846dbb1"/>
-									<textFieldExpression><![CDATA[$F{nom_prenom}]]></textFieldExpression>
-								</textField>
-							</jr:detailCell>
-						</jr:column>
-						<jr:column width="129" uuid="ecdb6e68-22cd-40e2-9bb9-e8223b98c30c">
-							<jr:columnHeader height="21" rowSpan="1">
-								<staticText>
-									<reportElement x="0" y="0" width="129" height="20" uuid="5ca1e97f-5877-489a-baf0-c5d940856463"/>
-									<text><![CDATA[Date reglement]]></text>
-								</staticText>
-							</jr:columnHeader>
-							<jr:detailCell height="20" rowSpan="1">
-								<textField pattern="dd MMMMM yyyy" isBlankWhenNull="true">
-									<reportElement x="0" y="0" width="129" height="20" uuid="e5ef1f5b-f3b6-4ca5-88dc-68026409bacf"/>
-									<textFieldExpression><![CDATA[$F{date_reglement}]]></textFieldExpression>
-								</textField>
-							</jr:detailCell>
-						</jr:column>
-					</jr:table>
-				</componentElement>
 			</frame>
 		</band>
 	</title>
 	<detail>
-		<band height="183" splitType="Stretch">
+		<band height="50" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="20" width="90" height="20" uuid="9bf9f799-e474-4801-a2c4-2c894bfb7ece"/>
+				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="91" y="0" width="129" height="20" uuid="609baed4-7bd0-44e0-be0e-65689881284d"/>
+				<text><![CDATA[Date reglement]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="0" width="90" height="20" uuid="ee227816-e01c-4abc-89d6-9003d1486278"/>
+				<text><![CDATA[N°]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="220" y="0" width="144" height="20" uuid="88e5f276-5453-45ef-913e-d427b5632c75"/>
+				<text><![CDATA[Montant]]></text>
+			</staticText>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="220" y="20" width="144" height="20" uuid="fb115ddb-b5e3-4955-903f-73da5d6ee25b"/>
+				<textFieldExpression><![CDATA[$F{montant}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd MMMMM yyyy" isBlankWhenNull="true">
+				<reportElement x="91" y="20" width="129" height="20" uuid="eec05c1b-818e-4db7-bb10-f73cba30c5c5"/>
+				<textFieldExpression><![CDATA[$F{date_versement}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="19">
+			<textField pattern="dd/MM/yyyy HH.mm.ss">
+				<reportElement x="364" y="0" width="190" height="15" uuid="6b8fd1ab-4e6a-46e2-aa14-3ccf483d130a"/>
+				<textElement textAlignment="Right">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="97">
+			<staticText>
+				<reportElement x="436" y="60" width="100" height="20" uuid="0a7bc3ea-6c2d-4647-add5-4d0fef354fc8"/>
+				<text><![CDATA[Agent]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-1" y="60" width="100" height="20" uuid="e2e4326f-b34d-467f-954d-1b90a5241b86"/>
+				<text><![CDATA[Le Client]]></text>
+			</staticText>
 			<staticText>
 				<reportElement x="0" y="0" width="200" height="20" uuid="0787f487-007f-4ffc-bf57-f3848ae0fec3"/>
 				<textElement>
@@ -289,69 +258,25 @@ select *,if (restetranche1=0,
 				</textElement>
 				<text><![CDATA[Somme de tous les  versements]]></text>
 			</staticText>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="200" y="0" width="100" height="20" uuid="5bd0bcf3-efad-41f9-8904-b59771fbb59c"/>
+				<textFieldExpression><![CDATA[$P{cumul}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="200" y="20" width="100" height="20" uuid="181f696d-42b3-42f1-a7e8-b11a3436d9e9"/>
+				<textFieldExpression><![CDATA[$P{solde}]]></textFieldExpression>
+			</textField>
 			<staticText>
-				<reportElement x="0" y="20" width="200" height="20" uuid="74d4cdae-84a6-4283-90fc-e2cc671c9664"/>
+				<reportElement x="-1" y="20" width="201" height="20" uuid="74d4cdae-84a6-4283-90fc-e2cc671c9664"/>
 				<textElement>
 					<font isBold="true" isUnderline="true"/>
 				</textElement>
 				<text><![CDATA[Reste Inscription]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="0" y="40" width="200" height="20" uuid="18196ac7-7ae9-4fe6-a79a-2586714b0b45"/>
-				<textElement>
-					<font isBold="true" isUnderline="true"/>
-				</textElement>
-				<text><![CDATA[Reste Tranche1]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="60" width="200" height="20" uuid="22725627-86b2-4927-9063-7d6c1821f0ed"/>
-				<textElement>
-					<font isBold="true" isUnderline="true"/>
-				</textElement>
-				<text><![CDATA[Reste Tranche2]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="-1" y="80" width="201" height="20" uuid="dbb5945a-119d-41ea-8a97-3e63140bb533"/>
-				<textElement>
-					<font isBold="true" isUnderline="true"/>
-				</textElement>
-				<text><![CDATA[Reste Tranche3]]></text>
-			</staticText>
-			<textField pattern="#,##0" isBlankWhenNull="true">
-				<reportElement x="200" y="0" width="100" height="20" uuid="88d9a906-3b79-4e3e-beba-d290451eed63"/>
-				<textFieldExpression><![CDATA[$F{cumulverse}]]></textFieldExpression>
+			<textField isBlankWhenNull="true">
+				<reportElement x="436" y="77" width="119" height="20" uuid="9a72c5c5-9aa8-4062-993d-81747fdf3715"/>
+				<textFieldExpression><![CDATA[$F{created_by}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0" isBlankWhenNull="true">
-				<reportElement x="200" y="20" width="100" height="20" uuid="5b23a392-bb27-4bcd-a3dc-6e46c7afd5d3"/>
-				<textFieldExpression><![CDATA[$F{resteinscription}]]></textFieldExpression>
-			</textField>
-			<textField pattern="#,##0" isBlankWhenNull="true">
-				<reportElement x="200" y="40" width="100" height="20" uuid="94960a06-e6cd-4c03-bb41-19cd6958a0a7"/>
-				<textFieldExpression><![CDATA[$F{restetranche1}]]></textFieldExpression>
-			</textField>
-			<textField pattern="#,##0" isBlankWhenNull="true">
-				<reportElement x="200" y="60" width="100" height="20" uuid="5bd0bcf3-efad-41f9-8904-b59771fbb59c"/>
-				<textFieldExpression><![CDATA[$F{restetranche2}]]></textFieldExpression>
-			</textField>
-			<textField pattern="#,##0" isBlankWhenNull="true">
-				<reportElement x="200" y="80" width="100" height="20" uuid="181f696d-42b3-42f1-a7e8-b11a3436d9e9"/>
-				<textFieldExpression><![CDATA[$F{restetranche3}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="356" y="122" width="100" height="20" uuid="0a7bc3ea-6c2d-4647-add5-4d0fef354fc8"/>
-				<text><![CDATA[Le caissier]]></text>
-			</staticText>
-			<textField pattern="dd/MM/yyyy HH.mm.ss">
-				<reportElement x="325" y="168" width="190" height="15" uuid="6b8fd1ab-4e6a-46e2-aa14-3ccf483d130a"/>
-				<textElement>
-					<font size="7"/>
-				</textElement>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="10" y="122" width="100" height="20" uuid="e2e4326f-b34d-467f-954d-1b90a5241b86"/>
-				<text><![CDATA[Le Client]]></text>
-			</staticText>
 		</band>
-	</detail>
+	</summary>
 </jasperReport>

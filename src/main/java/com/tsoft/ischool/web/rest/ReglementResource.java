@@ -24,6 +24,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 
 /**
  * REST controller for managing Reglement.
@@ -53,41 +54,19 @@ public class ReglementResource {
      * already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @PostMapping("/reglements")
+    @PostMapping(value = "/reglements", produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
     @Timed
-    public ResponseEntity<Reglement> createReglement(@Valid @RequestBody Reglement reglement) throws Exception {
+    public ResponseEntity<byte[]> createReglement(@Valid @RequestBody Reglement reglement) throws Exception {
         log.debug("REST request to save Reglement : {}", reglement);
         if (reglement.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new reglement cannot already have an ID")).body(null);
         }
         Reglement result = reglementService.save(reglement);
-        return ResponseEntity.created(new URI("/api/reglements/" + result.getId()))
-                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-                .body(result);
+        return reglementService.print(result);
+
     }
 
-    /**
-     * PUT /reglements : Updates an existing reglement.
-     *
-     * @param reglement the reglement to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated
-     * reglement, or with status 400 (Bad Request) if the reglement is not
-     * valid, or with status 500 (Internal Server Error) if the reglement
-     * couldnt be updated
-     * @throws URISyntaxException if the Location URI syntax is incorrect
-     */
-    @PutMapping("/reglements")
-    @Timed
-    public ResponseEntity<Reglement> updateReglement(@Valid @RequestBody Reglement reglement) throws Exception {
-        log.debug("REST request to update Reglement : {}", reglement);
-        if (reglement.getId() == null) {
-            return createReglement(reglement);
-        }
-        Reglement result = reglementService.save(reglement);
-        return ResponseEntity.ok()
-                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, reglement.getId().toString()))
-                .body(result);
-    }
+    
 
     /**
      * GET /reglements : get all the reglements.
@@ -132,9 +111,10 @@ public class ReglementResource {
         reglementRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
-    
-     /**
-     * GET /reglements : get a page of reglements between the fromDate and toDate.
+
+    /**
+     * GET /reglements : get a page of reglements between the fromDate and
+     * toDate.
      *
      * @param fromDate the start of the time period of decaissements to get
      * @param toDate the end of the time period of decaissements to get
@@ -152,6 +132,5 @@ public class ReglementResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/reglements");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
-
 
 }
