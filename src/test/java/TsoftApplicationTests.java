@@ -16,7 +16,7 @@ public class TsoftApplicationTests {
 
     @Test
     public void renderTemplate() throws Exception {
-        templateService.processTemplateEngine("com.tsoft.ischool");
+       // templateService.processTemplateEngine("com.tsoft.ischool");
     }
 
 }

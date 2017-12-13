@@ -18,10 +18,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -37,19 +33,20 @@ public class MatiereResource {
     private final Logger log = LoggerFactory.getLogger(MatiereResource.class);
 
     private static final String ENTITY_NAME = "matiere";
-        
-    private final MatiereRepository matiereRepository;
 
+    private final MatiereRepository matiereRepository;
 
     public MatiereResource(MatiereRepository matiereRepository) {
         this.matiereRepository = matiereRepository;
     }
 
     /**
-     * POST  /matieres : Create a new matiere.
+     * POST /matieres : Create a new matiere.
      *
      * @param matiere the matiere to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new matiere, or with status 400 (Bad Request) if the matiere has already an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the
+     * new matiere, or with status 400 (Bad Request) if the matiere has already
+     * an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/matieres")
@@ -61,17 +58,17 @@ public class MatiereResource {
         }
         Matiere result = matiereRepository.save(matiere);
         return ResponseEntity.created(new URI("/api/matieres/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+                .body(result);
     }
 
     /**
-     * PUT  /matieres : Updates an existing matiere.
+     * PUT /matieres : Updates an existing matiere.
      *
      * @param matiere the matiere to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated matiere,
-     * or with status 400 (Bad Request) if the matiere is not valid,
-     * or with status 500 (Internal Server Error) if the matiere couldnt be updated
+     * @return the ResponseEntity with status 200 (OK) and with body the updated
+     * matiere, or with status 400 (Bad Request) if the matiere is not valid, or
+     * with status 500 (Internal Server Error) if the matiere couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/matieres")
@@ -83,14 +80,15 @@ public class MatiereResource {
         }
         Matiere result = matiereRepository.save(matiere);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, matiere.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, matiere.getId().toString()))
+                .body(result);
     }
 
     /**
-     * GET  /matieres : get all the matieres.
+     * GET /matieres : get all the matieres.
      *
-     * @return the ResponseEntity with status 200 (OK) and the list of matieres in body
+     * @return the ResponseEntity with status 200 (OK) and the list of matieres
+     * in body
      */
     @GetMapping("/matieres")
     @Timed
@@ -101,13 +99,20 @@ public class MatiereResource {
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
- 
+    @GetMapping("/matieress")
+    @Timed
+    public ResponseEntity<List<Matiere>> getAllMatieres() {
+        log.debug("REST request to get all Matieres");
+        List<Matiere> page = matiereRepository.findAll();
+        return new ResponseEntity<>(page, HttpStatus.OK);
+    }
 
     /**
-     * GET  /matieres/:id : get the "id" matiere.
+     * GET /matieres/:id : get the "id" matiere.
      *
      * @param id the id of the matiere to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the matiere, or with status 404 (Not Found)
+     * @return the ResponseEntity with status 200 (OK) and with body the
+     * matiere, or with status 404 (Not Found)
      */
     @GetMapping("/matieres/{id}")
     @Timed
@@ -118,7 +123,7 @@ public class MatiereResource {
     }
 
     /**
-     * DELETE  /matieres/:id : delete the "id" matiere.
+     * DELETE /matieres/:id : delete the "id" matiere.
      *
      * @param id the id of the matiere to delete
      * @return the ResponseEntity with status 200 (OK)
@@ -130,8 +135,5 @@ public class MatiereResource {
         matiereRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
-
-   
-
 
 }

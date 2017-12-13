@@ -5,16 +5,27 @@
             .module('app')
             .controller('CoefficientController', CoefficientController);
 
-    CoefficientController.$inject = ['$state', 'Coefficient', 'ParseLinks', 'AlertService', 'paginationConstants', 'Matiere'];
+    CoefficientController.$inject = ['$http', 'Coefficient', 'ParseLinks', 'AlertService', 'paginationConstants', 'Matiere'];
 
-    function CoefficientController($state, Coefficient, ParseLinks, AlertService, paginationConstants, Matiere) {
+    function CoefficientController($http, Coefficient, ParseLinks, AlertService, paginationConstants, Matiere) {
 
         var vm = this;
 
         vm.loadAll = loadAll;
         vm.save = save;
 
-        vm.matieres = Matiere.query();
+        
+        
+                    loadData();
+
+ function loadData() {
+        $http.get("api/matieress")
+        .success(function(data) {
+            vm.matieres = data;
+        });
+        
+       
+ }
         // loadAll();
 
         function loadAll() {

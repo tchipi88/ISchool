@@ -27,13 +27,20 @@
 
         vm.classe = pagingParams.classe;
 
-        vm.classes = Classe.query();
 
 
         loadAll();
+        
+        
+       
 
 
         function loadAll() {
+            $http.get("api/classess")
+        .success(function(data) {
+            vm.classes = data;
+        });
+            
             if (pagingParams.classe) {
                 ClasseEleve.query({
                     page: pagingParams.page - 1,

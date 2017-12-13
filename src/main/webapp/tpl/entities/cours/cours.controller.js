@@ -15,17 +15,31 @@
         vm.loadAll = loadAll;
 
 
-        vm.profs = Professeur.query();
-        vm.classes = Classe.query();
+        
+       
         vm.save = save;
+        
+        loadData();
 
-
+ function loadData() {
+        $http.get("api/classess")
+        .success(function(data) {
+            vm.classes = data;
+        });
+        
+        $http.get("api/professeurss")
+        .success(function(data) {
+            vm.profs = data;
+        });
+ }
 
         function loadAll() {
             $http.get('api/coursss/' + vm.classe.id)
                     .success(function (data) {
                         vm.courss = data;
                     });
+                    
+                 
 
         }
 

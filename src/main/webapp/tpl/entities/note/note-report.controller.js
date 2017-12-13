@@ -18,10 +18,24 @@
         vm.printBulletinSeq = printBulletinSeq;
         vm.printBulletinTri = printBulletinTri;
         vm.printBulletinAnnuel = printBulletinAnnuel;
-        vm.classes = Classe.query();
-        vm.matieres = Matiere.query();
         vm.mode = "S";
 
+
+loadData();
+
+ function loadData() {
+        $http.get("api/classess")
+        .success(function(data) {
+            vm.classes = data;
+        });
+        
+        $http.get("api/matieress")
+        .success(function(data) {
+            vm.matieres = data;
+        });
+        
+        
+ }
 
         function changeMode() {
             vm.pv = null;

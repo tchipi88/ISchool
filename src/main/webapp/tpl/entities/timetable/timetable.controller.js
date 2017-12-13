@@ -18,9 +18,23 @@
         vm.printEDTProf = printEDTProf;
 
 
-        vm.profs = Professeur.query();
-        vm.classes = Classe.query();
+       
         vm.generateEdt = generateEdt;
+        
+             loadData();
+
+ function loadData() {
+        $http.get("api/classess")
+        .success(function(data) {
+            vm.classes = data;
+        });
+        
+        $http.get("api/professeurss")
+        .success(function(data) {
+            vm.profs = data;
+        });
+ }
+
 
         vm.form = function (entity) {
             $uibModal.open({

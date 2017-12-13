@@ -5,24 +5,30 @@
             .module('app')
             .controller('EleveAbsenceController', EleveAbsenceController);
 
-    EleveAbsenceController.$inject = ['$state', 'DataUtils', 'EleveAbsence', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams','Classe'];
+    EleveAbsenceController.$inject = ['$http','$state', 'DataUtils', 'EleveAbsence', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams','Classe'];
 
-    function EleveAbsenceController($state, DataUtils, EleveAbsence, ParseLinks, AlertService, paginationConstants, pagingParams,Classe) {
+    function EleveAbsenceController($http,$state, DataUtils, EleveAbsence, ParseLinks, AlertService, paginationConstants, pagingParams,Classe) {
 
         var vm = this;
 
         vm.loadAll = loadAll;
         vm.save = save;
 
-        vm.classes = Classe.query();
+          loadAll();
 
 
         function loadAll() {
+            
+             $http.get("api/classess")
+        .success(function(data) {
+            vm.classes = data;
+        });
+         if (pagingParams.classe) {
             EleveAbsence.query({
                 classe: vm.classe.id,
                 numseq: vm.numseq
             }, onSuccess, onError);
-          
+        }
             function onSuccess(data, headers) {
                 vm.eleveAbsences = data;
             }

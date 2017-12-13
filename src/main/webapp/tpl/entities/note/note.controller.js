@@ -16,10 +16,19 @@
         vm.printReleve = printReleve;
         vm.save = save;
 
-        vm.classes = Classe.query();
         vm.loadmatiere = loadmatiere;
 
-        //loadAll();
+             loadData();
+
+ function loadData() {
+        $http.get("api/classess")
+        .success(function(data) {
+            vm.classes = data;
+        });
+        
+        
+ }
+
 
         function loadAll() {
             Note.query({

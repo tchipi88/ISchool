@@ -28,11 +28,15 @@
 
         vm.currentClasse = pagingParams.classe;
         vm.classe = pagingParams.classe;
-        vm.classes = Classe.query();
+       
 
         loadAll();
 
         function loadAll() {
+              $http.get("api/classess")
+        .success(function(data) {
+            vm.classes = data;
+        });
             if (pagingParams.search) {
                 CompteAnalytiqueSearch.query({
                     query: pagingParams.search,
