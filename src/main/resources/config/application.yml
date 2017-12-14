@@ -105,14 +105,14 @@ jhipster:
 
 application:
       ecole :
-          nom:  LYCEE TECHNIQUE BERTOUA
-          telephonePortable :  237 679 99 49 49
-          telephoneFixe:
-          email: ngansop.arthur@gmail.com
+          nom:  GROUPE SCOLAIRE BILINGUE NJIKE  / BILINGUAL NURSERY AND PRIMARY SCHOOL  NJIKE
+          telephonePortable : 696 62 97 32
+          telephoneFixe: 676 09 98 52
+          email: njikeschool@yahoo.fr
           siteWeb:
-          boitePostale:
-          adresse:  BERTOUA
-          slogan:  DISCIPLINE-CONSCIENCE-TRAVAIL
+          boitePostale:  B.P 340  BERTOUA
+          adresse: Situé en face de la Sous-préfecture de Mandjou
+          slogan:  L'école de la réussite et de l'excellence/ School of success and excellent
           logo:
        
       
