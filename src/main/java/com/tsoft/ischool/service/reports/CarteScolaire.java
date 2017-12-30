@@ -10,6 +10,7 @@ import com.tsoft.ischool.config.ApplicationProperties;
 import com.tsoft.ischool.domain.ClasseEleve;
 import com.tsoft.ischool.repository.ClasseEleveRepository;
 import com.tsoft.ischool.service.AnneeService;
+import com.tsoft.ischool.service.util.FileUtils;
 import com.tsoft.ischool.web.rest.util.HeaderUtil;
 import java.io.File;
 import java.io.InputStream;
@@ -71,7 +72,7 @@ public class CarteScolaire {
         String reportfile = "";
         //remplissage des parametres du report
         Map params = new HashMap();
-        reportfile = "classpath:ischool/reports/CarteScolaire.jasper";
+        reportfile = "file:reports/CarteScolaire.jasper";
         //recuperation de la classe
         params.put("code_eleve", eleve);
         params.put("code_annee", as.getAnneeCourante().getId());
@@ -81,18 +82,14 @@ public class CarteScolaire {
         params.put("nom_ecole", ecole.getNom());
         params.put("slogan_ecole", ecole.getSlogan());
         params.put("adress_ecole", ecole.getBoitePostale() + " Tel:" + ecole.getTelephonePortable());
-        params.put("logo_ecole", resourceLoader.getResource("classpath:ischool/reports/logo-ecole.png").getFile().getAbsolutePath());
+        params.put("logo_ecole", resourceLoader.getResource("file:reports/logo-ecole.png").getFile().getAbsolutePath());
 
         //determination du chemin des subreports
         params.put("SUBREPORT_DIR", resourceLoader.getResource(reportfile).getFile().getParent() + File.separator);
-        params.put("cmr", resourceLoader.getResource("classpath:ischool/reports/Cameroun.jpg").getFile().getAbsolutePath());
+        params.put("cmr", resourceLoader.getResource("file:reports/Cameroun.jpg").getFile().getAbsolutePath());
 
         //  params.put("upload_dir", FileUtils.getUploadedDir());
-        File uploadedfile = new File("." + File.separator + "reports");
-        if (!uploadedfile.exists()) {
-            uploadedfile.mkdirs();
-        }
-        String destfile = uploadedfile.getAbsolutePath() + File.separator + "CarteEleve"
+        String destfile = FileUtils.getUploadedfile().getAbsolutePath() + File.separator + "CarteEleve"
                 + eleve + ".pdf";
         //fill report
         JasperPrint jp = JasperFillManager.fillReport(
@@ -125,17 +122,17 @@ public class CarteScolaire {
         String destfile = uploadedfile.getAbsolutePath() + File.separator + "Carte"
                 + classe + ".pdf";
         List<JasperPrint> jasperPrintList = new ArrayList<>();
-        String reportfile = resourceLoader.getResource("classpath:ischool/reports/CarteScolaire.jasper").getFile().getAbsolutePath();
+        String reportfile = resourceLoader.getResource("file:reports/CarteScolaire.jasper").getFile().getAbsolutePath();
 //remplissage des parametres du report
         Map params = new HashMap();
         params.put("code_annee", as.getAnneeCourante().getId());
-        params.put("cmr", resourceLoader.getResource("classpath:ischool/reports/Cameroun.jpg").getFile().getAbsolutePath());
+        params.put("cmr", resourceLoader.getResource("file:reports/Cameroun.jpg").getFile().getAbsolutePath());
 //information about school
         ApplicationProperties.Ecole ecole = app.getEcole();
         params.put("nom_ecole", ecole.getNom());
         params.put("slogan_ecole", ecole.getSlogan());
         params.put("adress_ecole", ecole.getBoitePostale() + " Tel:" + ecole.getTelephonePortable());
-        params.put("logo_ecole", resourceLoader.getResource("classpath:ischool/reports/logo-ecole.png").getFile().getAbsolutePath());
+        params.put("logo_ecole", resourceLoader.getResource("file:reports/logo-ecole.png").getFile().getAbsolutePath());
         Connection connection = dataSource.getConnection();
 
         for (ClasseEleve ce : eleves) {

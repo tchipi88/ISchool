@@ -18,6 +18,7 @@ import com.tsoft.ischool.repository.ProfesseurRepository;
 import com.tsoft.ischool.service.AnneeService;
 import com.tsoft.ischool.service.TimetableService;
 import com.tsoft.ischool.service.dto.TimetableDTO;
+import com.tsoft.ischool.service.util.FileUtils;
 import com.tsoft.ischool.web.rest.util.HeaderUtil;
 import java.io.File;
 import java.io.InputStream;
@@ -78,23 +79,20 @@ public class PrintTimetable {
             produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
     public ResponseEntity<byte[]> printTimetablesALLC() throws Exception {
         List<Classe> classes = classeRepository.findAll();
-        File uploadedfile = new File("." + File.separator + "reports");
-        if (!uploadedfile.exists()) {
-            uploadedfile.mkdirs();
-        }
-        String destfile = uploadedfile.getAbsolutePath() + File.separator + "EDTALLPROF.pdf";
+
+        String destfile = FileUtils.getUploadedfile().getAbsolutePath() + File.separator + "EDTALLPROF.pdf";
         List<JasperPrint> jasperPrintList = new ArrayList<>();
-        String reportfile = resourceLoader.getResource("classpath:ischool/reports/CarteScolaire.jasper").getFile().getAbsolutePath();
+        String reportfile = resourceLoader.getResource("file:reports/CarteScolaire.jasper").getFile().getAbsolutePath();
 //remplissage des parametres du report
         Map params = new HashMap();
         params.put("code_annee", as.getAnneeCourante().getId());
-        params.put("cmr", resourceLoader.getResource("classpath:ischool/reports/Cameroun.jpg").getFile().getAbsolutePath());
+        params.put("cmr", resourceLoader.getResource("file:reports/Cameroun.jpg").getFile().getAbsolutePath());
 //information about school
         ApplicationProperties.Ecole ecole = app.getEcole();
         params.put("nom_ecole", ecole.getNom());
         params.put("slogan_ecole", ecole.getSlogan());
         params.put("adress_ecole", ecole.getBoitePostale() + " Tel:" + ecole.getTelephonePortable());
-        params.put("logo_ecole", resourceLoader.getResource("classpath:ischool/reports/logo-ecole.png").getFile().getAbsolutePath());
+        params.put("logo_ecole", resourceLoader.getResource("file:reports/logo-ecole.png").getFile().getAbsolutePath());
         for (Classe c : classes) {
             //recuperation de la classe
             //fill report
@@ -125,23 +123,20 @@ public class PrintTimetable {
             produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
     public ResponseEntity<byte[]> printTimetablesALLP() throws Exception {
         List<Professeur> profs = professeurRepository.findAll();
-        File uploadedfile = new File("." + File.separator + "reports");
-        if (!uploadedfile.exists()) {
-            uploadedfile.mkdirs();
-        }
-        String destfile = uploadedfile.getAbsolutePath() + File.separator + "EDTALLPROF.pdf";
+
+        String destfile = FileUtils.getUploadedfile().getAbsolutePath() + File.separator + "EDTALLPROF.pdf";
         List<JasperPrint> jasperPrintList = new ArrayList<>();
-        String reportfile = resourceLoader.getResource("classpath:ischool/reports/CarteScolaire.jasper").getFile().getAbsolutePath();
+        String reportfile = resourceLoader.getResource("file:reports/CarteScolaire.jasper").getFile().getAbsolutePath();
 //remplissage des parametres du report
         Map params = new HashMap();
         params.put("code_annee", as.getAnneeCourante().getId());
-        params.put("cmr", resourceLoader.getResource("classpath:ischool/reports/Cameroun.jpg").getFile().getAbsolutePath());
+        params.put("cmr", resourceLoader.getResource("file:reports/Cameroun.jpg").getFile().getAbsolutePath());
 //information about school
         ApplicationProperties.Ecole ecole = app.getEcole();
         params.put("nom_ecole", ecole.getNom());
         params.put("slogan_ecole", ecole.getSlogan());
         params.put("adress_ecole", ecole.getBoitePostale() + " Tel:" + ecole.getTelephonePortable());
-        params.put("logo_ecole", resourceLoader.getResource("classpath:ischool/reports/logo-ecole.png").getFile().getAbsolutePath());
+        params.put("logo_ecole", resourceLoader.getResource("file:reports/logo-ecole.png").getFile().getAbsolutePath());
 
         for (Professeur p : profs) {
             //recuperation de la classe
@@ -174,15 +169,12 @@ public class PrintTimetable {
             produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
     public ResponseEntity<byte[]> printTimetablesP(@PathVariable Long prof) throws Exception {
         Professeur professeur = professeurRepository.findOne(prof);
-        File uploadedfile = new File("." + File.separator + "reports");
-        if (!uploadedfile.exists()) {
-            uploadedfile.mkdirs();
-        }
-        String destfile = uploadedfile.getAbsolutePath() + File.separator + "EDTProf"
+
+        String destfile = FileUtils.getUploadedfile().getAbsolutePath() + File.separator + "EDTProf"
                 + professeur.getId() + ".pdf";
 
         FastReportBuilder drb = new FastReportBuilder();
-        drb.addFirstPageImageBanner(resourceLoader.getResource("classpath:ischool/reports/logo-ecole.png").getFile().getAbsolutePath(), new Integer(300), new Integer(60), ImageBanner.Alignment.Center);
+        drb.addFirstPageImageBanner(resourceLoader.getResource("file:reports/logo-ecole.png").getFile().getAbsolutePath(), new Integer(300), new Integer(60), ImageBanner.Alignment.Center);
         drb.addColumn("Creneau", "creneau.heureDebut", LocalTime.class.getName(), 30)
                 .addColumn("Lundi", "lundi.cours.classe.id", String.class.getName(), 30)
                 .addColumn("Mardi", "mardi.cours.classe.id", String.class.getName(), 30)
@@ -214,15 +206,12 @@ public class PrintTimetable {
     @GetMapping(value = "/printTimetableC/{codeclasse}",
             produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
     public ResponseEntity<byte[]> printTimetablesC(@PathVariable String codeclasse) throws Exception {
-        File uploadedfile = new File("." + File.separator + "reports");
-        if (!uploadedfile.exists()) {
-            uploadedfile.mkdirs();
-        }
-        String destfile = uploadedfile.getAbsolutePath() + File.separator + "EDTClasse"
+
+        String destfile = FileUtils.getUploadedfile().getAbsolutePath() + File.separator + "EDTClasse"
                 + codeclasse + ".pdf";
 
         FastReportBuilder drb = new FastReportBuilder();
-        drb.addFirstPageImageBanner(resourceLoader.getResource("classpath:ischool/reports/logo-ecole.png").getFile().getAbsolutePath(), new Integer(300), new Integer(60), ImageBanner.Alignment.Center);
+        drb.addFirstPageImageBanner(resourceLoader.getResource("file:reports/logo-ecole.png").getFile().getAbsolutePath(), new Integer(300), new Integer(60), ImageBanner.Alignment.Center);
         drb.addColumn("Creneau", "creneau.heureDebut", LocalTime.class.getName(), 30)
                 .addColumn("Lundi", "lundi.cours.professeur.nom", String.class.getName(), 30)
                 .addColumn("Mardi", "mardi.cours.professeur.nom", String.class.getName(), 30)
