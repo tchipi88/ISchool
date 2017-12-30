@@ -187,7 +187,7 @@ public class ClasseEleveResource {
                 + classe + ".pdf";
 
         FastReportBuilder drb = new FastReportBuilder();
-        drb.addFirstPageImageBanner(resourceLoader.getResource("classpath:ischool/reports/logo-ecole.png").getFile().getAbsolutePath(), new Integer(300), new Integer(60), ImageBanner.Alignment.Center);
+        drb.addFirstPageImageBanner(resourceLoader.getResource("file:reports/logo-ecole.png").getFile().getAbsolutePath(), new Integer(300), new Integer(60), ImageBanner.Alignment.Center);
         drb.addColumn("Matricule ", "eleve.id", Long.class.getName(), 30)
                 .addColumn("Nom", "eleve.nom", String.class.getName(), 30)
                 .addColumn("Prenom", "eleve.prenom", String.class.getName(), 30)
@@ -239,7 +239,7 @@ public class ClasseEleveResource {
                 + classe + ".pdf";
 
         FastReportBuilder drb = new FastReportBuilder();
-        drb.addFirstPageImageBanner(resourceLoader.getResource("classpath:ischool/reports/logo-ecole.png").getFile().getAbsolutePath(), new Integer(300), new Integer(60), ImageBanner.Alignment.Center);
+        drb.addFirstPageImageBanner(resourceLoader.getResource("file:reports/logo-ecole.png").getFile().getAbsolutePath(), new Integer(300), new Integer(60), ImageBanner.Alignment.Center);
         drb.addColumn("Matricule ", "eleve.id", Long.class.getName(), 30)
                 .addColumn("Nom", "eleve.nom", String.class.getName(), 30)
                 .addColumn("Prenom", "eleve.prenom", String.class.getName(), 30)
