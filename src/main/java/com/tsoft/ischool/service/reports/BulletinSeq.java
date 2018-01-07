@@ -122,7 +122,6 @@ public class BulletinSeq {
     @Timed
     public ResponseEntity<byte[]> printBulletinSeqClasse(@PathVariable String classe, @PathVariable Integer numSeq) throws Exception {
         log.debug("REST request to print Bulletin SEq Classe : {}", classe);
-        // List<ClasseEleve> eleves = eleveInscritRepository.findByClasseIdAndAnnee(classe, as.getAnneeCourante());
         List<Object[]> datas = noteRepo.retrieveNoteSeqWithCoef(classe, as.getAnneeCourante(), numSeq);
         Map<ClasseEleve, Double> eleveWithMoyenne = noteService.processNote(datas, BulletinType.SEQUENCE);
         
@@ -145,7 +144,7 @@ public class BulletinSeq {
         params.put("moy_dernier", profil_Classe.getMin());
         params.put("moy_premier", profil_Classe.getMax());
         params.put("moy_gen", profil_Classe.getAverage());
-       // params.put("moy_nbre", );
+        params.put("moy_nbre", eleveWithMoyenne.values().stream().filter(n -> Double.compare(n, 10L) < 0).count());
         //information about school
         ApplicationProperties.Ecole ecole = app.getEcole();
         params.put("nom_ecole", ecole.getNom());
@@ -154,11 +153,12 @@ public class BulletinSeq {
         params.put("logo_ecole", resourceLoader.getResource("file:reports/logo-ecole.png").getFile().getAbsolutePath());
         Connection connection = dataSource.getConnection();
 
+        int i = 0;
         for (ClasseEleve ce : eleveWithMoyenne.keySet()) {
             log.debug("REST request to print Bulletin Annuel Eleve : {}", ce.getEleve());
             //recuperation de la classe
             params.put("code_eleve", ce.getEleve().getId());
-       //     params.put("rang", );
+            params.put("rang", ++i);
             //fill report
             JasperPrint jp = JasperFillManager.fillReport(
                     reportfile,//file jasper

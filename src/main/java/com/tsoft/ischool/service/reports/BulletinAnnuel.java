@@ -80,10 +80,9 @@ public class BulletinAnnuel {
         log.debug("REST request to print Bulletin Annuel Eleve : {}", eleve);
         ClasseEleve ei = eleveInscritRepository.findByAnneeAndEleveId(as.getAnneeCourante(), eleve);
 
-        String reportfile = "";
+        String reportfile = "file:reports/BulletinTri.jasper";
         //remplissage des parametres du report
         Map params = new HashMap();
-        reportfile = "file:reports/BulletinTri.jasper";
 
         //recuperation de la classe
         params.put("code_eleve", eleve);
@@ -125,7 +124,6 @@ public class BulletinAnnuel {
     @Timed
     public ResponseEntity<byte[]> printBulletinTriClasse(@PathVariable String classe) throws Exception {
         log.debug("REST request to print Bulletin ANNUEL Classe : {}", classe);
-        // List<ClasseEleve> eleves = eleveInscritRepository.findByClasseIdAndAnnee(classe, as.getAnneeCourante());
         List<Object[]> datas = noteRepo.retrieveNoteAnnuelWithCoef(classe, as.getAnneeCourante());
         Map<ClasseEleve, Double> eleveWithMoyenne = noteService.processNote(datas, BulletinType.ANNUEL);
         
@@ -147,7 +145,7 @@ public class BulletinAnnuel {
         params.put("moy_dernier", profil_Classe.getMin());
         params.put("moy_premier", profil_Classe.getMax());
         params.put("moy_gen", profil_Classe.getAverage());
-      //  params.put("moy_nbre", );
+        params.put("moy_nbre", eleveWithMoyenne.values().stream().filter(n -> Double.compare(n, 10L) < 0).count());
         //information about school
         ApplicationProperties.Ecole ecole = app.getEcole();
         params.put("nom_ecole", ecole.getNom());
@@ -156,11 +154,12 @@ public class BulletinAnnuel {
         params.put("logo_ecole", resourceLoader.getResource("file:reports/logo-ecole.png").getFile().getAbsolutePath());
         Connection connection = dataSource.getConnection();
 
+        int i = 0;
         for (ClasseEleve ce : eleveWithMoyenne.keySet()) {
             log.debug("REST request to print Bulletin Annuel Eleve : {}", ce.getEleve());
             //recuperation de la classe
             params.put("code_eleve", ce.getEleve().getId());
-           // params.put("rang", );
+            params.put("rang", ++i);
             //fill report
             JasperPrint jp = JasperFillManager.fillReport(
                     reportfile,//file jasper

@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -111,7 +112,13 @@ public class NoteService {
         eleveMoy.keySet().stream().forEach(e -> eleveMoy.put(e, eleveMoy.get(e) / sumCoefs * (BulletinType.ANNUEL.equals(typeBulletin) ? 6 : (BulletinType.TRIMESTRE.equals(typeBulletin) ? 2 : 1))));
 
         //ranking
-        return eleveMoy;
+        // sort by keys, a,b,c..., and return a new LinkedHashMap
+        // toMap() will returns HashMap by default, we need LinkedHashMap to keep the order.
+        Map<ClasseEleve, Double> result = eleveMoy.entrySet().stream()
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+                        (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+        return result;
     }
 
 }

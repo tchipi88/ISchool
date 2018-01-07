@@ -121,8 +121,7 @@ public class BulletinTri  {
     @Timed
     public ResponseEntity<byte[]> printBulletinTriClasse(@PathVariable String classe, @PathVariable Integer numTri) throws Exception {
         log.debug("REST request to print Bulletin SEq Classe : {}", classe);
-        // List<ClasseEleve> eleves = eleveInscritRepository.findByClasseIdAndAnnee(classe, as.getAnneeCourante());
-        List<Object[]> datas = noteRepo.retrieveNoteTriWithCoef(classe, as.getAnneeCourante(), (numTri*2)-1,numTri*2);
+        List<Object[]> datas = noteRepo.retrieveNoteTriWithCoef(classe, as.getAnneeCourante(), (numTri * 2) - 1, numTri * 2);
         Map<ClasseEleve, Double> eleveWithMoyenne = noteService.processNote(datas, BulletinType.TRIMESTRE);
         
         DoubleSummaryStatistics profil_Classe = eleveWithMoyenne.entrySet().stream().map(map -> map.getValue()).collect(DoubleSummaryStatistics::new, DoubleSummaryStatistics::accept,
@@ -144,7 +143,7 @@ public class BulletinTri  {
         params.put("moy_dernier", profil_Classe.getMin());
         params.put("moy_premier", profil_Classe.getMax());
         params.put("moy_gen", profil_Classe.getAverage());
-      //  params.put("moy_nbre", );
+        params.put("moy_nbre", eleveWithMoyenne.values().stream().filter(n -> Double.compare(n, 10L) < 0).count());
         //information about school
         ApplicationProperties.Ecole ecole = app.getEcole();
         params.put("nom_ecole", ecole.getNom());
@@ -153,11 +152,12 @@ public class BulletinTri  {
         params.put("logo_ecole", resourceLoader.getResource("file:reports/logo-ecole.png").getFile().getAbsolutePath());
         Connection connection = dataSource.getConnection();
 
+        int i = 0;
         for (ClasseEleve ce : eleveWithMoyenne.keySet()) {
             log.debug("REST request to print Bulletin Annuel Eleve : {}", ce.getEleve());
             //recuperation de la classe
             params.put("code_eleve", ce.getEleve().getId());
-          //  params.put("rang", );
+            params.put("rang", ++i);
             //fill report
             JasperPrint jp = JasperFillManager.fillReport(
                     reportfile,//file jasper
