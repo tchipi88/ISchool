@@ -5,30 +5,31 @@
             .module('app')
             .controller('EleveAbsenceController', EleveAbsenceController);
 
-    EleveAbsenceController.$inject = ['$http','$state', 'DataUtils', 'EleveAbsence', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams','Classe'];
+    EleveAbsenceController.$inject = ['$http', '$state', 'DataUtils', 'EleveAbsence', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams', 'Classe'];
 
-    function EleveAbsenceController($http,$state, DataUtils, EleveAbsence, ParseLinks, AlertService, paginationConstants, pagingParams,Classe) {
+    function EleveAbsenceController($http, $state, DataUtils, EleveAbsence, ParseLinks, AlertService, paginationConstants, pagingParams, Classe) {
 
         var vm = this;
 
         vm.loadAll = loadAll;
         vm.save = save;
 
-          loadAll();
+
+        loadData();
+
+        function loadData() {
+            $http.get("api/classess")
+                    .success(function (data) {
+                        vm.classes = data;
+                    });
+        }
 
 
         function loadAll() {
-            
-             $http.get("api/classess")
-        .success(function(data) {
-            vm.classes = data;
-        });
-         if (pagingParams.classe) {
             EleveAbsence.query({
                 classe: vm.classe.id,
                 numseq: vm.numseq
             }, onSuccess, onError);
-        }
             function onSuccess(data, headers) {
                 vm.eleveAbsences = data;
             }
@@ -46,7 +47,8 @@
 
             vm.isSaving = false;
             vm.edit = false;
-            vm.notes = result;
+            loadAll();
+            AlertService.success("");
         }
 
         function onSaveError(error) {
@@ -56,6 +58,6 @@
 
 
 
-       
+
     }
 })();

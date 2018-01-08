@@ -14,18 +14,18 @@
         vm.loadAll = loadAll;
         vm.save = save;
 
-        
-        
-                    loadData();
 
- function loadData() {
-        $http.get("api/matieress")
-        .success(function(data) {
-            vm.matieres = data;
-        });
-        
-       
- }
+
+        loadData();
+
+        function loadData() {
+            $http.get("api/matieress")
+                    .success(function (data) {
+                        vm.matieres = data;
+                    });
+
+
+        }
         // loadAll();
 
         function loadAll() {

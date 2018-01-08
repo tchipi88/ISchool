@@ -170,7 +170,7 @@ public class CarteScolaire {
      * @return the ResponseEntity with status 200 (OK) and the list of
      * classeEleves in body
      */
-    @GetMapping(path = "/classe-eleves-printt/{classe}", produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
+    @GetMapping(path = "/classe-eleves-print/{classe}", produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
     @Timed
     public ResponseEntity<byte[]> printAllClasseElevesReleveNotes(
             @PathVariable String classe) throws Exception {
@@ -226,7 +226,7 @@ public class CarteScolaire {
      * @return the ResponseEntity with status 200 (OK) and the list of
      * classeEleves in body
      */
-    @GetMapping(path = "/classe-eleves-print/{classe}", produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
+    @GetMapping(path = "/classe-eleves-printt/{classe}", produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
     @Timed
     public ResponseEntity<byte[]> printAllClasseEleves(
             @PathVariable String classe) throws Exception {
