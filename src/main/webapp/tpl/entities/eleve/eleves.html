@@ -8,7 +8,7 @@
 
 <div class="wrapper-md">
     <div class="panel panel-default">
-         <div class="panel-heading">
+        <div class="panel-heading">
             <div class="row">
                 <div class="col-xs-12 no-padding-right">
                     <form name="searchForm" class="form-inline">
@@ -34,20 +34,13 @@
                 <thead>
                     <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
                         <th jh-sort-by="id"><span >ID</span> <span class="fa fa-sort"></span></th>
-                         <th jh-sort-by="nomPere"><span >Nom Pere</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="professionPere"><span >Profession Pere</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="telephonePere"><span >Telephone Pere</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="nomMere"><span >Nom Mere</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="telephoneMere"><span >Telephone Mere</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="professionMere"><span >Profession Mere</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="nom"><span >Nom</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="prenom"><span >Prenom</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="sexe"><span >Sexe</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="dateNaissance"><span >Date Naissance</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="lieuNaissance"><span >Lieu Naissance</span> <span class="fa fa-sort"></span></th>
-  <th jh-sort-by="email"><span >Email</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="telephone"><span >Telephone</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="adresse"><span >Adresse</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="nom"><span >Nom</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="prenom"><span >Prenom</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="sexe"><span >Sexe</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="dateNaissance"><span >Date Naissance</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="lieuNaissance"><span >Lieu Naissance</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="telephone"><span >Telephone</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="adresse"><span >Adresse</span> <span class="fa fa-sort"></span></th>
 
                         <th >
                             <button class="btn btn-primary" ui-sref="eleve.new"   tooltip="Cr�er Eleve">
@@ -60,24 +53,18 @@
                 <tbody>
                     <tr ng-repeat="eleve in vm.eleves track by eleve.id">
                         <td>{{eleve.id}}</td>
-                         <td>{{eleve.nomPere}}</td>
- <td>{{eleve.professionPere}}</td>
- <td>{{eleve.telephonePere}}</td>
- <td>{{eleve.nomMere}}</td>
- <td>{{eleve.telephoneMere}}</td>
- <td>{{eleve.professionMere}}</td>
- <td>{{eleve.nom}}</td>
- <td>{{eleve.prenom}}</td>
- <td>{{eleve.sexe}}</td>
- <td>{{eleve.dateNaissance | date:'mediumDate'}}</td>
- <td>{{eleve.lieuNaissance}}</td>
-  <td>{{eleve.email}}</td>
- <td>{{eleve.telephone}}</td>
- <td>{{eleve.adresse}}</td>
+                        <td>{{eleve.nom}}</td>
+                        <td>{{eleve.prenom}}</td>
+                        <td>{{eleve.sexe}}</td>
+                        <td>{{eleve.dateNaissance| date:'mediumDate'}}</td>
+                        <td>{{eleve.lieuNaissance}}</td>
+                        <td>{{eleve.email}}</td>
+                        <td>{{eleve.telephone}}</td>
+                        <td>{{eleve.adresse}}</td>
 
                         <td >
 
-                           
+
                             <button type="submit"   ui-sref="eleve.edit({id:eleve.id})" class="btn btn-sm btn-default"  tooltip="Modifier">
                                 <i class="fa fa-edit">
                                 </i>

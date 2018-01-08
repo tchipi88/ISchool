@@ -17,6 +17,8 @@ import com.tsoft.ischool.repository.NotesPeriodeRepository;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.DoubleSummaryStatistics;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -59,7 +61,7 @@ public class NoteService {
             Note n = new Note();
             n.setNumeroSequence(numSeq);
             n.setClasseEleve(ce);
-            n.setValeur(0);
+            n.setValeur(0D);
             return n;
         }).map((n) -> {
             n.setMatiere(matiere);
@@ -104,12 +106,20 @@ public class NoteService {
             notes.add(n);
         });
 
-        Integer sumCoefs = coefs.stream().mapToInt(Coefficient::getValeur).sum();
+        Map<Matiere, Map<ClasseEleve, Double>> notesByMatiere = notes.stream().collect(Collectors.groupingBy(Note::getMatiere, (Collectors.groupingBy(Note::getClasseEleve, Collectors.summingDouble(Note::getValeur)))));
+        Map<Matiere, DoubleSummaryStatistics> statsByMatiere = new HashMap();
+
+        notesByMatiere.entrySet().stream().forEach(entry -> {
+            statsByMatiere.put(entry.getKey(), entry.getValue().entrySet().stream().map(map -> map.getValue()).collect(DoubleSummaryStatistics::new, DoubleSummaryStatistics::accept,
+                    DoubleSummaryStatistics::combine));
+        });
+
+        Double sumCoefs = coefs.stream().mapToDouble(Coefficient::getValeur).sum();
 
         Map<ClasseEleve, Double> eleveMoy = notes.stream().collect(
                 Collectors.groupingBy(Note::getClasseEleve, Collectors.summingDouble(Note::getValeurCoefficie)));
 
-        eleveMoy.keySet().stream().forEach(e -> eleveMoy.put(e, eleveMoy.get(e) / sumCoefs * (BulletinType.ANNUEL.equals(typeBulletin) ? 6 : (BulletinType.TRIMESTRE.equals(typeBulletin) ? 2 : 1))));
+        eleveMoy.keySet().stream().forEach(e -> eleveMoy.put(e, eleveMoy.get(e) / (sumCoefs * (BulletinType.ANNUEL.equals(typeBulletin) ? 6 : (BulletinType.TRIMESTRE.equals(typeBulletin) ? 2 : 1)))));
 
         //ranking
         // sort by keys, a,b,c..., and return a new LinkedHashMap

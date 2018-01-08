@@ -7,8 +7,8 @@
 	<parameter name="code_annee" class="java.lang.String"/>
 	<parameter name="nom_ecole" class="java.lang.String"/>
 	<parameter name="adress_ecole" class="java.lang.String"/>
-	<parameter name="logo_ecole" class="java.lang.String"/>
-	<parameter name="cmr" class="java.lang.String"/>
+	<parameter name="logo_ecole" class="java.io.InputStream"/>
+	<parameter name="cmr" class="java.io.InputStream"/>
 	<parameter name="slogan_ecole" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[select e.nom,e.prenom,e.sexe,c.id as classe,e.adresse,e.date_naissance,e.lieu_naissance,(concat(e.id,concat('E',date_format(e.created_date,'%Y')))) as matricule,e.photo from eleve e join classe_eleve ce on e.id=ce.eleve_id join Classe c on ce.classe_id=c.id where e.id=$P{code_eleve}  and ce.annee_id=$P{code_annee}]]>
@@ -106,7 +106,7 @@
 				<textElement textAlignment="Center">
 					<font size="7"/>
 				</textElement>
-				<text><![CDATA[MINISTERE DES ENSEIGNEMENTS SECONDAIRES]]></text>
+				<text><![CDATA[MINISTERE EDUCATION DE BASE]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="176" y="135" width="28" height="11" uuid="665f3e58-83b5-4648-998c-2aef2e8f819d"/>
@@ -120,7 +120,7 @@
 				<textElement>
 					<font size="9" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Le Principal]]></text>
+				<text><![CDATA[Directeur/Directrice]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
 				<reportElement x="204" y="135" width="87" height="11" uuid="069a6286-6673-4ba0-b9ae-7a1e5629d336"/>

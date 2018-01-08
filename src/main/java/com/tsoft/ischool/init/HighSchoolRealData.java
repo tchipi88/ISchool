@@ -9,18 +9,17 @@ import com.tsoft.ischool.domain.Annee;
 import com.tsoft.ischool.domain.Creneau;
 import com.tsoft.ischool.domain.Matiere;
 import com.tsoft.ischool.domain.Serie;
+import com.tsoft.ischool.domain.enumeration.Cycle;
+import com.tsoft.ischool.domain.enumeration.Section;
 import com.tsoft.ischool.domain.enumeration.TypeMatiere;
-import com.tsoft.ischool.repository.AnneeRepository;
 import com.tsoft.ischool.repository.CreneauRepository;
 import com.tsoft.ischool.repository.MatiereRepository;
 import com.tsoft.ischool.repository.SerieRepository;
 import com.tsoft.ischool.service.AnneeService;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Month;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -145,6 +144,8 @@ public class HighSchoolRealData implements RealData {
             s.setId(serie.getKey().split("_")[1]);
             s.setDescription(serie.getKey().split("_")[0]);
             s.setNiveau(serie.getValue());
+            s.setCycle(Cycle.SECONDAIRE);
+            s.setSection(Section.FRANCOPHONE);
 
             seriess.add(s);
 

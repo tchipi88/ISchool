@@ -12,8 +12,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -39,9 +37,7 @@ public class Coefficient extends AbstractAuditingEntity {
 
     @Column
     @NotNull
-    @Min(1)
-    @Max(7)
-    private Integer valeur=0;
+    private Double valeur;
 
     public Coefficient() {
     }
@@ -70,13 +66,14 @@ public class Coefficient extends AbstractAuditingEntity {
         this.serie = serie;
     }
 
-    public Integer getValeur() {
+    public Double getValeur() {
         return valeur;
     }
 
-    public void setValeur(Integer valeur) {
+    public void setValeur(Double valeur) {
         this.valeur = valeur;
     }
+
 
    
 

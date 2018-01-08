@@ -9,8 +9,8 @@
 			<style forecolor="#F31C1C" backcolor="#FFFFFF" fill="Solid" fontSize="10" isItalic="false" isUnderline="false"/>
 		</conditionalStyle>
 	</style>
-	<parameter name="numtri" class="java.lang.Integer" isForPrompting="false">
-		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	<parameter name="numtri" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2]]></defaultValueExpression>
 	</parameter>
 	<parameter name="code_eleve" class="java.lang.Long">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -18,8 +18,8 @@
 	<parameter name="nom_ecole" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["College la Fierte"]]></defaultValueExpression>
 	</parameter>
-	<parameter name="logo_ecole" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["/home/tchipi/eleve.jpg"]]></defaultValueExpression>
+	<parameter name="logo_ecole" class="java.io.InputStream" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["/home/tchipi/NetBeansProjects/HighSchool/src/com/tsoft/appli/highschool/reports/bulletin/tri/"]]></defaultValueExpression>
@@ -27,9 +27,14 @@
 	<parameter name="code_annee" class="java.lang.String"/>
 	<parameter name="slogan_ecole" class="java.lang.String"/>
 	<parameter name="adress_ecole" class="java.lang.String"/>
-	<parameter name="effectif" class="java.lang.String"/>
+	<parameter name="effectif" class="java.lang.Integer"/>
+	<parameter name="moy_dernier" class="java.lang.Double" isForPrompting="false"/>
+	<parameter name="moy_premier" class="java.lang.Double" isForPrompting="false"/>
+	<parameter name="moy_gen" class="java.lang.Double" isForPrompting="false"/>
+	<parameter name="moy_nbre" class="java.lang.Double" isForPrompting="false"/>
+	<parameter name="rang" class="java.lang.Integer" isForPrompting="false"/>
 	<queryString>
-		<![CDATA[select p.civilite,p.nom as prof,m.type as typematiere,m.libelle as discipline,coef.valeur as coef,n1.valeur as note1,n2.valeur as note2,@valeurfinal:=(ifnull(n1.valeur,0)+ifnull(n2.valeur,0))/2 as notefinal,@valeurfinal*coef.valeur as total,e.nom,e.prenom,e.sexe,e.date_naissance,e.lieu_naissance,(concat(e.id,concat('E',date_format(e.created_date,'%Y')))) as matricule,e.photo,e.adresse,c.id as codeclasse,ei.redoublant
+		<![CDATA[select p.civilite,p.nom as prof,m.type as typematiere,m.libelle as discipline,coef.valeur as coef,n1.valeur as note1,n2.valeur as note2,@valeurfinal:=(ifnull(n1.valeur,0)+ifnull(n2.valeur,0))/2 as notefinal,@valeurfinal*coef.valeur as total,e.nom as nomEleve,e.prenom,e.sexe,e.date_naissance,e.lieu_naissance,(concat(e.id,concat('E',date_format(e.created_date,'%Y')))) as matricule,e.photo,e.adresse,c.id as codeclasse,ei.redoublant
 from coefficient coef join matiere m on (m.id=coef.matiere_id) join classe c on (c.serie_id=coef.serie_id) join classe_eleve ei on (ei.classe_id=c.id) join eleve e on (ei.eleve_id=e.id) left join cours on (cours.matiere_id=m.id and cours.classe_id=ei.classe_id and cours.annee_id=$P{code_annee})left join professeur p on p.id=cours.professeur_id  left join note n1 on (n1.classe_eleve_id=ei.id and n1.matiere_id=m.id  and n1.numero_sequence=($P{numtri}*2)-1)  left join note n2 on (n2.classe_eleve_id=ei.id and n2.matiere_id=m.id  and n2.numero_sequence=$P{numtri}*2)
 where e.id =$P{code_eleve}  and ei.annee_id=$P{code_annee}]]>
 	</queryString>
@@ -44,9 +49,7 @@ where e.id =$P{code_eleve}  and ei.annee_id=$P{code_annee}]]>
 	<field name="note2" class="java.lang.Double"/>
 	<field name="notefinal" class="java.lang.Double"/>
 	<field name="total" class="java.lang.Double"/>
-	<field name="nom" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
+	<field name="nomEleve" class="java.lang.String"/>
 	<field name="prenom" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
@@ -143,7 +146,7 @@ where e.id =$P{code_eleve}  and ei.annee_id=$P{code_annee}]]>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="9"/>
 					</textElement>
-					<text><![CDATA[Ministere des Enseignements Secondaires]]></text>
+					<text><![CDATA[Ministere de l'Education de Base]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="0" y="0" width="178" height="12" uuid="af34177b-5cfc-437f-b7aa-5b64f2ca50a9"/>
@@ -179,7 +182,7 @@ where e.id =$P{code_eleve}  and ei.annee_id=$P{code_annee}]]>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="9"/>
 					</textElement>
-					<text><![CDATA[Ministry of Secondary Education]]></text>
+					<text><![CDATA[Ministry of Basic Education]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
 					<reportElement x="184" y="26" width="178" height="12" uuid="c8dc2f33-139e-4e53-933e-0e80923d0caa"/>
@@ -209,8 +212,11 @@ where e.id =$P{code_eleve}  and ei.annee_id=$P{code_annee}]]>
 				<frame>
 					<reportElement x="0" y="62" width="547" height="78" uuid="9b426622-3d12-4809-bcd6-75ddbbfd0847"/>
 					<textField isBlankWhenNull="true">
-						<reportElement x="305" y="17" width="242" height="15" uuid="58a3436f-04c4-458a-a872-05152b566477"/>
-						<textFieldExpression><![CDATA[$F{nom}.toUpperCase()+ ($F{prenom}==null?"":" "+$F{prenom})]]></textFieldExpression>
+						<reportElement x="293" y="17" width="254" height="15" uuid="58a3436f-04c4-458a-a872-05152b566477"/>
+						<textElement>
+							<font isBold="true"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{nomEleve}.toUpperCase()+ ($F{prenom}==null?"":" "+$F{prenom})]]></textFieldExpression>
 					</textField>
 					<staticText>
 						<reportElement x="66" y="47" width="33" height="15" uuid="7c8aee4d-71d4-4055-91d0-7f0256bfb472"/>
@@ -220,11 +226,11 @@ where e.id =$P{code_eleve}  and ei.annee_id=$P{code_annee}]]>
 						<text><![CDATA[Sexe]]></text>
 					</staticText>
 					<staticText>
-						<reportElement x="205" y="17" width="100" height="15" uuid="cfb0af54-8f51-4e66-a7af-dcdf864319ea"/>
+						<reportElement x="205" y="17" width="88" height="15" uuid="cfb0af54-8f51-4e66-a7af-dcdf864319ea"/>
 						<textElement>
 							<font isBold="true"/>
 						</textElement>
-						<text><![CDATA[Nom et Prenoms]]></text>
+						<text><![CDATA[Nom et Prenom:]]></text>
 					</staticText>
 					<staticText>
 						<reportElement x="408" y="32" width="73" height="15" uuid="d078ccd3-7e44-42a4-861f-2dbcaeb44422"/>
@@ -307,7 +313,7 @@ where e.id =$P{code_eleve}  and ei.annee_id=$P{code_annee}]]>
 						<textElement>
 							<font isBold="true"/>
 						</textElement>
-						<text><![CDATA[Annee Scolaire:]]></text>
+						<text><![CDATA[Année:]]></text>
 					</staticText>
 					<staticText>
 						<reportElement x="184" y="47" width="74" height="15" uuid="1522b3bc-6acf-4875-b19f-db973cbd944f"/>
@@ -388,13 +394,6 @@ where e.id =$P{code_eleve}  and ei.annee_id=$P{code_annee}]]>
 					<text><![CDATA[Coef]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="206" y="1" width="25" height="28" forecolor="#000000" uuid="80c825a0-d439-4a53-9468-b932b9101c73"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle">
-						<font size="9" isBold="true" isItalic="true"/>
-					</textElement>
-					<text><![CDATA[Trim]]></text>
-				</staticText>
-				<staticText>
 					<reportElement x="312" y="1" width="35" height="28" forecolor="#000000" uuid="aa0a3b2d-fb20-4e93-bc24-f8fb1316ab04"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font isBold="true" isItalic="true"/>
@@ -431,40 +430,26 @@ where e.id =$P{code_eleve}  and ei.annee_id=$P{code_annee}]]>
 				<rectangle>
 					<reportElement mode="Transparent" x="347" y="1" width="34" height="27" uuid="492dfc03-c73a-48fa-8156-7222622c308f"/>
 				</rectangle>
-				<staticText>
-					<reportElement x="171" y="1" width="22" height="28" forecolor="#000000" uuid="3904ac62-f4ba-4cd0-8102-7032170b221a"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font isBold="true" isItalic="true"/>
-					</textElement>
-					<text><![CDATA[Seq]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="135" y="1" width="22" height="28" forecolor="#000000" uuid="46e131e1-93d7-4322-b0e1-94534598a499"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font isBold="true" isItalic="true"/>
-					</textElement>
-					<text><![CDATA[Seq]]></text>
-				</staticText>
 				<textField>
-					<reportElement x="193" y="1" width="13" height="28" uuid="218a5097-d64f-4b16-939c-399c864e5b41"/>
+					<reportElement x="171" y="1" width="35" height="28" uuid="218a5097-d64f-4b16-939c-399c864e5b41"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font isBold="true" isItalic="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$P{numtri}*2]]></textFieldExpression>
+					<textFieldExpression><![CDATA["SEQ "+($P{numtri}*2)]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="157" y="1" width="13" height="28" uuid="853a8ca2-7605-42d8-8cb4-619eee288c99"/>
+					<reportElement x="135" y="1" width="35" height="28" uuid="853a8ca2-7605-42d8-8cb4-619eee288c99"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font isBold="true" isItalic="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$P{numtri}*2-1]]></textFieldExpression>
+					<textFieldExpression><![CDATA["SEQ "+($P{numtri}*2-1)]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="229" y="1" width="13" height="28" uuid="205e405d-6f0d-462d-9609-e37078bb839a"/>
+					<reportElement x="209" y="1" width="33" height="28" uuid="205e405d-6f0d-462d-9609-e37078bb839a"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font isBold="true" isItalic="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$P{numtri}]]></textFieldExpression>
+					<textFieldExpression><![CDATA["TRIM "+($P{numtri})]]></textFieldExpression>
 				</textField>
 			</frame>
 		</band>
@@ -533,17 +518,17 @@ where e.id =$P{code_eleve}  and ei.annee_id=$P{code_annee}]]>
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
 					<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
 				</textField>
-				<textField>
+				<textField isBlankWhenNull="true">
 					<reportElement x="312" y="0" width="35" height="20" uuid="f02bc79d-8105-4544-b924-d99167ce6c0b"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
 					<textFieldExpression><![CDATA[]]></textFieldExpression>
 				</textField>
-				<textField>
+				<textField isBlankWhenNull="true">
 					<reportElement x="347" y="0" width="35" height="20" uuid="e69277be-61e8-479b-91e3-4a2c704a13e4"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
 					<textFieldExpression><![CDATA[]]></textFieldExpression>
 				</textField>
-				<textField>
+				<textField isBlankWhenNull="true">
 					<reportElement x="382" y="0" width="35" height="20" uuid="cfd69f02-2059-404c-be52-ec94eebcd19d"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
 					<textFieldExpression><![CDATA[]]></textFieldExpression>
@@ -584,7 +569,7 @@ where e.id =$P{code_eleve}  and ei.annee_id=$P{code_annee}]]>
 				<staticText>
 					<reportElement x="0" y="0" width="120" height="20" uuid="a3dcccf9-3f87-4173-b1d9-a1481febfc20"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font isBold="true" isUnderline="false"/>
+						<font size="12" isBold="true" isUnderline="false"/>
 					</textElement>
 					<text><![CDATA[CONDUITE]]></text>
 				</staticText>
@@ -636,11 +621,11 @@ where e.id =$P{code_eleve}  and ei.annee_id=$P{code_annee}]]>
 				</staticText>
 			</frame>
 			<frame>
-				<reportElement x="124" y="1" width="140" height="171" uuid="853d08f9-e2fb-4ed8-a9ba-0f5d8f32aa7c"/>
+				<reportElement x="142" y="0" width="140" height="171" uuid="853d08f9-e2fb-4ed8-a9ba-0f5d8f32aa7c"/>
 				<textField pattern="###0.00" isBlankWhenNull="true">
 					<reportElement x="80" y="50" width="60" height="15" uuid="94046550-c280-45c3-9363-bb6d023d1142"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
-					<textFieldExpression><![CDATA[]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$P{moy_nbre}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement x="0" y="80" width="80" height="15" uuid="ca80480e-1f11-4bab-95b1-4ba7fef8abec"/>
@@ -650,12 +635,12 @@ where e.id =$P{code_eleve}  and ei.annee_id=$P{code_annee}]]>
 				<textField pattern="###0.00" isBlankWhenNull="true">
 					<reportElement x="80" y="35" width="60" height="15" uuid="751d351d-596b-4751-80ff-ae889abc18de"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
-					<textFieldExpression><![CDATA[]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$P{moy_dernier}]]></textFieldExpression>
 				</textField>
 				<textField pattern="###0.00" isBlankWhenNull="true">
 					<reportElement x="80" y="20" width="60" height="15" uuid="e9d0917e-9337-49d5-a0f2-d8ba9d20968f"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
-					<textFieldExpression><![CDATA[]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$P{moy_premier}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement x="0" y="50" width="80" height="15" uuid="8057066f-ac1d-49c2-b007-1816f4361196"/>
@@ -665,7 +650,7 @@ where e.id =$P{code_eleve}  and ei.annee_id=$P{code_annee}]]>
 				<textField isBlankWhenNull="true">
 					<reportElement x="80" y="80" width="60" height="15" uuid="e37c7174-5062-4bc3-930a-cb04690f5a12"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
-					<textFieldExpression><![CDATA[]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$P{moy_nbre}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement x="0" y="0" width="140" height="20" uuid="a540907f-da0a-4d7d-ab4a-c0a90f65aea0"/>
@@ -700,7 +685,7 @@ where e.id =$P{code_eleve}  and ei.annee_id=$P{code_annee}]]>
 				<textField pattern="###0.00" isBlankWhenNull="true">
 					<reportElement x="80" y="95" width="60" height="15" uuid="593a1f2b-9c6b-433a-b0a5-3f4e38e340c5"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
-					<textFieldExpression><![CDATA[]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$P{moy_nbre}/$P{effectif}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement x="0" y="95" width="80" height="15" uuid="3c8ad123-676a-4349-82e3-3f17baf261d5"/>
@@ -757,11 +742,11 @@ where e.id =$P{code_eleve}  and ei.annee_id=$P{code_annee}]]>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font isBold="true"/>
 					</textElement>
-					<text><![CDATA[Visa Prof Principal]]></text>
+					<text><![CDATA[Visa Maitre/Maitresse]]></text>
 				</staticText>
 			</frame>
 			<frame>
-				<reportElement x="264" y="3" width="260" height="168" uuid="aa27ed76-253d-4b49-a784-7f5062e2f811"/>
+				<reportElement x="293" y="0" width="260" height="168" uuid="aa27ed76-253d-4b49-a784-7f5062e2f811"/>
 				<rectangle>
 					<reportElement mode="Transparent" x="0" y="0" width="260" height="60" uuid="a3adf7cd-48a7-4319-83a8-5c954b08823c"/>
 				</rectangle>
@@ -772,37 +757,24 @@ where e.id =$P{code_eleve}  and ei.annee_id=$P{code_annee}]]>
 					</textElement>
 					<text><![CDATA[Resultats Eleve]]></text>
 				</staticText>
-				<staticText>
-					<reportElement x="0" y="20" width="64" height="20" uuid="1cf73035-b8e6-4792-ac5c-e8c47c7b1cca"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle"/>
-					<text><![CDATA[Total Pts]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="64" y="20" width="65" height="20" uuid="a599852a-2748-4c9b-814e-bbad263bac48"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle"/>
-					<text><![CDATA[Total Coefs]]></text>
-				</staticText>
 				<textField pattern="###0.00" isBlankWhenNull="true">
 					<reportElement x="0" y="40" width="64" height="20" uuid="8c050c64-c6fc-46d8-a9c0-71330c26bdff"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font isBold="false"/>
+						<font isBold="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$V{totalpts}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$V{totalptsSeq1}/$V{totalCoefs}]]></textFieldExpression>
 				</textField>
 				<textField pattern="###0.00" isBlankWhenNull="true">
 					<reportElement x="64" y="40" width="65" height="20" uuid="37519eff-334a-44a1-a926-e39e65be5ab5"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle"/>
-					<textFieldExpression><![CDATA[$V{totalCoefs}]]></textFieldExpression>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{totalptsSeq2}/$V{totalCoefs}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement x="188" y="20" width="72" height="20" uuid="b5358a86-89aa-42e8-b00d-152504119de9"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
 					<text><![CDATA[Rang]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="129" y="20" width="59" height="20" uuid="d9f8a820-b8df-42ab-998e-de150bbd9a61"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle"/>
-					<text><![CDATA[Moy]]></text>
 				</staticText>
 				<textField pattern="###0.00" isBlankWhenNull="true">
 					<reportElement x="129" y="40" width="59" height="20" uuid="a67a0c24-d804-47ce-9a5f-dd490cac3bf8"/>
@@ -823,7 +795,7 @@ where e.id =$P{code_eleve}  and ei.annee_id=$P{code_annee}]]>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font isBold="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA[]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$P{rang}]]></textFieldExpression>
 				</textField>
 				<rectangle>
 					<reportElement mode="Transparent" x="0" y="0" width="260" height="20" uuid="68f4486a-1b21-4ad6-b91e-fdd3a59a997c"/>
@@ -881,6 +853,27 @@ where e.id =$P{code_eleve}  and ei.annee_id=$P{code_annee}]]>
 					</textElement>
 					<text><![CDATA[Visa Chef Etablissement]]></text>
 				</staticText>
+				<textField>
+					<reportElement x="64" y="20" width="64" height="18" uuid="00f4047d-6142-4ded-890f-d1b8286979b1"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true" isItalic="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["SEQ "+($P{numtri}*2)]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="0" y="20" width="64" height="18" uuid="10d2fa41-2bca-4474-b823-88aff74f5f12"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true" isItalic="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["SEQ "+($P{numtri}*2-1)]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="129" y="20" width="57" height="18" uuid="80794d9f-d97b-465b-a32d-4844022adc4e"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true" isItalic="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["TRIM "+($P{numtri})]]></textFieldExpression>
+				</textField>
 			</frame>
 		</band>
 	</summary>

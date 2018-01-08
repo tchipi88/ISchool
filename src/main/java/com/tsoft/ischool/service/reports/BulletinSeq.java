@@ -7,9 +7,12 @@ package com.tsoft.ischool.service.reports;
 
 import com.codahale.metrics.annotation.Timed;
 import com.tsoft.ischool.config.ApplicationProperties;
+import com.tsoft.ischool.domain.Classe;
 import com.tsoft.ischool.domain.ClasseEleve;
 import com.tsoft.ischool.domain.enumeration.BulletinType;
+import com.tsoft.ischool.domain.enumeration.Section;
 import com.tsoft.ischool.repository.ClasseEleveRepository;
+import com.tsoft.ischool.repository.ClasseRepository;
 import com.tsoft.ischool.repository.NoteRepository;
 import com.tsoft.ischool.service.AnneeService;
 import com.tsoft.ischool.service.NoteService;
@@ -22,8 +25,11 @@ import java.util.ArrayList;
 import java.util.DoubleSummaryStatistics;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 import javax.sql.DataSource;
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -59,6 +65,9 @@ public class BulletinSeq {
 
     @Autowired
     ClasseEleveRepository eleveInscritRepository;
+
+    @Autowired
+    ClasseRepository classeRepository;
 
     @Autowired
     ApplicationProperties app;
@@ -118,39 +127,45 @@ public class BulletinSeq {
         }
     }
 
-    @GetMapping("/bulletin-seq-classe/{numSeq}/{classe}")
+    @GetMapping("/bulletin-seq-classe/{numSeq}/{idclasse}")
     @Timed
-    public ResponseEntity<byte[]> printBulletinSeqClasse(@PathVariable String classe, @PathVariable Integer numSeq) throws Exception {
-        log.debug("REST request to print Bulletin SEq Classe : {}", classe);
-        List<Object[]> datas = noteRepo.retrieveNoteSeqWithCoef(classe, as.getAnneeCourante(), numSeq);
+    public ResponseEntity<byte[]> printBulletinSeqClasse(@PathVariable String idclasse, @PathVariable Integer numSeq) throws Exception {
+        log.debug("REST request to print Bulletin SEq Classe : {}", idclasse);
+        Classe classe = classeRepository.findOne(idclasse);
+        List<Object[]> datas = noteRepo.retrieveNoteSeqWithCoef(idclasse, as.getAnneeCourante(), numSeq);
+
+        if (datas.isEmpty()) {
+            throw new Exception("Aucune notes pour cette classe");
+        }
         Map<ClasseEleve, Double> eleveWithMoyenne = noteService.processNote(datas, BulletinType.SEQUENCE);
-        
+
         DoubleSummaryStatistics profil_Classe = eleveWithMoyenne.entrySet().stream().map(map -> map.getValue()).collect(DoubleSummaryStatistics::new, DoubleSummaryStatistics::accept,
                 DoubleSummaryStatistics::combine);
 
         String destfile = FileUtils.getUploadedfile().getAbsolutePath() + File.separator + "Bulletin"
-                + ("SEQ") + classe + ".pdf";
+                + ("SEQ") + idclasse + ".pdf";
         List<JasperPrint> jasperPrintList = new ArrayList<>();
-        String reportfile = resourceLoader.getResource("file:reports/BulletinSeq.jasper").getFile().getAbsolutePath();
 
         //remplissage des parametres du report
         Map params = new HashMap();
         params.put("numseq", numSeq);
         params.put("code_annee", as.getAnneeCourante().getId());
         params.put("effectif", eleveWithMoyenne.keySet().size());
-        params.put("code_classe", classe);
+        params.put("code_classe", idclasse);
 
+        params.put(JRParameter.REPORT_RESOURCE_BUNDLE, ResourceBundle.getBundle("i18n/reports"));
+        params.put(JRParameter.REPORT_LOCALE, Section.ANGLOPHONE.equals(classe.getSerie().getSection()) ? Locale.ENGLISH : Locale.FRANCE);
         //profil de la classe
         params.put("moy_dernier", profil_Classe.getMin());
         params.put("moy_premier", profil_Classe.getMax());
         params.put("moy_gen", profil_Classe.getAverage());
-        params.put("moy_nbre", eleveWithMoyenne.values().stream().filter(n -> Double.compare(n, 10L) < 0).count());
+        params.put("moy_nbre", eleveWithMoyenne.values().stream().filter(n -> Double.compare(n, 10L) >= 0).count());
         //information about school
         ApplicationProperties.Ecole ecole = app.getEcole();
         params.put("nom_ecole", ecole.getNom());
         params.put("slogan_ecole", ecole.getSlogan());
         params.put("adress_ecole", ecole.getBoitePostale() + " Tel:" + ecole.getTelephonePortable());
-        params.put("logo_ecole", resourceLoader.getResource("file:reports/logo-ecole.png").getFile().getAbsolutePath());
+        params.put("logo_ecole", resourceLoader.getResource("classpath:ischool/reports/logo-ecole.png").getInputStream());
         Connection connection = dataSource.getConnection();
 
         int i = 0;
@@ -161,7 +176,7 @@ public class BulletinSeq {
             params.put("rang", ++i);
             //fill report
             JasperPrint jp = JasperFillManager.fillReport(
-                    reportfile,//file jasper
+                    resourceLoader.getResource("classpath:ischool/reports/BulletinSeq.jasper").getInputStream(),//file jasper
                     params, //params report
                     connection);  //datasource
             jasperPrintList.add(jp);

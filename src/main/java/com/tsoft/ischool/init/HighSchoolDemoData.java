@@ -6,9 +6,9 @@
 package com.tsoft.ischool.init;
 
 import com.tsoft.ischool.domain.Classe;
-import com.tsoft.ischool.domain.Eleve;
 import com.tsoft.ischool.domain.ClasseEleve;
 import com.tsoft.ischool.domain.Coefficient;
+import com.tsoft.ischool.domain.Eleve;
 import com.tsoft.ischool.domain.Matiere;
 import com.tsoft.ischool.domain.Note;
 import com.tsoft.ischool.domain.NotePeriode;
@@ -16,12 +16,17 @@ import com.tsoft.ischool.domain.Professeur;
 import com.tsoft.ischool.domain.Serie;
 import com.tsoft.ischool.domain.enumeration.Civilite;
 import com.tsoft.ischool.domain.enumeration.Sexe;
+import com.tsoft.ischool.repository.ClasseEleveRepository;
 import com.tsoft.ischool.repository.ClasseRepository;
+import com.tsoft.ischool.repository.CoefficientRepository;
 import com.tsoft.ischool.repository.EleveRepository;
 import com.tsoft.ischool.repository.MatiereRepository;
+import com.tsoft.ischool.repository.NoteRepository;
+import com.tsoft.ischool.repository.NotesPeriodeRepository;
 import com.tsoft.ischool.repository.ProfesseurRepository;
 import com.tsoft.ischool.repository.SerieRepository;
 import com.tsoft.ischool.service.AnneeService;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -30,11 +35,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-import com.tsoft.ischool.repository.ClasseEleveRepository;
-import com.tsoft.ischool.repository.CoefficientRepository;
-import com.tsoft.ischool.repository.NoteRepository;
-import com.tsoft.ischool.repository.NotesPeriodeRepository;
-import java.time.LocalDate;
 
 /**
  *
@@ -91,13 +91,13 @@ public class HighSchoolDemoData implements DemoData {
                 c.setMatiere(m);
                 switch (m.getType()) {
                     case MATIERES_FORMATIONS_HUMAINES:
-                        c.setValeur(1);
+                        c.setValeur(1D);
                         break;
                     case MATIERES_LITTERAIRES:
-                        c.setValeur(3);
+                        c.setValeur(3D);
                         break;
                     case MATIERES_SCIENTIFIQUES:
-                        c.setValeur(4);
+                        c.setValeur(4D);
                         break;
                 }
 
@@ -160,13 +160,13 @@ public class HighSchoolDemoData implements DemoData {
                         n1.setClasseEleve(ei);
                         n1.setMatiere(m);
                         n1.setNumeroSequence(1);
-                        n1.setValeur(df.getNumberBetween(0, 20));
+                        n1.setValeur(0.5D);
                         noterepo.save(n1);
                         Note n2 = new Note();
                         n2.setClasseEleve(ei);
                         n2.setMatiere(m);
                         n2.setNumeroSequence(2);
-                        n2.setValeur(df.getNumberBetween(0, 20));
+                        n2.setValeur(12.8D);
                         noterepo.save(n2);
                     });
                 }

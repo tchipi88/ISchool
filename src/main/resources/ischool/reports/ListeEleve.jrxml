@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Releve Notes" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d1cf335e-b96a-4918-863c-430c48efd6ac">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Liste Eleve" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d1cf335e-b96a-4918-863c-430c48efd6ac">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -7,7 +7,7 @@
 	<parameter name="code_classe" class="java.lang.String"/>
 	<parameter name="nom_ecole" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[select e.*  from classe_eleve ce join eleve e on ce.eleve_id=e.id and ce.classe_id=$P{code_classe}  and ce.annee_id=$P{code_annee} order by e.nom asc]]>
+		<![CDATA[select e.*,(concat(e.id,concat('E',date_format(e.created_date,'%Y')))) as matricule  from classe_eleve ce join eleve e on ce.eleve_id=e.id and ce.classe_id=$P{code_classe}  and ce.annee_id=$P{code_annee} order by e.nom asc]]>
 	</queryString>
 	<field name="id" class="java.lang.Long">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -69,6 +69,7 @@
 	<field name="telephone_pere" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
+	<field name="matricule" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -126,46 +127,25 @@
 				<text><![CDATA[NOM ET PRENOMS]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="505" y="19" width="50" height="15" uuid="63220a18-4b6a-4d4a-9feb-c37626b2eab3"/>
+				<reportElement x="355" y="19" width="101" height="15" uuid="5521e421-2e12-4cd5-861e-a5d0b1f82a9f"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[SEQ6]]></text>
+				<text><![CDATA[Lieu de naissance]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="455" y="19" width="50" height="15" uuid="c8a8679d-1ca7-4318-82b7-807a32b509a6"/>
+				<reportElement x="255" y="19" width="100" height="15" uuid="ad7e6a05-11c8-46a4-b7a7-9e7974061cbc"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[SEQ5]]></text>
+				<text><![CDATA[Date de naissance]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="405" y="21" width="50" height="15" uuid="fef1814d-59d1-460c-b0bd-3ce03616cfd8"/>
+				<reportElement x="456" y="19" width="101" height="15" uuid="d7d00c59-62c0-43ee-8603-cf407f7983eb"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[SEQ4]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="355" y="19" width="50" height="15" uuid="12b1c38b-544a-40f7-8fa7-b4ed7f8fc506"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[SEQ3]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="305" y="19" width="50" height="15" uuid="5521e421-2e12-4cd5-861e-a5d0b1f82a9f"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[SEQ2]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="255" y="19" width="50" height="15" uuid="ad7e6a05-11c8-46a4-b7a7-9e7974061cbc"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[SEQ 1]]></text>
+				<text><![CDATA[Matricule]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -184,6 +164,18 @@
 			<textField isBlankWhenNull="true">
 				<reportElement x="48" y="1" width="207" height="15" uuid="8cc3f297-0ab7-4b4b-b967-6749781744cd"/>
 				<textFieldExpression><![CDATA[$F{nom}+"  "+($F{prenom}==null?"":$F{prenom})]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="255" y="1" width="100" height="15" uuid="8f15bcf0-c888-4848-b52f-93cff664ccdc"/>
+				<textFieldExpression><![CDATA[$F{date_naissance}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="356" y="0" width="100" height="15" uuid="6f494584-e14e-4e3c-8d87-2fed74985954"/>
+				<textFieldExpression><![CDATA[$F{lieu_naissance}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="456" y="1" width="90" height="15" uuid="797cbdb8-65f2-4d23-b94a-c7a367b1b9dc"/>
+				<textFieldExpression><![CDATA[$F{matricule}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

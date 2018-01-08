@@ -43,11 +43,11 @@ public class Note extends AbstractAuditingEntity {
     @NotNull
     @Min(0)
     @Max(20)
-    private double valeur;
+    private Double valeur;
 
     @Transient
     @JsonProperty
-    private Integer coefficient;
+    private double coefficient;
 
     @Transient
     @JsonProperty
@@ -85,13 +85,14 @@ public class Note extends AbstractAuditingEntity {
         this.matiere = matiere;
     }
 
-    public double getValeur() {
+    public Double getValeur() {
         return valeur;
     }
 
-    public void setValeur(double valeur) {
+    public void setValeur(Double valeur) {
         this.valeur = valeur;
     }
+
 
     public Integer getNumeroSequence() {
         return numeroSequence;
@@ -117,13 +118,14 @@ public class Note extends AbstractAuditingEntity {
         this.valeurCoefficie = valeurCoefficie;
     }
 
-    public Integer getCoefficient() {
+    public double getCoefficient() {
         return coefficient;
     }
 
-    public void setCoefficient(Integer coefficient) {
+    public void setCoefficient(double coefficient) {
         this.coefficient = coefficient;
     }
+
 
     
 }

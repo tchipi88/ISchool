@@ -33,7 +33,8 @@
         function save() {
             vm.isSaving = true;
             if (vm.reglement.id !== null) {
-                Reglement.update(vm.reglement, onSaveSuccess, onSaveError);
+                alert('Mise à jour interdite');
+              //  Reglement.update(vm.reglement, onSaveSuccess, onSaveError);
             } else {
                 Reglement.save(vm.reglement, onSaveSuccess, onSaveError);
             }

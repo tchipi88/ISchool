@@ -1,7 +1,6 @@
 package com.tsoft.ischool.config;
 
 import io.github.jhipster.config.locale.AngularCookieLocaleResolver;
-
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,4 +31,12 @@ public class LocaleConfiguration extends WebMvcConfigurerAdapter implements Envi
         localeChangeInterceptor.setParamName("language");
         registry.addInterceptor(localeChangeInterceptor);
     }
+
+//    @Bean
+//    public MessageSource messageSource() {
+//    	ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+//        messageSource.setBasenames("i18n/messages");
+//        messageSource.setDefaultEncoding("UTF-8");
+//        return messageSource;
+//    }
 }

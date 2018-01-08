@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="BulletinSeq" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="5" bottomMargin="10" uuid="4b469ae9-0955-4a52-aed2-c75e5fc15b49">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="65"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="numseq" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -12,7 +12,7 @@
 	<parameter name="nom_ecole" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="logo_ecole" class="java.lang.String"/>
+	<parameter name="logo_ecole" class="java.io.InputStream" isForPrompting="false"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["/home/tchipi/NetBeansProjects/HighSchool/src/com/tsoft/appli/highschool/reports/bulletin/seq/"]]></defaultValueExpression>
 	</parameter>
@@ -136,7 +136,7 @@ where e.id =$P{code_eleve} and ei.annee_id= $P{code_annee} ;]]>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="9"/>
 					</textElement>
-					<text><![CDATA[Ministere des Enseignements Secondaires]]></text>
+					<text><![CDATA[Ministere de l'Education de Base]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="0" y="0" width="178" height="12" uuid="70ec3093-a361-4191-acfe-2d67afe24b21"/>
@@ -172,7 +172,7 @@ where e.id =$P{code_eleve} and ei.annee_id= $P{code_annee} ;]]>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="9"/>
 					</textElement>
-					<text><![CDATA[Ministry of Secondary Education]]></text>
+					<text><![CDATA[Ministry of Basic Education]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
 					<reportElement x="184" y="26" width="178" height="12" uuid="b135f4cd-0f4c-49f5-93b1-cbff80d9a7e5"/>
@@ -523,7 +523,7 @@ where e.id =$P{code_eleve} and ei.annee_id= $P{code_annee} ;]]>
 				<staticText>
 					<reportElement x="0" y="0" width="120" height="20" uuid="a3478e8d-5f39-48e9-b90a-b2ddc1324cd1"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font isBold="true" isUnderline="false"/>
+						<font size="12" isBold="true" isItalic="false" isUnderline="false"/>
 					</textElement>
 					<text><![CDATA[CONDUITE]]></text>
 				</staticText>
@@ -696,7 +696,7 @@ where e.id =$P{code_eleve} and ei.annee_id= $P{code_annee} ;]]>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font isBold="true"/>
 					</textElement>
-					<text><![CDATA[Visa Prof Principal]]></text>
+					<text><![CDATA[Visa Maitre/Maitresse]]></text>
 				</staticText>
 			</frame>
 			<frame>

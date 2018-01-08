@@ -3,23 +3,21 @@ package com.tsoft.ischool.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.tsoft.ischool.domain.Coefficient;
 import com.tsoft.ischool.domain.Matiere;
-
 import com.tsoft.ischool.repository.CoefficientRepository;
 import com.tsoft.ischool.service.CoefficientService;
 import com.tsoft.ischool.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import io.swagger.annotations.ApiParam;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import javax.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * REST controller for managing Coefficient.

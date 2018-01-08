@@ -5,15 +5,14 @@
  */
 package com.tsoft.ischool.service;
 
-import com.tsoft.ischool.domain.Compte;
 import com.tsoft.ischool.domain.ClasseEleve;
 import com.tsoft.ischool.domain.FraisScolarite;
 import com.tsoft.ischool.domain.enumeration.SensEcritureComptable;
+import com.tsoft.ischool.repository.ClasseEleveRepository;
 import com.tsoft.ischool.repository.FraisScolariteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.tsoft.ischool.repository.ClasseEleveRepository;
 
 /**
  *
@@ -47,11 +46,6 @@ public class ClasseEleveService {
 
         ecritureCompteAnalytiqueService.create(eleveInscrit.getEleve(), fraisScolarite.getTotalScolarite(), SensEcritureComptable.D, "Inscription  en " + eleveInscrit.getClasse().getId() + " pour Année: " + eleveInscrit.getAnnee().getId());
 
-//       // Compte compteLoyer = compteService.getCompteLoyer();
-//        Compte compteVente = compteService.getCompteVente();
-//
-//        compteLoyer.setDebit(compteLoyer.getDebit().add(fraisScolarite.getTotalScolarite()));
-//        compteVente.setCredit(compteVente.getCredit().add(fraisScolarite.getTotalScolarite()));
         return eleveInscritRepository.save(eleveInscrit);
     }
 
@@ -62,5 +56,6 @@ public class ClasseEleveService {
         }
         return eleveInscritRepository.save(eleveInscrit);
     }
+
 
 }

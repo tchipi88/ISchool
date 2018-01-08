@@ -72,7 +72,7 @@ public class CarteScolaire {
         String reportfile = "";
         //remplissage des parametres du report
         Map params = new HashMap();
-        reportfile = "file:reports/CarteScolaire.jasper";
+        reportfile = "classpath:ischool/reports/CarteScolaire.jasper";
         //recuperation de la classe
         params.put("code_eleve", eleve);
         params.put("code_annee", as.getAnneeCourante().getId());
@@ -82,11 +82,11 @@ public class CarteScolaire {
         params.put("nom_ecole", ecole.getNom());
         params.put("slogan_ecole", ecole.getSlogan());
         params.put("adress_ecole", ecole.getBoitePostale() + " Tel:" + ecole.getTelephonePortable());
-        params.put("logo_ecole", resourceLoader.getResource("file:reports/logo-ecole.png").getFile().getAbsolutePath());
+        params.put("logo_ecole", resourceLoader.getResource("classpath:ischool/reports/logo-ecole.png").getInputStream());
 
         //determination du chemin des subreports
         params.put("SUBREPORT_DIR", resourceLoader.getResource(reportfile).getFile().getParent() + File.separator);
-        params.put("cmr", resourceLoader.getResource("file:reports/Cameroun.jpg").getFile().getAbsolutePath());
+        params.put("cmr", resourceLoader.getResource("classpath:ischool/reports/Cameroun.jpg").getInputStream());
 
         //  params.put("upload_dir", FileUtils.getUploadedDir());
         String destfile = FileUtils.getUploadedfile().getAbsolutePath() + File.separator + "CarteEleve"
@@ -122,17 +122,16 @@ public class CarteScolaire {
         String destfile = uploadedfile.getAbsolutePath() + File.separator + "Carte"
                 + classe + ".pdf";
         List<JasperPrint> jasperPrintList = new ArrayList<>();
-        String reportfile = resourceLoader.getResource("file:reports/CarteScolaire.jasper").getFile().getAbsolutePath();
 //remplissage des parametres du report
         Map params = new HashMap();
         params.put("code_annee", as.getAnneeCourante().getId());
-        params.put("cmr", resourceLoader.getResource("file:reports/Cameroun.jpg").getFile().getAbsolutePath());
+        params.put("cmr", resourceLoader.getResource("classpath:ischool/reports/Cameroun.jpg").getInputStream());
 //information about school
         ApplicationProperties.Ecole ecole = app.getEcole();
         params.put("nom_ecole", ecole.getNom());
         params.put("slogan_ecole", ecole.getSlogan());
         params.put("adress_ecole", ecole.getBoitePostale() + " Tel:" + ecole.getTelephonePortable());
-        params.put("logo_ecole", resourceLoader.getResource("file:reports/logo-ecole.png").getFile().getAbsolutePath());
+        params.put("logo_ecole", resourceLoader.getResource("classpath:ischool/reports/logo-ecole.png").getInputStream());
         Connection connection = dataSource.getConnection();
 
         for (ClasseEleve ce : eleves) {
@@ -141,7 +140,7 @@ public class CarteScolaire {
             params.put("code_eleve", ce.getEleve().getId());
             //fill report
             JasperPrint jp = JasperFillManager.fillReport(
-                    reportfile,//file jasper
+                    resourceLoader.getResource("classpath:ischool/reports/CarteScolaire.jasper").getInputStream(),//file jasper
                     params, //params report
                     connection);  //datasource
             jasperPrintList.add(jp);
@@ -163,4 +162,117 @@ public class CarteScolaire {
             IOUtils.closeQuietly(in);
         }
     }
+
+    /**
+     * GET /classe-eleves-print : get all the classeEleves.
+     *
+     * @param classe
+     * @return the ResponseEntity with status 200 (OK) and the list of
+     * classeEleves in body
+     */
+    @GetMapping(path = "/classe-eleves-printt/{classe}", produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
+    @Timed
+    public ResponseEntity<byte[]> printAllClasseElevesReleveNotes(
+            @PathVariable String classe) throws Exception {
+        log.debug("REST request to print all ClasseEleves  {}", classe);
+        File uploadedfile = new File("." + File.separator + "reports");
+        if (!uploadedfile.exists()) {
+            uploadedfile.mkdirs();
+        }
+        String destfile = uploadedfile.getAbsolutePath() + File.separator + "ListeEleve"
+                + classe + ".pdf";
+        List<JasperPrint> jasperPrintList = new ArrayList<>();
+//remplissage des parametres du report
+        Map params = new HashMap();
+        params.put("code_annee", as.getAnneeCourante().getId());
+        params.put("code_classe", classe);
+        params.put("cmr", resourceLoader.getResource("classpath:ischool/reports/Cameroun.jpg").getInputStream());
+//information about school
+        ApplicationProperties.Ecole ecole = app.getEcole();
+        params.put("nom_ecole", ecole.getNom());
+        params.put("slogan_ecole", ecole.getSlogan());
+        params.put("adress_ecole", ecole.getBoitePostale() + " Tel:" + ecole.getTelephonePortable());
+        params.put("logo_ecole", resourceLoader.getResource("classpath:ischool/reports/logo-ecole.png").getInputStream());
+        Connection connection = dataSource.getConnection();
+
+        JasperPrint jp = JasperFillManager.fillReport(
+                resourceLoader.getResource("classpath:ischool/reports/ListeEleve.jasper").getInputStream(),//file jasper
+                params, //params report
+                connection);  //datasource
+        jasperPrintList.add(jp);
+
+        // Generating report using List<JasperPrint>
+        JRPdfExporter exporter = new JRPdfExporter();
+        exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrintList));
+        exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destfile));
+        SimplePdfExporterConfiguration configuration = new SimplePdfExporterConfiguration();
+        configuration.setCreatingBatchModeBookmarks(true);
+        exporter.setConfiguration(configuration);
+        exporter.exportReport();
+
+        Resource resource = resourceLoader.getResource("file:" + destfile);
+        InputStream in = resource.getInputStream();
+        try {
+            return new ResponseEntity<>(IOUtils.toByteArray(in), HeaderUtil.downloadAlert(resource), HttpStatus.OK);
+        } finally {
+            IOUtils.closeQuietly(in);
+        }
+    }
+
+    /**
+     * GET /classe-eleves-print : get all the classeEleves.
+     *
+     * @param classe
+     * @return the ResponseEntity with status 200 (OK) and the list of
+     * classeEleves in body
+     */
+    @GetMapping(path = "/classe-eleves-print/{classe}", produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
+    @Timed
+    public ResponseEntity<byte[]> printAllClasseEleves(
+            @PathVariable String classe) throws Exception {
+        log.debug("REST request to print all ClasseEleves  {}", classe);
+        File uploadedfile = new File("." + File.separator + "reports");
+        if (!uploadedfile.exists()) {
+            uploadedfile.mkdirs();
+        }
+        String destfile = uploadedfile.getAbsolutePath() + File.separator + "ReleveNote"
+                + classe + ".pdf";
+        List<JasperPrint> jasperPrintList = new ArrayList<>();
+//remplissage des parametres du report
+        Map params = new HashMap();
+        params.put("code_annee", as.getAnneeCourante().getId());
+        params.put("code_classe", classe);
+        params.put("cmr", resourceLoader.getResource("classpath:ischool/reports/Cameroun.jpg").getInputStream());
+//information about school
+        ApplicationProperties.Ecole ecole = app.getEcole();
+        params.put("nom_ecole", ecole.getNom());
+        params.put("slogan_ecole", ecole.getSlogan());
+        params.put("adress_ecole", ecole.getBoitePostale() + " Tel:" + ecole.getTelephonePortable());
+        params.put("logo_ecole", resourceLoader.getResource("classpath:ischool/reports/logo-ecole.png").getInputStream());
+        Connection connection = dataSource.getConnection();
+
+        JasperPrint jp = JasperFillManager.fillReport(
+                resourceLoader.getResource("classpath:ischool/reports/ReleveNote.jasper").getInputStream(),//file jasper
+                params, //params report
+                connection);  //datasource
+        jasperPrintList.add(jp);
+
+        // Generating report using List<JasperPrint>
+        JRPdfExporter exporter = new JRPdfExporter();
+        exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrintList));
+        exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destfile));
+        SimplePdfExporterConfiguration configuration = new SimplePdfExporterConfiguration();
+        configuration.setCreatingBatchModeBookmarks(true);
+        exporter.setConfiguration(configuration);
+        exporter.exportReport();
+
+        Resource resource = resourceLoader.getResource("file:" + destfile);
+        InputStream in = resource.getInputStream();
+        try {
+            return new ResponseEntity<>(IOUtils.toByteArray(in), HeaderUtil.downloadAlert(resource), HttpStatus.OK);
+        } finally {
+            IOUtils.closeQuietly(in);
+        }
+    }
+
 }
