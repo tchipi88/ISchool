@@ -22,7 +22,7 @@
 	<parameter name="code_annee" class="java.lang.String"/>
 	<parameter name="nom_ecole" class="java.lang.String"/>
 	<parameter name="adress_ecole" class="java.lang.String"/>
-	<parameter name="logo_ecole" class="java.lang.String"/>
+	<parameter name="logo_ecole" class="java.io.InputStream" isForPrompting="false"/>
 	<parameter name="slogan_ecole" class="java.lang.String"/>
 	<parameter name="code_versement" class="java.lang.Long">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>

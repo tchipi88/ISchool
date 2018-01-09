@@ -8,6 +8,7 @@ import com.tsoft.ischool.web.rest.util.HeaderUtil;
 import com.tsoft.ischool.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import io.swagger.annotations.ApiParam;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.util.List;
@@ -20,7 +21,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -53,33 +53,34 @@ public class ReglementResource {
      */
     @PostMapping(value = "/reglements")
     @Timed
-    @Transactional
-    public ResponseEntity<byte[]> createReglement(@Valid @RequestBody Reglement reglement) throws Exception {
+    public ResponseEntity<Reglement> createReglement(@Valid @RequestBody Reglement reglement) throws Exception {
         log.debug("REST request to save Reglement : {}", reglement);
         if (reglement.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new reglement cannot already have an ID")).body(null);
         }
         Reglement result = reglementService.save(reglement);
-        return reglementService.print(result);
+        return ResponseEntity.created(new URI("/api/reglements/" + result.getId()))
+                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId() + ""))
+                .body(result);
 
     }
 
     
-
     /**
-     * GET /reglements : get all the reglements.
+     * GET /reglements/:id : get the "id" reglement.
      *
-     * @return the ResponseEntity with status 200 (OK) and the list of
-     * reglements in body
+     * @param id the id of the reglement to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the
+     * reglement, or with status 404 (Not Found)
      */
-    @GetMapping("/reglements")
+    @GetMapping("/reglements-print/{id}")
     @Timed
-    public ResponseEntity<List<Reglement>> getAllReglements(@ApiParam Pageable pageable) {
-        log.debug("REST request to get all Reglements");
-        Page<Reglement> page = reglementRepository.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/reglements");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    public ResponseEntity<byte[]> printReglement(@PathVariable Long id) throws Exception {
+        log.debug("REST request to print Reglement : {}", id);
+        Reglement reglement = reglementRepository.findOne(id);
+        return reglementService.print(reglement);
     }
+
 
     /**
      * GET /reglements/:id : get the "id" reglement.
