@@ -6,8 +6,9 @@
 package com.tsoft.ischool.service;
 
 import com.tsoft.ischool.config.ApplicationProperties;
-import com.tsoft.ischool.domain.Compte;
 import com.tsoft.ischool.domain.CaisseEncaissement;
+import com.tsoft.ischool.domain.Compte;
+import com.tsoft.ischool.domain.CompteAnalytique;
 import com.tsoft.ischool.domain.Reglement;
 import com.tsoft.ischool.domain.enumeration.CaisseMouvementMotif;
 import static com.tsoft.ischool.domain.enumeration.ModePaiement.CHEQUE;
@@ -48,6 +49,8 @@ public class ReglementService {
     @Autowired
     EcritureCompteAnalytiqueService ecritureCompteAnalytiqueService;
     @Autowired
+    CompteAnalytiqueService compteAnalytiqueService;
+    @Autowired
     CompteService compteService;
     @Autowired
     AnneeService as;
@@ -64,7 +67,7 @@ public class ReglementService {
         if (reglement.getId() != null) {
             throw new Exception("Mise à jour des reglement interdite");
         }
-        ecritureCompteAnalytiqueService.create(reglement.getEleve(), reglement.getMontant(), SensEcritureComptable.C, "Ecologe ");
+        ecritureCompteAnalytiqueService.create(reglement.getEleve(), reglement.getMontant(), SensEcritureComptable.C, "Ecolage ");
 
 //        //Compte comptePersonnel = compteService.getComptePersonnel();
 //        comptePersonnel.setDebit(reglement.getMontant().add(comptePersonnel.getDebit()));
@@ -81,7 +84,7 @@ public class ReglementService {
                 encaissement.setDateVersement(reglement.getDateVersement());
                 encaissement.setModePaiement(reglement.getModePaiement());
                 encaissement.setMotif(CaisseMouvementMotif.ECOLAGE);
-                encaissement.setCommentaires("Ecologe :" + reglement.getEleve().getNom());
+                encaissement.setCommentaires("Ecolage : " + reglement.getEleve().getNom());
 
                 encaissementService.save(encaissement);
 
@@ -112,14 +115,15 @@ public class ReglementService {
         //recuperation de la classe
         params.put("code_annee", as.getAnneeCourante().getId());
         params.put("code_versement", reglement.getId());
-        params.put("solde", reglement.getEleve().getCompte().getSolde());
+        CompteAnalytique compte = compteAnalytiqueService.getCompteEleve(reglement.getEleve());
+        params.put("solde", compte.getSolde());
 
         //information about school
         ApplicationProperties.Ecole ecole = app.getEcole();
         params.put("nom_ecole", ecole.getNom());
         params.put("slogan_ecole", ecole.getSlogan());
         params.put("adress_ecole", ecole.getBoitePostale() + " Tel:" + ecole.getTelephonePortable());
-        params.put("logo_ecole", resourceLoader.getResource("classpath:ischool/reports/logo-ecole.png").getFile().getAbsolutePath());
+        params.put("logo_ecole", resourceLoader.getResource("classpath:ischool/reports/logo-ecole.png").getInputStream());
 
 
         //  params.put("upload_dir", FileUtils.getUploadedDir());

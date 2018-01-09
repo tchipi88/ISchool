@@ -2,27 +2,25 @@ package com.tsoft.ischool.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.tsoft.ischool.domain.CompteAnalytiqueEcriture;
-
 import com.tsoft.ischool.repository.CompteAnalytiqueEcritureRepository;
 import com.tsoft.ischool.web.rest.util.HeaderUtil;
 import com.tsoft.ischool.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import io.swagger.annotations.ApiParam;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import javax.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * REST controller for managing CompteAnalytiqueEcriture.
@@ -89,21 +87,6 @@ public class CompteAnalytiqueEcritureResource {
     }
 
     /**
-     * GET /compte-analytique-ecritures : get all the compteAnalytiqueEcritures.
-     *
-     * @return the ResponseEntity with status 200 (OK) and the list of
-     * compteAnalytiqueEcritures in body
-     */
-    @GetMapping("/compte-analytique-ecritures")
-    @Timed
-    public ResponseEntity<List<CompteAnalytiqueEcriture>> getAllCompteAnalytiqueEcritures(@ApiParam Pageable pageable) {
-        log.debug("REST request to get all CompteAnalytiqueEcritures");
-        Page<CompteAnalytiqueEcriture> page = compteAnalytiqueEcritureRepository.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/compte-analytique-ecritures");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
-    }
-
-    /**
      * GET /compte-analytique-ecritures/:id : get the "id"
      * compteAnalytiqueEcriture.
      *
@@ -146,7 +129,7 @@ public class CompteAnalytiqueEcritureResource {
      * @return the ResponseEntity with status 200 (OK) and the list of
      * EcritureCompteAnalytiques in body
      */
-    @GetMapping(path = "/ecriture-compte-analytiques", params = {"fromDate", "toDate"})
+    @GetMapping(path = "/compte-analytique-ecritures", params = {"fromDate", "toDate"})
     public ResponseEntity<List<CompteAnalytiqueEcriture>> getByDates(
             @RequestParam(value = "fromDate") LocalDate fromDate,
             @RequestParam(value = "toDate") LocalDate toDate,

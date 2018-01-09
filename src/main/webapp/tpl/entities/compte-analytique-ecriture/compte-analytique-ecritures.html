@@ -8,7 +8,7 @@
 
 <div class="wrapper-md">
     <div class="panel panel-default">
- <div class="panel-heading">
+        <div class="panel-heading">
             <div class="row">
                 <div class="col-md-5">
                     <h4 >Filter by date</h4>
@@ -26,23 +26,23 @@
                 <thead>
                     <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
                         <th jh-sort-by="compte"><span >Compte</span> <span class="fa fa-sort"></span></th>
-                       
+
                         <th ><span >Libelle Operation</span> </th>
                         <th ><span >Date Ecriture</span> </th>
                         <th ><span >Débit</span> </th>
                         <th ><span >Crédit</span> </th>
-                        
+
                     </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat="compteAnalytiqueEcriture in vm.compteAnalytiqueEcritures track by compteAnalytiqueEcriture.id">
                         <td>{{compteAnalytiqueEcriture.compte.eleve.nom}}</td>
                         <td>{{compteAnalytiqueEcriture.libelleOperation}}</td>
-                        
-                         <td>{{compteAnalytiqueEcriture.dateEcriture | date:'medium'}}</td>
-                        <td >{{compteAnalytiqueEcriture.sensEcriture==='D'?(compteAnalytiqueEcriture.montant| number) :''}}</td>
-                        <td >{{compteAnalytiqueEcriture.sensEcriture==='C'?(compteAnalytiqueEcriture.montant| number) :''}}</td>
-                       
+
+                        <td>{{compteAnalytiqueEcriture.dateEcriture| date:'medium'}}</td>
+                        <td >{{compteAnalytiqueEcriture.sensEcriture === 'D' ? (compteAnalytiqueEcriture.montant | number) : ''}}</td>
+                        <td >{{compteAnalytiqueEcriture.sensEcriture === 'C' ? (compteAnalytiqueEcriture.montant | number) : ''}}</td>
+
                     </tr>
                 </tbody>
             </table>

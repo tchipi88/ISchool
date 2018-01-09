@@ -3,26 +3,24 @@ package com.tsoft.ischool.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.tsoft.ischool.domain.CaisseDecaissement;
 import com.tsoft.ischool.repository.CaisseDecaissementRepository;
-
 import com.tsoft.ischool.web.rest.util.HeaderUtil;
 import com.tsoft.ischool.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import io.swagger.annotations.ApiParam;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import javax.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * REST controller for managing CaisseDecaissement.
@@ -84,19 +82,6 @@ public class CaisseDecaissementResource {
             .body(result);
     }
 
-    /**
-     * GET  /caisse-decaissements : get all the caisseCaisseDecaissements.
-     *
-     * @return the ResponseEntity with status 200 (OK) and the list of caisseCaisseDecaissements in body
-     */
-    @GetMapping("/caisse-decaissements")
-    @Timed
-    public ResponseEntity<List<CaisseDecaissement>> getAllCaisseDecaissements(@ApiParam Pageable pageable) {
-        log.debug("REST request to get all CaisseDecaissements");
-        Page<CaisseDecaissement> page = caisseDecaissementRepository.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/caisse-decaissements");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
-    }
 
  
 

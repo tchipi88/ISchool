@@ -81,7 +81,7 @@
 					<textElement textAlignment="Center">
 						<font size="8"/>
 					</textElement>
-					<text><![CDATA[Ministere des Enseignements Secondaires]]></text>
+					<text><![CDATA[Ministere de l'Education de Base]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="0" y="0" width="178" height="10" uuid="0156e195-a881-4b21-9b9a-2e61e7612417"/>

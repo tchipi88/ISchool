@@ -5,9 +5,9 @@
             .module('app')
             .controller('ReglementDialogController', ReglementDialogController);
 
-    ReglementDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', '$uibModal','DateUtils', 'DataUtils', 'entity', 'Reglement', 'EleveSearch', 'Caisse'];
+    ReglementDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', '$uibModal', 'DateUtils', 'DataUtils', 'entity', 'Reglement', 'EleveSearch', 'Caisse'];
 
-    function ReglementDialogController($timeout, $scope, $stateParams, $uibModalInstance, $uibModal,DateUtils, DataUtils, entity, Reglement, EleveSearch, Caisse) {
+    function ReglementDialogController($timeout, $scope, $stateParams, $uibModalInstance, $uibModal, DateUtils, DataUtils, entity, Reglement, EleveSearch, Caisse) {
         var vm = this;
 
         vm.reglement = entity;
@@ -18,7 +18,7 @@
         vm.openFile = DataUtils.openFile;
         vm.save = save;
         vm.caisses = Caisse.query();
-         vm.search = search;
+        vm.search = search;
 
 
 
@@ -32,12 +32,8 @@
 
         function save() {
             vm.isSaving = true;
-            if (vm.reglement.id !== null) {
-                alert('Mise à jour interdite');
-              //  Reglement.update(vm.reglement, onSaveSuccess, onSaveError);
-            } else {
-                Reglement.save(vm.reglement, onSaveSuccess, onSaveError);
-            }
+            Reglement.save(vm.reglement, onSaveSuccess, onSaveError);
+
         }
 
         function onSaveSuccess(result) {
@@ -89,7 +85,7 @@
                 size: 'lg',
                 resolve: {
                     entity: function () {
-                         entity.dateNaissance = DateUtils.convertLocalDateFromServer(entity.dateNaissance);
+                        entity.dateNaissance = DateUtils.convertLocalDateFromServer(entity.dateNaissance);
                         return entity;
                     }
                 }

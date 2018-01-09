@@ -2,29 +2,26 @@ package com.tsoft.ischool.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.tsoft.ischool.domain.Reglement;
-
 import com.tsoft.ischool.repository.ReglementRepository;
 import com.tsoft.ischool.service.ReglementService;
 import com.tsoft.ischool.web.rest.util.HeaderUtil;
 import com.tsoft.ischool.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import io.swagger.annotations.ApiParam;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import javax.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * REST controller for managing Reglement.
@@ -54,8 +51,9 @@ public class ReglementResource {
      * already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @PostMapping(value = "/reglements", produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
+    @PostMapping(value = "/reglements")
     @Timed
+    @Transactional
     public ResponseEntity<byte[]> createReglement(@Valid @RequestBody Reglement reglement) throws Exception {
         log.debug("REST request to save Reglement : {}", reglement);
         if (reglement.getId() != null) {
