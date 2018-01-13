@@ -40,6 +40,7 @@ public class CoefficientService {
         List<String> series = coefs.stream().map(c -> c.getSerie().getId()).collect(toList());
         serieAll.stream().filter((s) -> (!series.contains(s.getId()))).map((s) -> {
             Coefficient c = new Coefficient();
+            c.setValeur(0D);
             c.setSerie(s);
             return c;
         }).map((c) -> {
