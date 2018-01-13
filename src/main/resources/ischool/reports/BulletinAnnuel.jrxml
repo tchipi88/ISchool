@@ -12,7 +12,7 @@
 	<parameter name="adress_ecole" class="java.lang.String"/>
 	<parameter name="code_annee" class="java.lang.String"/>
 	<parameter name="code_eleve" class="java.lang.Long"/>
-	<parameter name="logo_ecole" class="java.lang.String"/>
+	<parameter name="logo_ecole" class="java.io.InputStream" isForPrompting="false"/>
 	<parameter name="slogan_ecole" class="java.lang.String"/>
 	<parameter name="effectif" class="java.lang.String"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
@@ -262,14 +262,14 @@ where e.id =$P{code_eleve}  and ei.annee_id=$P{code_annee}]]>
 						<textFieldExpression><![CDATA[$F{codeclasse}]]></textFieldExpression>
 					</textField>
 					<staticText>
-						<reportElement x="66" y="32" width="118" height="15" uuid="4a744d68-3cc2-4e5a-955e-deac17cf85cb"/>
+						<reportElement x="66" y="32" width="47" height="15" uuid="4a744d68-3cc2-4e5a-955e-deac17cf85cb"/>
 						<textElement>
 							<font isBold="true"/>
 						</textElement>
-						<text><![CDATA[Date et lieu naisssance:]]></text>
+						<text><![CDATA[Né le]]></text>
 					</staticText>
 					<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-						<reportElement x="184" y="32" width="78" height="15" uuid="a5651411-f031-4b9d-847d-3313e946c986"/>
+						<reportElement x="113" y="32" width="149" height="15" uuid="a5651411-f031-4b9d-847d-3313e946c986"/>
 						<textFieldExpression><![CDATA[$F{date_naissance}]]></textFieldExpression>
 					</textField>
 					<textField pattern="" isBlankWhenNull="true">

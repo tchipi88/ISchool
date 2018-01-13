@@ -82,8 +82,8 @@ public class BulletinTri  {
     @Autowired
     NoteService noteService;
 
-    @GetMapping("/bulletin-tri/{numTri}/{eleve}")
-    @Timed
+//    @GetMapping("/bulletin-tri/{numTri}/{eleve}")
+//    @Timed
     public ResponseEntity<byte[]> printBulletinTri(@PathVariable Long eleve, @PathVariable int numTri) throws Exception {
         log.debug("REST request to print Bulletin Annuel Eleve : {}", eleve);
         ClasseEleve ei = eleveInscritRepository.findByAnneeAndEleveId(as.getAnneeCourante(), eleve);
@@ -167,7 +167,7 @@ public class BulletinTri  {
         params.put("nom_ecole", ecole.getNom());
         params.put("slogan_ecole", ecole.getSlogan());
         params.put("adress_ecole", ecole.getBoitePostale() + " Tel:" + ecole.getTelephonePortable());
-        params.put("logo_ecole", resourceLoader.getResource("classpath:ischool/reports/logo-ecole.png").getInputStream());
+
         Connection connection = dataSource.getConnection();
 
         int i = 0;
@@ -175,6 +175,7 @@ public class BulletinTri  {
             log.debug("REST request to print Bulletin Annuel Eleve : {}", ce.getEleve());
             //recuperation de la idClasse
             params.put("code_eleve", ce.getEleve().getId());
+            params.put("logo_ecole", resourceLoader.getResource("classpath:ischool/reports/logo-ecole.png").getInputStream());
             params.put("rang", ++i);
             //fill report
             JasperPrint jp = JasperFillManager.fillReport(

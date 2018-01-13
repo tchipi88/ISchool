@@ -124,19 +124,21 @@ public class CarteScolaire {
 //remplissage des parametres du report
         Map params = new HashMap();
         params.put("code_annee", as.getAnneeCourante().getId());
-        params.put("cmr", resourceLoader.getResource("classpath:ischool/reports/Cameroun.jpg").getInputStream());
+
 //information about school
         ApplicationProperties.Ecole ecole = app.getEcole();
         params.put("nom_ecole", ecole.getNom());
         params.put("slogan_ecole", ecole.getSlogan());
         params.put("adress_ecole", ecole.getBoitePostale() + " Tel:" + ecole.getTelephonePortable());
-        params.put("logo_ecole", resourceLoader.getResource("classpath:ischool/reports/logo-ecole.png").getInputStream());
+
         Connection connection = dataSource.getConnection();
 
         for (ClasseEleve ce : eleves) {
             log.debug("REST request to print Carte Eleve : {}", ce.getEleve());
             //recuperation de la classe
             params.put("code_eleve", ce.getEleve().getId());
+            params.put("cmr", resourceLoader.getResource("classpath:ischool/reports/Cameroun.jpg").getInputStream());
+            params.put("logo_ecole", resourceLoader.getResource("classpath:ischool/reports/logo-ecole.png").getInputStream());
             //fill report
             JasperPrint jp = JasperFillManager.fillReport(
                     resourceLoader.getResource("classpath:ischool/reports/CarteScolaire.jasper").getInputStream(),//file jasper

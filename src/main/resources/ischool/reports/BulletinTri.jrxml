@@ -247,14 +247,14 @@ where e.id =$P{code_eleve}  and ei.annee_id=$P{code_annee}]]>
 						<textFieldExpression><![CDATA[$F{codeclasse}]]></textFieldExpression>
 					</textField>
 					<staticText>
-						<reportElement x="66" y="32" width="118" height="15" uuid="f2de83cb-1698-425f-8316-d56bd7634567"/>
+						<reportElement x="66" y="32" width="47" height="15" uuid="f2de83cb-1698-425f-8316-d56bd7634567"/>
 						<textElement>
 							<font isBold="true"/>
 						</textElement>
-						<text><![CDATA[Date et lieu naisssance:]]></text>
+						<text><![CDATA[Né(e) le :]]></text>
 					</staticText>
 					<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-						<reportElement x="184" y="32" width="78" height="15" uuid="b9170ee0-8de8-4075-b7cd-260e4bc410dd"/>
+						<reportElement x="113" y="32" width="149" height="15" uuid="b9170ee0-8de8-4075-b7cd-260e4bc410dd"/>
 						<textFieldExpression><![CDATA[$F{date_naissance}]]></textFieldExpression>
 					</textField>
 					<textField pattern="" isBlankWhenNull="true">

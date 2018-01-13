@@ -169,7 +169,7 @@ public class BulletinAnnuel {
         params.put("nom_ecole", ecole.getNom());
         params.put("slogan_ecole", ecole.getSlogan());
         params.put("adress_ecole", ecole.getBoitePostale() + " Tel:" + ecole.getTelephonePortable());
-        params.put("logo_ecole", resourceLoader.getResource("classpath:ischool/reports/logo-ecole.png").getInputStream());
+
         Connection connection = dataSource.getConnection();
 
         int i = 0;
@@ -177,6 +177,7 @@ public class BulletinAnnuel {
             log.debug("REST request to print Bulletin Annuel Eleve : {}", ce.getEleve());
             //recuperation de la idClasse
             params.put("code_eleve", ce.getEleve().getId());
+            params.put("logo_ecole", resourceLoader.getResource("classpath:ischool/reports/logo-ecole.png").getInputStream());
             params.put("rang", ++i);
             //fill report
             JasperPrint jp = JasperFillManager.fillReport(
