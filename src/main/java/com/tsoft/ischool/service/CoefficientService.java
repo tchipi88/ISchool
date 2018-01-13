@@ -59,4 +59,27 @@ public class CoefficientService {
         return coefficientRepository.save(result);
     }
 
+    public List<Coefficient> retrieveDatas(String Idserie) throws Exception {
+        List<Matiere> matieresAll = matiereRepository.findAll();
+        Serie serie = serieRepository.findOne(Idserie);
+        List<Coefficient> coefs = coefficientRepository.findBySerieId(Idserie);
+
+        //determine serie sans coefficient
+        List<Long> matieres = coefs.stream().map(c -> c.getMatiere().getId()).collect(toList());
+        matieresAll.stream().filter((s) -> (!matieres.contains(s.getId()))).map((m) -> {
+            Coefficient c = new Coefficient();
+            c.setValeur(0D);
+            c.setMatiere(m);
+            return c;
+        }).map((c) -> {
+            c.setSerie(serie);
+            return c;
+        }).forEachOrdered((c) -> {
+            coefs.add(c);
+        });
+        Comparator<Coefficient> bySerie = (Coefficient c1, Coefficient c2) -> c1.getSerie().getNiveau().compareTo(c2.getSerie().getNiveau());
+        List<Coefficient> coefsbySerie = coefs.stream().sorted(bySerie).collect(toList());
+        return coefsbySerie;
+    }
+
 }

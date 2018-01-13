@@ -126,6 +126,14 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        
+        <!-- https://mvnrepository.com/artifact/org.apache.xmlgraphics/batik-bridge -->
+<dependency>
+    <groupId>org.apache.xmlgraphics</groupId>
+    <artifactId>batik-bridge</artifactId>
+    <version>1.8</version>
+</dependency>
+
 
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
