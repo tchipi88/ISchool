@@ -61,31 +61,23 @@ public class CoefficientResource {
     /**
      * GET /coefficients : get all the coefficients.
      *
-     * @param matiere
+     * @param valeur
      * @return the ResponseEntity with status 200 (OK) and the list of
      * coefficients in body
      */
     @GetMapping("/coefficients")
     @Timed
-    public ResponseEntity<List<Coefficient>> getAllCoefficients(@ApiParam Long matiere) throws Exception {
-        log.debug("REST request to get all Coefficients  for matiere {} ", matiere);
-        List<Coefficient> page = coefficientService.retrieveDatas(matiere);
+    public ResponseEntity<List<Coefficient>> getAllCoefficients(@ApiParam String valeur) throws Exception {
+        List<Coefficient> page = null;
+        try {
+            page = coefficientService.retrieveDatas(Long.parseLong(valeur));
+        } catch (NumberFormatException nfe) {
+            page = coefficientService.retrieveDatas(valeur);
+        }
+
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
-//    /**
-//     * GET /coefficients : get all the coefficients.
-//     *
-//     * @param serie
-//     * @return the ResponseEntity with status 200 (OK) and the list of
-//     * coefficients in body
-//     */
-//    @GetMapping("/coefficients")
-//    @Timed
-//    public ResponseEntity<List<Coefficient>> getAllCoefficients(@ApiParam String serie) throws Exception {
-//        log.debug("REST request to get all Coefficients for serie {}", serie);
-//        List<Coefficient> page = coefficientService.retrieveDatas(serie);
-//        return new ResponseEntity<>(page, HttpStatus.OK);
-//    }
+
 
     /**
      * GET /coefficients/:id : get the "id" coefficient.

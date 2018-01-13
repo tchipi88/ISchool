@@ -5,13 +5,14 @@
             .module('app')
             .controller('CoefficientController', CoefficientController);
 
-    CoefficientController.$inject = ['$http', 'Coefficient', 'ParseLinks', 'AlertService', 'paginationConstants', 'Matiere'];
+    CoefficientController.$inject = ['$http', 'Matiere','Serie','Coefficient', 'ParseLinks', 'AlertService', 'paginationConstants'];
 
-    function CoefficientController($http, Coefficient, ParseLinks, AlertService, paginationConstants, Matiere) {
+    function CoefficientController($http,Matiere,Serie, Coefficient, ParseLinks, AlertService, paginationConstants) {
 
         var vm = this;
 
         vm.loadAll = loadAll;
+        vm.loadAllBySerie = loadAllBySerie;
         vm.save = save;
 
 
@@ -19,18 +20,35 @@
         loadData();
 
         function loadData() {
-            $http.get("api/matieress")
-                    .success(function (data) {
-                        vm.matieres = data;
-                    });
-
-
+            vm.matieres=  Matiere.query({
+                  page:0,
+                  size:200
+              });
+               vm.series=  Serie.query({
+                  page:0,
+                  size:200
+              });
         }
         // loadAll();
 
         function loadAll() {
+            vm.serie=null;
             Coefficient.query({
-                matiere: vm.matiere.id
+                valeur: vm.matiere.id
+            }, onSuccess, onError);
+
+            function onSuccess(data, headers) {
+                vm.coefficients = data;
+            }
+            function onError(error) {
+                AlertService.error(error.data.message);
+            }
+        }
+        
+        function loadAllBySerie() {
+            vm.matiere=null;
+            Coefficient.query({
+                valeur: vm.serie.id
             }, onSuccess, onError);
 
             function onSuccess(data, headers) {
@@ -49,7 +67,8 @@
         function onSaveSuccess(result) {
             vm.isSaving = false;
             vm.edit = false;
-            loadAll();
+            if(vm.serie) loadAllBySerie();
+            else loadAll();
             AlertService.success("");
         }
 

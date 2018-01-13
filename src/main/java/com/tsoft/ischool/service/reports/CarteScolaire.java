@@ -85,7 +85,6 @@ public class CarteScolaire {
         params.put("logo_ecole", resourceLoader.getResource("classpath:ischool/reports/logo-ecole.png").getInputStream());
 
         //determination du chemin des subreports
-        params.put("SUBREPORT_DIR", resourceLoader.getResource(reportfile).getFile().getParent() + File.separator);
         params.put("cmr", resourceLoader.getResource("classpath:ischool/reports/Cameroun.jpg").getInputStream());
 
         //  params.put("upload_dir", FileUtils.getUploadedDir());
