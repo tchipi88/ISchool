@@ -99,10 +99,7 @@ public class EleveResource {
         }
         Eleve result = eleveRepository.save(eleve);
         eleveSearchRepository.save(result);
-        CompteAnalytique compte = new CompteAnalytique();
-        compte.setEleve(result);
-        CompteAnalytique compteSaved = compteAnalytiqueRepository.save(compte);
-        compteAnalytiqueSearchRepository.save(compteSaved);
+
         return ResponseEntity.ok()
                 .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, eleve.getId().toString()))
                 .body(result);
