@@ -12,7 +12,10 @@
 
         vm.clear = clear;
         vm.save = save;
-        vm.series = Serie.query();
+        vm.series = Serie.query({
+            page:0,
+            size:200
+        });
 
 
 
