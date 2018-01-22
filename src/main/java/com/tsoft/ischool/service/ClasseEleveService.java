@@ -51,7 +51,7 @@ public class ClasseEleveService {
 
     public ClasseEleve update(ClasseEleve eleveInscrit) throws Exception {
         ClasseEleve oldValue = eleveInscritRepository.findOne(eleveInscrit.getId());
-        if (!oldValue.getClasse().getSerie().equals(eleveInscrit.getClasse().getSerie())) {
+        if (!oldValue.getClasse().getSerie().getId().equals(eleveInscrit.getClasse().getSerie().getId())) {
             throw new Exception("Impossible de changer de classe de series différentes ");
         }
         return eleveInscritRepository.save(eleveInscrit);

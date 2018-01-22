@@ -36,7 +36,7 @@ left join note n4 on (n2.classe_eleve_id=ei.id and n4.matiere_id=m.id and n2.num
 left join note n5 on (n2.classe_eleve_id=ei.id and n5.matiere_id=m.id and n2.numero_sequence=5)
 left join note n6 on (n2.classe_eleve_id=ei.id and n6.matiere_id=m.id and n2.numero_sequence=6)
 
-where e.id =$P{code_eleve}  and ei.annee_id=$P{code_annee}]]>
+where e.id =$P{code_eleve}  and ei.annee_id=$P{code_annee} order by typematiere]]>
 	</queryString>
 	<field name="civilite" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -44,7 +44,7 @@ where e.id =$P{code_eleve}  and ei.annee_id=$P{code_annee}]]>
 	<field name="prof" class="java.lang.String"/>
 	<field name="typematiere" class="java.lang.Integer"/>
 	<field name="discipline" class="java.lang.String"/>
-	<field name="coef" class="java.lang.Integer"/>
+	<field name="coef" class="java.lang.Double"/>
 	<field name="note1" class="java.lang.Double"/>
 	<field name="note2" class="java.lang.Double"/>
 	<field name="note3" class="java.lang.Double"/>
@@ -69,7 +69,7 @@ where e.id =$P{code_eleve}  and ei.annee_id=$P{code_annee}]]>
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="matricule" class="java.lang.String"/>
-	<field name="photo" class="java.io.InputStream">
+	<field name="photo" class="java.lang.Object">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="adresse" class="java.lang.String">
