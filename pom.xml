@@ -126,14 +126,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        
-        <!-- https://mvnrepository.com/artifact/org.apache.xmlgraphics/batik-bridge -->
-<dependency>
-    <groupId>org.apache.xmlgraphics</groupId>
-    <artifactId>batik-bridge</artifactId>
-    <version>1.8</version>
-</dependency>
-
 
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
@@ -287,6 +279,13 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>${commons-lang.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.xmlgraphics/batik-bridge -->
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>batik-bridge</artifactId>
+            <version>1.8</version>
         </dependency>
         <dependency>
             <groupId>org.assertj</groupId>
