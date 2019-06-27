@@ -7,6 +7,8 @@ package com.tsoft.ischool.domain;
 
 import com.tsoft.ischool.domain.enumeration.CaisseMouvementMotif;
 import com.tsoft.ischool.domain.enumeration.ModePaiement;
+import com.tsoft.ischool.service.template.Fichier;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -46,6 +48,10 @@ public class Reglement extends AbstractAuditingEntity {
     @Column
     @NotNull
     private BigDecimal montant;
+
+    @Column
+    @Fichier
+    private String fileReference;
 
     @Enumerated(EnumType.STRING)
     @NotNull
