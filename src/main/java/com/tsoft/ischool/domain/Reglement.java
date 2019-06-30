@@ -55,9 +55,9 @@ public class Reglement extends AbstractAuditingEntity {
     private CaisseMouvementMotif motif;
 
     @Lob
-    @Column(name = "image_ref")
+    @Column(name = "image")
     @Image
-    private byte[] imageRef;
+    private byte[] image;
 
     @Column(name = "image_content_type")
     private String imageContentType;
@@ -155,4 +155,21 @@ public class Reglement extends AbstractAuditingEntity {
 //    public void setFileReference(String fileReference) {
 //        this.fileReference = fileReference;
 //    }
+
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public String getImageContentType() {
+        return imageContentType;
+    }
+
+    public void setImageContentType(String imageContentType) {
+        this.imageContentType = imageContentType;
+    }
 }

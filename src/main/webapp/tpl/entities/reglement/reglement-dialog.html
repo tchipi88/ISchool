@@ -113,30 +113,35 @@
                 </div>
             </div>
 
+
+
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label class="control-label"  for="field_imageRef">Image Ref</label>
-                    <div ngf-drop ngf-change="vm.setMimage($file, 'imageRef')" ngf-pattern="'image/*'"    ngf-capture="'camera'">
-                        <img data-ng-src="{{'data:' + vm.reglement.imageContentType  + ';base64,' + vm.reglement.imageRef}}" style="max-height: 100px;" ng-if="vm.reglement.imageRef"/>
-                        <div ng-if="vm.reglement.imageRef" class="help-block clearfix">
-                            <span class="pull-left">{{vm.reglement.imageContentType}}, {{byteSize(vm.reglement.imageRef)}}</span>
-                            <button ng-click="vm.reglement.imageRef = null;vm.reglement.imageContentType = null;"
+                    <label class="control-label" for="field_image">Image</label>
+                    <div ngf-drop ngf-change="vm.setMimage($file, 'image')" ngf-pattern="'image/*'"
+                         ngf-capture="'camera'">
+                        <img data-ng-src="{{'data:' + vm.reglement.imageContentType  + ';base64,' + vm.reglement.image}}"
+                             style="max-height: 100px;" ng-if="vm.reglement.image"/>
+                        <div ng-if="vm.reglement.image" class="help-block clearfix">
+                            <span class="pull-left">{{vm.reglement.imageContentType}}, {{byteSize(vm.reglement.image)}}</span>
+                            <button ng-click="vm.reglement.image = null;vm.reglement.imageContentType = null;"
                                     class="btn btn-default btn-xs pull-right">
                                 <span class="glyphicon glyphicon-remove"></span>
                             </button>
                         </div>
                         <button type="file" ngf-select class="btn btn-default btn-block"
-                                ngf-change="vm.setMimage($file,  'imageRef')" accept="image/*" >
-                            Add image Ref File
+                                ngf-change="vm.setMimage($file,  'image')" accept="image/*">
+                            Add image
                         </button>
                     </div>
-                    <input type="hidden" class="form-control" id="field_photo"  name="imageRef"
-                           ng-model="vm.reglement.imageRef"      minbytes="5" />
+                    <input type="hidden" class="form-control" id="field_image" name="image"
+                           ng-model="vm.reglement.image" minbytes="5"/>
                     <input type="hidden" class="form-control" name="imageContentType" id="imageContentType"
-                           ng-model="vm.reglement.imageContentType" />
+                           ng-model="vm.reglement.imageContentType"/>
 
                 </div>
             </div>
+
 
         </div>
 
