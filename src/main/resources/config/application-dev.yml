@@ -28,7 +28,7 @@ spring:
         type: com.zaxxer.hikari.HikariDataSource
         url: jdbc:mysql://localhost:3306/ischool?useUnicode=true&characterEncoding=utf8&useSSL=false
         username: root
-        password: root
+        password:
         hikari:
             data-source-properties:
                 cachePrepStmts: true
@@ -85,7 +85,7 @@ liquibase:
 #        keyAlias: TKBR_
 # ===================================================================
 server:
-    port: 8080
+    port: 8084
 
 # ===================================================================
 # JHipster specific properties
@@ -106,7 +106,7 @@ jhipster:
             key: 96d7aa5b25b900d259884a7da184ffcf762c201a
     mail: # specific JHipster mail property, for standard properties see MailProperties
         from: TKBR_@localhost
-        base-url: http://127.0.0.1:8080
+        base-url: http://127.0.0.1:8084
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx.enabled: true
         graphite: # Use the "graphite" Maven profile to have the Graphite dependencies

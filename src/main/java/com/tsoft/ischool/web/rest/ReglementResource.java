@@ -4,6 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import com.tsoft.ischool.domain.Reglement;
 import com.tsoft.ischool.repository.ReglementRepository;
 import com.tsoft.ischool.service.ReglementService;
+import com.tsoft.ischool.service.dto.ReglementDto;
 import com.tsoft.ischool.web.rest.util.HeaderUtil;
 import com.tsoft.ischool.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;

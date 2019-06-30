@@ -16,6 +16,7 @@ import static com.tsoft.ischool.domain.enumeration.ModePaiement.ESPECES;
 import static com.tsoft.ischool.domain.enumeration.ModePaiement.VIREMENT;
 import com.tsoft.ischool.domain.enumeration.SensEcritureComptable;
 import com.tsoft.ischool.repository.ReglementRepository;
+import com.tsoft.ischool.service.dto.ReglementDto;
 import com.tsoft.ischool.web.rest.util.HeaderUtil;
 import java.io.File;
 import java.io.InputStream;
@@ -149,6 +150,20 @@ public class ReglementService {
             IOUtils.closeQuietly(in);
         }
 
+    }
+
+    public Reglement create(ReglementDto reglementDto)  throws Exception {
+        Reglement reglement = new Reglement();
+//        reglement.setId(reglementDto.getId());
+        reglement.setEleve(reglementDto.getEleve());
+        reglement.setCaisse(reglementDto.getCaisse());
+        reglement.setDateVersement(reglementDto.getDateVersement());
+        reglement.setMontant(reglementDto.getMontant());
+//        reglement.setFileReference(reglementDto.getFileReference().getOriginalFilename());
+        reglement.setModePaiement(reglementDto.getModePaiement());
+        reglement.setMotif(reglementDto.getMotif());
+
+        return save(reglement);
     }
 
 }

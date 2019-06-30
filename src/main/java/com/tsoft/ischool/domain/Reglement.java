@@ -8,18 +8,12 @@ package com.tsoft.ischool.domain;
 import com.tsoft.ischool.domain.enumeration.CaisseMouvementMotif;
 import com.tsoft.ischool.domain.enumeration.ModePaiement;
 import com.tsoft.ischool.service.template.Fichier;
+import com.tsoft.ischool.service.template.Image;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -49,9 +43,9 @@ public class Reglement extends AbstractAuditingEntity {
     @NotNull
     private BigDecimal montant;
 
-    @Column
-    @Fichier
-    private String fileReference;
+//    @Column
+//    @Fichier
+//    private String fileReference;
 
     @Enumerated(EnumType.STRING)
     @NotNull
@@ -59,6 +53,14 @@ public class Reglement extends AbstractAuditingEntity {
     @Enumerated(EnumType.STRING)
     @NotNull
     private CaisseMouvementMotif motif;
+
+    @Lob
+    @Column(name = "image_ref")
+    @Image
+    private byte[] imageRef;
+
+    @Column(name = "image_content_type")
+    private String imageContentType;
 
     @Override
     public int hashCode() {
@@ -144,7 +146,13 @@ public class Reglement extends AbstractAuditingEntity {
     public void setMotif(CaisseMouvementMotif motif) {
         this.motif = motif;
     }
-    
-    
 
+
+//    public String getFileReference() {
+//        return fileReference;
+//    }
+//
+//    public void setFileReference(String fileReference) {
+//        this.fileReference = fileReference;
+//    }
 }
