@@ -57,7 +57,11 @@ public class ReglementResource {
     public ResponseEntity<Reglement> createReglement(@Valid @RequestBody Reglement reglement) throws Exception {
         log.debug("REST request to save Reglement : {}", reglement);
         if (reglement.getId() != null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new reglement cannot already have an ID")).body(null);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new payment cannot already have an ID")).body(null);
+        }
+        LocalDate dateReglement = reglement.getDateVersement();
+        if (dateReglement.isAfter(LocalDate.now())) {
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "badDate", "A new payment cannot be after now")).body(null);
         }
         Reglement result = reglementService.save(reglement);
         return ResponseEntity.created(new URI("/api/reglements/" + result.getId()))

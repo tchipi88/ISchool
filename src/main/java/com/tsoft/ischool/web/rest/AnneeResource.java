@@ -82,7 +82,7 @@ public class AnneeResource {
         if (annee.getId() == null) {
             return createAnnee(annee);
         }
-        annee.setId(annee.getDateDebut().getYear()+"/"+annee.getDateFin().getYear());
+        //annee.setId(annee.getDateDebut().getYear()+"/"+annee.getDateFin().getYear());
         Annee result = anneeRepository.save(annee);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, annee.getId().toString()))

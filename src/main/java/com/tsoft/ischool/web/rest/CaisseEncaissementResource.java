@@ -54,6 +54,11 @@ public class CaisseEncaissementResource {
         if (caisseEncaissement.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new caisseEncaissement cannot already have an ID")).body(null);
         }
+        LocalDate dateEncaiss = caisseEncaissement.getDateVersement();
+        if (dateEncaiss.isAfter(LocalDate.now())) {
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "badDate", "A new Cashing cannot be after now")).body(null);
+        }
+
         CaisseEncaissement result = caisseEncaissementRepository.save(caisseEncaissement);
         return ResponseEntity.created(new URI("/api/caisse-encaissements/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))

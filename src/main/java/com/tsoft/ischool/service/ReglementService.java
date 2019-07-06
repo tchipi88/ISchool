@@ -126,6 +126,10 @@ public class ReglementService {
         params.put("adress_ecole", ecole.getBoitePostale() + " Tel:" + ecole.getTelephonePortable());
         params.put("logo_ecole", resourceLoader.getResource("classpath:ischool/reports/logo-ecole.png").getInputStream());
 
+        int printNumber = reglement.getPrintNumber()+1;
+        String messagePrint= printNumber==1? "ORIGINAL": "COPY" + (printNumber-1);
+        params.put("print_message", messagePrint);
+
 
         //  params.put("upload_dir", FileUtils.getUploadedDir());
         File uploadedfile = new File("." + File.separator + "reports");
@@ -145,6 +149,8 @@ public class ReglementService {
         Resource resource = resourceLoader.getResource("file:" + destfile);
         InputStream in = resource.getInputStream();
         try {
+            reglement.setPrintNumber(printNumber);
+            reglementRepository.save(reglement);
             return new ResponseEntity<>(IOUtils.toByteArray(in), HeaderUtil.downloadAlert(resource), HttpStatus.OK);
         } finally {
             IOUtils.closeQuietly(in);

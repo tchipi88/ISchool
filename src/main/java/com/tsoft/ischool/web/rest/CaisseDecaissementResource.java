@@ -54,6 +54,10 @@ public class CaisseDecaissementResource {
         if (caisseCaisseDecaissement.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new caisseCaisseDecaissement cannot already have an ID")).body(null);
         }
+        LocalDate dateDecaiss = caisseCaisseDecaissement.getDateVersement();
+        if (dateDecaiss.isAfter(LocalDate.now())) {
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "badDate", "A new Disbursement cannot be after now")).body(null);
+        }
         CaisseDecaissement result = caisseDecaissementRepository.save(caisseCaisseDecaissement);
         return ResponseEntity.created(new URI("/api/caisse-decaissements/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))

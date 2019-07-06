@@ -24,6 +24,7 @@
 	<parameter name="adress_ecole" class="java.lang.String"/>
 	<parameter name="logo_ecole" class="java.io.InputStream" isForPrompting="false"/>
 	<parameter name="slogan_ecole" class="java.lang.String"/>
+	<parameter name="print_message" class="java.lang.String"/>
 	<parameter name="code_versement" class="java.lang.Long">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -238,6 +239,13 @@
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy HH.mm.ss">
+				<reportElement x="0" y="0" width="75" height="15" uuid="21237bbb-6c47-47cd-8fe5-55c9c5b39752"/>
+				<textElement textAlignment="Left">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{print_message}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageFooter>
