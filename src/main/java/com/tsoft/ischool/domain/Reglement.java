@@ -158,29 +158,4 @@ public class Reglement extends AbstractAuditingEntity {
 //    public void setFileReference(String fileReference) {
 //        this.fileReference = fileReference;
 //    }
-
-
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
-
-    public String getImageContentType() {
-        return imageContentType;
-    }
-
-    public void setImageContentType(String imageContentType) {
-        this.imageContentType = imageContentType;
-    }
-
-    public int getPrintNumber() {
-        return printNumber;
-    }
-
-    public void setPrintNumber(int printNumber) {
-        this.printNumber = printNumber;
-    }
 }
