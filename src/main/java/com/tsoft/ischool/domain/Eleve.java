@@ -96,6 +96,9 @@ public class Eleve extends AbstractAuditingEntity  {
     @JsonIgnore
     private CompteAnalytique  compte;
 
+    @Column
+    private Long idPerson;
+
     public Long getId() {
         return id;
     }
@@ -234,5 +237,11 @@ public class Eleve extends AbstractAuditingEntity  {
         this.compte = compte;
     }
 
-    
+    public Long getIdPerson() {
+        return idPerson;
+    }
+
+    public void setIdPerson(Long idPerson) {
+        this.idPerson = idPerson;
+    }
 }

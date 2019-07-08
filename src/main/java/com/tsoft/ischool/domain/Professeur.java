@@ -16,6 +16,8 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
@@ -49,6 +51,9 @@ public class Professeur extends Personne  {
     @Min(1)
     @Max(128)
     private Integer quotaHoraireHebdomadaire;
+
+    @Column
+    private Long idPerson;
 
     public Long getId() {
         return id;
@@ -96,6 +101,14 @@ public class Professeur extends Personne  {
 
     public void setQuotaHoraireHebdomadaire(Integer quotaHoraireHebdomadaire) {
         this.quotaHoraireHebdomadaire = quotaHoraireHebdomadaire;
+    }
+
+    public Long getIdPerson() {
+        return idPerson;
+    }
+
+    public void setIdPerson(Long idPerson) {
+        this.idPerson = idPerson;
     }
 
 }

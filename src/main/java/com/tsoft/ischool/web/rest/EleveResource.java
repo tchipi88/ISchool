@@ -3,10 +3,14 @@ package com.tsoft.ischool.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.tsoft.ischool.domain.CompteAnalytique;
 import com.tsoft.ischool.domain.Eleve;
+import com.tsoft.ischool.domain.PersonEntity;
+import com.tsoft.ischool.domain.enumeration.TypePersonne;
 import com.tsoft.ischool.repository.CompteAnalytiqueRepository;
 import com.tsoft.ischool.repository.EleveRepository;
+import com.tsoft.ischool.repository.PersonRepository;
 import com.tsoft.ischool.repository.search.CompteAnalytiqueSearchRepository;
 import com.tsoft.ischool.repository.search.EleveSearchRepository;
+import com.tsoft.ischool.service.EleveService;
 import com.tsoft.ischool.web.rest.util.HeaderUtil;
 import com.tsoft.ischool.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -19,6 +23,7 @@ import javax.validation.Valid;
 import static org.elasticsearch.index.query.QueryBuilders.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -42,15 +47,25 @@ public class EleveResource {
 
     private final EleveSearchRepository eleveSearchRepository;
 
-    private final CompteAnalytiqueRepository compteAnalytiqueRepository;
+//    private final CompteAnalytiqueRepository compteAnalytiqueRepository;
+//    private final CompteAnalytiqueSearchRepository compteAnalytiqueSearchRepository;
+//    private final PersonRepository personRepository;
 
-    private final CompteAnalytiqueSearchRepository compteAnalytiqueSearchRepository;
+    private final EleveService eleveService;
 
-    public EleveResource(EleveRepository eleveRepository, EleveSearchRepository eleveSearchRepository, CompteAnalytiqueRepository compteAnalytiqueRepository, CompteAnalytiqueSearchRepository compteAnalytiqueSearchRepository) {
+//    public EleveResource(EleveRepository eleveRepository, EleveSearchRepository eleveSearchRepository,
+//                         CompteAnalytiqueRepository compteAnalytiqueRepository, CompteAnalytiqueSearchRepository compteAnalytiqueSearchRepository) {
+//        this.eleveRepository = eleveRepository;
+//        this.eleveSearchRepository = eleveSearchRepository;
+//        this.compteAnalytiqueRepository = compteAnalytiqueRepository;
+//        this.compteAnalytiqueSearchRepository = compteAnalytiqueSearchRepository;
+//    }
+
+    public EleveResource(EleveRepository eleveRepository, EleveSearchRepository eleveSearchRepository,
+                         EleveService eleveService) {
         this.eleveRepository = eleveRepository;
         this.eleveSearchRepository = eleveSearchRepository;
-        this.compteAnalytiqueRepository = compteAnalytiqueRepository;
-        this.compteAnalytiqueSearchRepository = compteAnalytiqueSearchRepository;
+        this.eleveService = eleveService;
     }
 
     /**
@@ -65,17 +80,14 @@ public class EleveResource {
     @PostMapping("/eleves")
     @Timed
     @Transactional
-    public ResponseEntity<Eleve> createEleve(@Valid @RequestBody Eleve eleve) throws URISyntaxException {
+    public ResponseEntity<Eleve> createEleve(@Valid @RequestBody Eleve eleve) throws URISyntaxException, Exception {
         log.debug("REST request to save Eleve : {}", eleve);
         if (eleve.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new eleve cannot already have an ID")).body(null);
         }
-        Eleve result = eleveRepository.save(eleve);
-        eleveSearchRepository.save(result);
-        CompteAnalytique compte = new CompteAnalytique();
-        compte.setEleve(result);
-        CompteAnalytique compteSaved = compteAnalytiqueRepository.save(compte);
-        compteAnalytiqueSearchRepository.save(compteSaved);
+
+        Eleve result =  eleveService.create(eleve);
+
         return ResponseEntity.created(new URI("/api/eleves/" + result.getId()))
                 .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
                 .body(result);
@@ -92,7 +104,7 @@ public class EleveResource {
      */
     @PutMapping("/eleves")
     @Timed
-    public ResponseEntity<Eleve> updateEleve(@Valid @RequestBody Eleve eleve) throws URISyntaxException {
+    public ResponseEntity<Eleve> updateEleve(@Valid @RequestBody Eleve eleve) throws URISyntaxException, Exception {
         log.debug("REST request to update Eleve : {}", eleve);
         if (eleve.getId() == null) {
             return createEleve(eleve);

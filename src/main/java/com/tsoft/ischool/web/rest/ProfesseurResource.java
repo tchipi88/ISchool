@@ -6,8 +6,12 @@ import ar.com.fdvs.dj.domain.DynamicReport;
 import ar.com.fdvs.dj.domain.ImageBanner;
 import ar.com.fdvs.dj.domain.builders.FastReportBuilder;
 import com.codahale.metrics.annotation.Timed;
+import com.tsoft.ischool.domain.PersonEntity;
 import com.tsoft.ischool.domain.Professeur;
 import com.tsoft.ischool.domain.enumeration.Civilite;
+import com.tsoft.ischool.domain.enumeration.Sexe;
+import com.tsoft.ischool.domain.enumeration.TypePersonne;
+import com.tsoft.ischool.repository.PersonRepository;
 import com.tsoft.ischool.repository.ProfesseurRepository;
 import com.tsoft.ischool.repository.search.ProfesseurSearchRepository;
 import com.tsoft.ischool.service.AnneeService;
@@ -65,9 +69,13 @@ public class ProfesseurResource {
     @Autowired
     ResourceLoader resourceLoader;
 
-    public ProfesseurResource(ProfesseurRepository professeurRepository, ProfesseurSearchRepository professeurSearchRepository) {
+    private final PersonRepository personRepository;
+
+    public ProfesseurResource(ProfesseurRepository professeurRepository, ProfesseurSearchRepository professeurSearchRepository,
+                              PersonRepository personRepository) {
         this.professeurRepository = professeurRepository;
         this.professeurSearchRepository = professeurSearchRepository;
+        this.personRepository = personRepository;
     }
 
     /**
@@ -86,6 +94,12 @@ public class ProfesseurResource {
         if (professeur.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new professeur cannot already have an ID")).body(null);
         }
+
+        PersonEntity person = new PersonEntity(professeur.getNom()+ professeur.getPrenom()!=null? " "+professeur.getPrenom() : "", TypePersonne.TEACHER,
+                professeur.getCivilite().name().equalsIgnoreCase(Civilite.MR.name())? Sexe.G : Sexe.F);
+        person = personRepository.save(person);
+        professeur.setIdPerson(person.getId());
+
         //@todo  un professeur est un user
         Professeur result = professeurRepository.save(professeur);
         professeurSearchRepository.save(result);

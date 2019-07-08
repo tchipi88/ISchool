@@ -33,6 +33,8 @@ import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import com.tsoft.ischool.config.ApplicationProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -54,6 +56,9 @@ public class PaymentPeriodReport {
     @Autowired
     ResourceLoader resourceLoader;
 
+    @Autowired
+    ApplicationProperties app;
+
 //    @Column
 //    @Temporal(javax.persistence.TemporalType.DATE)
 //    @NotNull
@@ -70,15 +75,12 @@ public class PaymentPeriodReport {
 //        return ("Journal de Caisse"); //To change body of generated methods, choose Tools | Templates.
 //    }
 //
-//    @Override
-    public String run(HttpSession session, HttpServletRequest request, Model m) throws Exception {
+
+    public String process(String dateDebut, String dateFin) throws Exception {
 
         Map params = new HashMap();
-
-        params.put("msisdn", request.getParameter("Msisdn"));
-        params.put("compteclient", request.getParameter("compteclient"));
-        params.put("date_debut", request.getParameter("date_debut"));
-        params.put("date_fin", request.getParameter("date_fin"));
+        params.put("date_debut", dateDebut);
+        params.put("date_fin", dateFin);
         File uploadedfile = new File("." + File.separator + "reports");
         if (!uploadedfile.exists()) {
             uploadedfile.mkdirs();
@@ -89,8 +91,28 @@ public class PaymentPeriodReport {
         // Implementer le corps de l'etat
         buildReport(params, destfile, jdbcTemplate.getDataSource().getConnection());
 
-        return "download?file=" + destfile;
+
+        return destfile;
     }
+//    @Override
+//    public String run(HttpSession session, HttpServletRequest request, Model m) throws Exception {
+//
+//        Map params = new HashMap();
+//
+//        params.put("date_debut", request.getParameter("date_debut"));
+//        params.put("date_fin", request.getParameter("date_fin"));
+//        File uploadedfile = new File("." + File.separator + "reports");
+//        if (!uploadedfile.exists()) {
+//            uploadedfile.mkdirs();
+//        }
+//        String destfile = uploadedfile.getAbsolutePath() + File.separator + "PaiementPeriode"
+//                + System.currentTimeMillis() + ".pdf";
+//
+//        // Implementer le corps de l'etat
+//        buildReport(params, destfile, jdbcTemplate.getDataSource().getConnection());
+//
+//        return "download?file=" + destfile;
+//    }
 
     public void buildReport(Map params, String destfile, Connection con) throws Exception {
 
@@ -111,38 +133,63 @@ public class PaymentPeriodReport {
         document.setFooter(new HeaderFooter(phrase, true));
         document.open();
 
-        Paragraph prg = new Paragraph(new Chunk("\nListe des paiements du " + date_debut + " au " + date_fin, FontFactory.getFont(FontFactory.TIMES, 13, Font.BOLD, null)));
-        prg.setAlignment(Element.ALIGN_CENTER);
-        document.add(prg);
+        Table entete = new Table(1);
+        entete.setBorderWidth(0);
+        entete.setBorder(0);
+        entete.setWidth(80);
+        entete.setPadding(0);
+        entete.setSpacing(0);
 
 //        String imgEntete = dafaultparams == null ? null : dafaultparams.getCheminImageEntete();
         String imgEntete = resourceLoader.getResource("classpath:ischool/reports/logo-ecole.png").getFile().getAbsolutePath();
         if (!StringUtils.isEmpty(imgEntete)) {
             Image image3 = Image.getInstance(imgEntete);
-            Table image = new Table(1);
-
-            image.setBorderWidth(0);
-            image.setBorder(0);
-            image.setWidth(80);
-            image.setPadding(0);
-            image.setSpacing(0);
             Cell img = new Cell();
             img.add(image3);
             invisible(img);
-            image.addCell(img);
-            document.add(image);
+            entete.addCell(img);
+//            document.add(entete);
         }
+
+        //information about school
+        ApplicationProperties.Ecole ecole = app.getEcole();
+        Cell cell=null;
+        if(!StringUtils.isEmpty(ecole.getNom())) {
+            cell = new Cell(new Chunk(ecole.getNom(), FontFactory.getFont(FontFactory.TIMES, 12, Font.BOLD, null)));
+            invisible(cell);
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            entete.addCell(cell);
+        }
+
+        if(!StringUtils.isEmpty(ecole.getSlogan())) {
+            cell = new Cell(new Chunk(ecole.getSlogan(), FontFactory.getFont(FontFactory.TIMES, 12, Font.BOLD, null)));
+            invisible(cell);
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            entete.addCell(cell);
+        }
+
+        if(!StringUtils.isEmpty(ecole.getTelephonePortable())) {
+            cell = new Cell(new Chunk(ecole.getBoitePostale() + " Tel:" + ecole.getTelephonePortable(), FontFactory.getFont(FontFactory.TIMES, 12, Font.BOLD, null)));
+            invisible(cell);
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            entete.addCell(cell);
+        }
+        document.add(entete);
+
+        Paragraph prg = new Paragraph(new Chunk("\nListe des paiements du " + date_debut + " au " + date_fin, FontFactory.getFont(FontFactory.TIMES, 13, Font.BOLD, null)));
+        prg.setAlignment(Element.ALIGN_CENTER);
+        document.add(prg);
 
         Table tabdet = new Table(6);
         tabdet.setWidth(80);
         tabdet.setBorder(0);
         tabdet.setPadding(2);
-        tabdet.setWidths(new int[]{7, 30, 10, 15, 10, 15, 15});
+        tabdet.setWidths(new int[]{7, 30, 10, 15, 15, 10, 15, 15});
 
 //        String[] champs = new String[]{"reference", "date_operation", "code_puce_destination", "montant", "balance"};
-        String[] capts = new String[]{"N°", "Name", "Sys Date", "Method", "Op Date", "Payment", "Disburse"};
+        String[] capts = new String[]{"Num", "Name", "Record Date", "Method", "Reason", "Op Date", "Payment", "Disburse"};
         for (String st : capts) {
-            Cell cell = new Cell(new Chunk(st, FontFactory.getFont(FontFactory.TIMES, 11, Font.BOLD, null)));
+            cell = new Cell(new Chunk(st, FontFactory.getFont(FontFactory.TIMES, 11, Font.BOLD, null)));
             invisible(cell);
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             tabdet.addCell(cell);
@@ -155,9 +202,7 @@ public class PaymentPeriodReport {
             aggs[i] = 0;
         }
 
-//        DateFormat datf_show = new SimpleDateFormat("dd/MM/yyyy");
         DateFormat datf = new SimpleDateFormat("yyyy/MM/dd");
-
         Date date_deb = datf.parse(formatDate(date_debut));
         Date date_f = datf.parse(formatDate(date_fin));
         Calendar cal = Calendar.getInstance();
@@ -165,9 +210,9 @@ public class PaymentPeriodReport {
         cal.add(Calendar.DAY_OF_YEAR, 1);
         date_f = cal.getTime();
 
-        String query = "select * from vuepaiement where datepaiement >= ? and datepaiement < ?";
+        String query = "select * from vuemouvementcaisse where date_enregistrement >= ? and date_enregistrement < ?";
 
-        query += " order by nom_prenom, datepaiement";
+        query += " order by date_operation, date_enregistrement, nom_prenom ";
         PreparedStatement stat = con.prepareStatement(query);
         stat.setDate(1, new java.sql.Date(date_deb.getTime()));
         stat.setDate(2, new java.sql.Date(date_f.getTime()));
@@ -209,12 +254,20 @@ public class PaymentPeriodReport {
 
             tabdet.addCell(getCell(num_lign + "", 1, Element.ALIGN_RIGHT, Font.NORMAL, color));
             tabdet.addCell(getCell(res.getString("nom_prenom"), 1, Element.ALIGN_CENTER, Font.NORMAL, color));
-            tabdet.addCell(getCell(res.getString("reference"), 1, Element.ALIGN_CENTER, Font.NORMAL, color));
-            
-            Date date_paie = res.getDate("datepaiement");
+
+            Date date_paie = res.getDate("date_enregistrement");
             String dt="";
-//            color = (cumul_nbre%2)==0 ? Color.LIGHT_GRAY : null;
-            if(date_paie!=null) dt = datf_show.format(date_paie);           
+            if(date_paie!=null)
+                dt = datf_show.format(date_paie);
+            tabdet.addCell(getCell(dt, 1, Element.ALIGN_CENTER, Font.NORMAL, color));
+
+            tabdet.addCell(getCell(res.getString("mode_paiement"), 1, Element.ALIGN_CENTER, Font.NORMAL, color));
+            tabdet.addCell(getCell(res.getString("motif"), 1, Element.ALIGN_CENTER, Font.NORMAL, color));
+
+            date_paie = res.getDate("date_operation");
+            dt="";
+            if(date_paie!=null)
+                dt = datf_show.format(date_paie);
             tabdet.addCell(getCell(dt, 1, Element.ALIGN_CENTER, Font.NORMAL, color));
 
 //            list.add(dt);

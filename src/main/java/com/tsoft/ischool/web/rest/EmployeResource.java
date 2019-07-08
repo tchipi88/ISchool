@@ -3,7 +3,12 @@ package com.tsoft.ischool.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.tsoft.ischool.domain.Employe;
+import com.tsoft.ischool.domain.PersonEntity;
+import com.tsoft.ischool.domain.enumeration.Civilite;
+import com.tsoft.ischool.domain.enumeration.Sexe;
+import com.tsoft.ischool.domain.enumeration.TypePersonne;
 import com.tsoft.ischool.repository.EmployeRepository;
+import com.tsoft.ischool.repository.PersonRepository;
 import com.tsoft.ischool.repository.search.EmployeSearchRepository;
 import com.tsoft.ischool.web.rest.util.HeaderUtil;
 import com.tsoft.ischool.web.rest.util.PaginationUtil;
@@ -40,10 +45,13 @@ public class EmployeResource {
     private final EmployeRepository employeRepository;
 
     private final EmployeSearchRepository employeSearchRepository;
+    private final PersonRepository personRepository;
 
-    public EmployeResource(EmployeRepository employeRepository, EmployeSearchRepository employeSearchRepository) {
+    public EmployeResource(EmployeRepository employeRepository, EmployeSearchRepository employeSearchRepository,
+                           PersonRepository personRepository) {
         this.employeRepository = employeRepository;
         this.employeSearchRepository = employeSearchRepository;
+        this.personRepository = personRepository;
     }
 
     /**
@@ -60,6 +68,12 @@ public class EmployeResource {
         if (employe.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new employe cannot already have an ID")).body(null);
         }
+
+        PersonEntity person = new PersonEntity(employe.getNom()+ employe.getPrenom()!=null? " "+employe.getPrenom() : "", TypePersonne.STAFF,
+                employe.getCivilite().name().equalsIgnoreCase(Civilite.MR.name())? Sexe.G : Sexe.F);
+        person = personRepository.save(person);
+        employe.setIdPerson(person.getId());
+
         Employe result = employeRepository.save(employe);
         employeSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/employes/" + result.getId()))

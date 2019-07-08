@@ -41,6 +41,8 @@ import javax.persistence.Temporal;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
+
+import com.tsoft.ischool.config.ApplicationProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -64,6 +66,9 @@ public class JournalCaisseReport {
 
     @Autowired
     ResourceLoader resourceLoader;
+
+    @Autowired
+    ApplicationProperties app;
     
 //    @Autowired
 //    DefaultParams dafaultparams;
@@ -73,24 +78,43 @@ public class JournalCaisseReport {
 //        return ("Journal de Caisse"); //To change body of generated methods, choose Tools | Templates.
 //    }
 //
-//    @Override
-    public String run(HttpSession session, HttpServletRequest request, Model m) throws Exception {
-        
+
+    public String process(String dateJour) throws Exception {
+
         Map params = new HashMap();
-       
-        params.put("date_jour", request.getParameter("date_jour"));
+
+        params.put("date_jour", dateJour);
         File uploadedfile = new File("." + File.separator + "reports");
         if (!uploadedfile.exists()) {
             uploadedfile.mkdirs();
         }
         String destfile = uploadedfile.getAbsolutePath() + File.separator + "JournalCaisse"
                 + System.currentTimeMillis() + ".pdf";
-        
+
         // Implementer le corps de l'etat
         buildReport(params, destfile, jdbcTemplate.getDataSource().getConnection());
-        
-        return "download?file=" + destfile;
+
+        return destfile;
     }
+
+//    @Override
+//    public String run(HttpSession session, HttpServletRequest request, Model m) throws Exception {
+//
+//        Map params = new HashMap();
+//
+//        params.put("date_jour", request.getParameter("date_jour"));
+//        File uploadedfile = new File("." + File.separator + "reports");
+//        if (!uploadedfile.exists()) {
+//            uploadedfile.mkdirs();
+//        }
+//        String destfile = uploadedfile.getAbsolutePath() + File.separator + "JournalCaisse"
+//                + System.currentTimeMillis() + ".pdf";
+//
+//        // Implementer le corps de l'etat
+//        buildReport(params, destfile, jdbcTemplate.getDataSource().getConnection());
+//
+//        return "download?file=" + destfile;
+//    }
 
     public void buildReport(Map params, String destfile, Connection con) throws Exception {
         
@@ -105,37 +129,63 @@ public class JournalCaisseReport {
         document.setFooter(new HeaderFooter(phrase, true));
         document.open();
 
-        Paragraph prg = new Paragraph(new Chunk("\nJournal de caisse du "+date_debut, FontFactory.getFont(FontFactory.TIMES, 13, Font.BOLD, null)));
-        prg.setAlignment(Element.ALIGN_CENTER);
-        document.add(prg);
-
+        //information about school
         String imgEntete = resourceLoader.getResource("classpath:ischool/reports/logo-ecole.png").getFile().getAbsolutePath();
+        Table entete = new Table(1);
+        entete.setBorderWidth(0);
+        entete.setBorder(0);
+        entete.setWidth(80);
+        entete.setPadding(0);
+        entete.setSpacing(0);
+
         if (!StringUtils.isEmpty(imgEntete)) {
             Image image3 = Image.getInstance(imgEntete);
-            Table image = new Table(1);
-
-            image.setBorderWidth(0);
-            image.setBorder(0);
-            image.setWidth(80);
-            image.setPadding(0);
-            image.setSpacing(0);
             Cell img = new Cell();
             img.add(image3);
             invisible(img);
-            image.addCell(img);         
-            document.add(image);
+            entete.addCell(img);
         }
+
+        //information about school
+        ApplicationProperties.Ecole ecole = app.getEcole();
+        Cell cell=null;
+        if(!StringUtils.isEmpty(ecole.getNom())) {
+            cell = new Cell(new Chunk(ecole.getNom(), FontFactory.getFont(FontFactory.TIMES, 12, Font.BOLD, null)));
+            invisible(cell);
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            entete.addCell(cell);
+        }
+
+        if(!StringUtils.isEmpty(ecole.getSlogan())) {
+            cell = new Cell(new Chunk(ecole.getSlogan(), FontFactory.getFont(FontFactory.TIMES, 12, Font.BOLD, null)));
+            invisible(cell);
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            entete.addCell(cell);
+        }
+
+        if(!StringUtils.isEmpty(ecole.getTelephonePortable())) {
+            cell = new Cell(new Chunk(ecole.getBoitePostale() + " Tel:" + ecole.getTelephonePortable(), FontFactory.getFont(FontFactory.TIMES, 12, Font.BOLD, null)));
+            invisible(cell);
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            entete.addCell(cell);
+        }
+
+        document.add(entete);
+
+        Paragraph prg = new Paragraph(new Chunk("\nJournal de caisse du "+date_debut, FontFactory.getFont(FontFactory.TIMES, 13, Font.BOLD, null)));
+        prg.setAlignment(Element.ALIGN_CENTER);
+        document.add(prg);
 
         Table tabdet = new Table(5);
         tabdet.setWidth(80);
         tabdet.setBorder(0);
         tabdet.setPadding(2);
-        tabdet.setWidths(new int[]{10, 40, 25, 15, 15});
+        tabdet.setWidths(new int[]{8, 40, 25, 15, 15, 15, 15});
         
-//        String[] champs = new String[]{"reference", "date_operation", "code_puce_destination", "montant", "balance"};
-        String[] capts = new String[]{"Num","Name", "Method","Payment", "Disburse"};
+//        String[] champs = new String[]{"num", , ,"date_operation", "code_puce_destination", "montant", "balance"};
+        String[] capts = new String[]{"Num","Name", "Method", "Reason", "Op Date","Payment", "Disburse"};
         for(String st: capts){
-            Cell cell = new Cell(new Chunk(st, FontFactory.getFont(FontFactory.TIMES, 12, Font.BOLD, null)));
+            cell = new Cell(new Chunk(st, FontFactory.getFont(FontFactory.TIMES, 12, Font.BOLD, null)));
             invisible(cell);
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             tabdet.addCell(cell);
@@ -148,8 +198,8 @@ public class JournalCaisseReport {
             aggs[i] = 0;
         }
         
-//        DateFormat datf_show = new SimpleDateFormat("dd/MM/yyyy");
-        DateFormat datf = new SimpleDateFormat("yyyy/MM/dd");  
+        DateFormat datf_show = new SimpleDateFormat("dd/MM/yyyy");
+        DateFormat datf = new SimpleDateFormat("yyyy/MM/dd");
         
         Date date_deb = datf.parse(formatDate(date_debut));
         Calendar cal = Calendar.getInstance();
@@ -157,7 +207,7 @@ public class JournalCaisseReport {
         cal.add(Calendar.DAY_OF_YEAR, 1);
         Date date_f = cal.getTime();
         
-        PreparedStatement stat = con.prepareStatement("select * from vuepaiement where datepaiement >= ? and datepaiement < ?");
+        PreparedStatement stat = con.prepareStatement("select * from vuemouvementcaisse where date_enregistrement >= ? and date_enregistrement < ?");
         stat.setDate(1, new java.sql.Date(date_deb.getTime()));
         stat.setDate(2, new java.sql.Date(date_f.getTime()));
 //        stat.setDate(2, date_s);
@@ -191,8 +241,10 @@ public class JournalCaisseReport {
 
             tabdet.addCell(getCell(num_lign+"",1, Element.ALIGN_RIGHT, Font.NORMAL, color));
             tabdet.addCell(getCell(res.getString("nom_prenom"),1, Element.ALIGN_CENTER, Font.NORMAL, color));
-            tabdet.addCell(getCell(res.getString("methode"),1, Element.ALIGN_CENTER, Font.NORMAL, color));
-            
+            tabdet.addCell(getCell(res.getString("mode_paiement"),1, Element.ALIGN_CENTER, Font.NORMAL, color));
+            tabdet.addCell(getCell(res.getString("motif"),1, Element.ALIGN_CENTER, Font.NORMAL, color));
+            tabdet.addCell(getCell(datf_show.format(res.getDate("date_operation")),1, Element.ALIGN_CENTER, Font.NORMAL, color));
+
 //            list.add(dt);
             double entree = res.getDouble("entree");
             tabdet.addCell(getCell(entree!= 0 ? decf.format(entree) : "",1, Element.ALIGN_RIGHT, Font.NORMAL, color));
@@ -211,7 +263,7 @@ public class JournalCaisseReport {
 //            aggs[0] += cumul_nbre;
 //            aggs[1] += cumul_montant;
 //        }
-        tabdet.addCell(getCell("Total", 3, Element.ALIGN_CENTER, Font.BOLD));
+        tabdet.addCell(getCell("Total", 4, Element.ALIGN_CENTER, Font.BOLD));
         tabdet.addCell(getCell(decf.format(cumul_versement), 1, Element.ALIGN_RIGHT, Font.BOLD));
         tabdet.addCell(getCell(decf.format(cumul_sortie), 1, Element.ALIGN_RIGHT, Font.BOLD));
                 

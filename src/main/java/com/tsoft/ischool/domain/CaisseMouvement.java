@@ -58,6 +58,9 @@ public class CaisseMouvement extends AbstractAuditingEntity {
     @Lob
     private String commentaires;
 
+    @Column
+    private Long idPerson;
+
     public String getCommentaires() {
         return commentaires;
     }
@@ -112,6 +115,14 @@ public class CaisseMouvement extends AbstractAuditingEntity {
 
     public void setModePaiement(ModePaiement modePaiement) {
         this.modePaiement = modePaiement;
+    }
+
+    public Long getIdPerson() {
+        return idPerson;
+    }
+
+    public void setIdPerson(Long idPerson) {
+        this.idPerson = idPerson;
     }
 
     @Override

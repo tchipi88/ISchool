@@ -29,6 +29,9 @@ public class Employe extends Personne {
     @Column(name = "salaire", precision = 10, scale = 2)
     private BigDecimal salaire;
 
+    @Column
+    private Long idPerson;
+
     @ManyToOne
     private EmployeFonction fonction;
 
@@ -64,7 +67,13 @@ public class Employe extends Personne {
         this.fonction = fonction;
     }
 
-    
+    public Long getIdPerson() {
+        return idPerson;
+    }
+
+    public void setIdPerson(Long idPerson) {
+        this.idPerson = idPerson;
+    }
     
 
     @Override
