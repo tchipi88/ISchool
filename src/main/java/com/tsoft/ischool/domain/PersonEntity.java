@@ -24,7 +24,7 @@ import java.time.LocalDate;
  */
 @Entity
 @Table(name="person")
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+//@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Document(indexName = "person")
 public class PersonEntity extends AbstractAuditingEntity {
 

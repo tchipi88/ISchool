@@ -115,7 +115,7 @@ public class EmployeResource {
         log.debug("REST request to get all Employes");
         Page<Employe> page = employeRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/employes");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        return new ResponseEntity<List<Employe>>(page.getContent(), headers, HttpStatus.OK);
     }
 
     /**

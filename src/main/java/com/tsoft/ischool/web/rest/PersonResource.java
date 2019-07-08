@@ -140,7 +140,7 @@ public class PersonResource {
      *
      * @return the ResponseEntity with status 200 (OK) and the list of employes in body
      */
-    @GetMapping("/employes")
+    @GetMapping("/persons")
     @Timed
     public ResponseEntity<List<PersonEntity>> getAllPersons(@ApiParam Pageable pageable) {
         log.debug("REST request to get all Person");
