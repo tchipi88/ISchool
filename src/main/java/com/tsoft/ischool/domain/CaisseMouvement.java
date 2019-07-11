@@ -7,6 +7,9 @@ package com.tsoft.ischool.domain;
 
 import com.tsoft.ischool.domain.enumeration.CaisseMouvementMotif;
 import com.tsoft.ischool.domain.enumeration.ModePaiement;
+import org.hibernate.FetchMode;
+import org.hibernate.annotations.Fetch;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import javax.persistence.Column;
@@ -58,8 +61,11 @@ public class CaisseMouvement extends AbstractAuditingEntity {
     @Lob
     private String commentaires;
 
-    @Column
-    private Long idPerson;
+//    @Column
+//    private Long idPerson;
+//    @Fetch(FetchMode.JOIN)
+    @ManyToOne
+    private PersonEntity person;
 
     public String getCommentaires() {
         return commentaires;
@@ -117,12 +123,12 @@ public class CaisseMouvement extends AbstractAuditingEntity {
         this.modePaiement = modePaiement;
     }
 
-    public Long getIdPerson() {
-        return idPerson;
+    public PersonEntity getPerson() {
+        return person;
     }
 
-    public void setIdPerson(Long idPerson) {
-        this.idPerson = idPerson;
+    public void setPerson(PersonEntity person) {
+        this.person = person;
     }
 
     @Override

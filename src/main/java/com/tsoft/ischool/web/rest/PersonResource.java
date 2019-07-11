@@ -88,21 +88,21 @@ public class PersonResource {
             Employe employe = new Employe();
             employe.setNom(person.getNomPrenom());
             employe.setCivilite(person.getSexe().equals(Sexe.G)? Civilite.MR : Civilite.MME);
-            employe.setIdPerson(person.getId());
+            employe.setPerson(person);
             employeRepository.save(employe);
             employeSearchRepository.save(employe);
         } else if(person.getTypePersonne().equals(TypePersonne.STAFF)){
             Professeur prof = new Professeur();
             prof.setNom(person.getNomPrenom());
             prof.setCivilite(person.getSexe().equals(Sexe.G)? Civilite.MR : Civilite.MME);
-            prof.setIdPerson(person.getId());
+            prof.setPerson(person);
             professeurRepository.save(prof);
             professeurSearchRepository.save(prof);
         }else if(person.getTypePersonne().equals(TypePersonne.STAFF)){
             Eleve eleve = new Eleve();
             eleve.setNom(person.getNomPrenom());
             eleve.setSexe(person.getSexe());
-            eleve.setIdPerson(person.getId());
+            eleve.setPerson(person);
             eleveService.create(eleve);
         }
 

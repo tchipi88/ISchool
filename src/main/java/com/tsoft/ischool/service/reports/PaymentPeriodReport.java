@@ -133,23 +133,12 @@ public class PaymentPeriodReport {
         document.setFooter(new HeaderFooter(phrase, true));
         document.open();
 
-        Table entete = new Table(1);
+        Table entete = new Table(7);
         entete.setBorderWidth(0);
         entete.setBorder(0);
-        entete.setWidth(80);
-        entete.setPadding(0);
+        entete.setWidth(100);
+        entete.setPadding(2);
         entete.setSpacing(0);
-
-//        String imgEntete = dafaultparams == null ? null : dafaultparams.getCheminImageEntete();
-        String imgEntete = resourceLoader.getResource("classpath:ischool/reports/logo-ecole.png").getFile().getAbsolutePath();
-        if (!StringUtils.isEmpty(imgEntete)) {
-            Image image3 = Image.getInstance(imgEntete);
-            Cell img = new Cell();
-            img.add(image3);
-            invisible(img);
-            entete.addCell(img);
-//            document.add(entete);
-        }
 
         //information about school
         ApplicationProperties.Ecole ecole = app.getEcole();
@@ -157,20 +146,37 @@ public class PaymentPeriodReport {
         if(!StringUtils.isEmpty(ecole.getNom())) {
             cell = new Cell(new Chunk(ecole.getNom(), FontFactory.getFont(FontFactory.TIMES, 12, Font.BOLD, null)));
             invisible(cell);
+            cell.setColspan(3);
+            cell.setRowspan(2);
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             entete.addCell(cell);
+        }
+
+        String imgEntete = resourceLoader.getResource("classpath:ischool/reports/logo-ecole.png").getFile().getAbsolutePath();
+        if (!StringUtils.isEmpty(imgEntete)) {
+            Image image3 = Image.getInstance(imgEntete);
+            image3.scaleAbsolute(150f, 150f);
+            image3.setAbsolutePosition(400f, 550f);
+            Cell img = new Cell();
+            img.add(image3);
+            img.setRowspan(2);
+            invisible(img);
+            entete.addCell(img);
         }
 
         if(!StringUtils.isEmpty(ecole.getSlogan())) {
             cell = new Cell(new Chunk(ecole.getSlogan(), FontFactory.getFont(FontFactory.TIMES, 12, Font.BOLD, null)));
             invisible(cell);
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            cell.setColspan(3);
+            cell.setRowspan(2);
             entete.addCell(cell);
         }
 
         if(!StringUtils.isEmpty(ecole.getTelephonePortable())) {
             cell = new Cell(new Chunk(ecole.getBoitePostale() + " Tel:" + ecole.getTelephonePortable(), FontFactory.getFont(FontFactory.TIMES, 12, Font.BOLD, null)));
             invisible(cell);
+            cell.setColspan(7);
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             entete.addCell(cell);
         }
@@ -180,11 +186,11 @@ public class PaymentPeriodReport {
         prg.setAlignment(Element.ALIGN_CENTER);
         document.add(prg);
 
-        Table tabdet = new Table(6);
-        tabdet.setWidth(80);
+        Table tabdet = new Table(8);
+        tabdet.setWidth(100);
         tabdet.setBorder(0);
         tabdet.setPadding(2);
-        tabdet.setWidths(new int[]{7, 30, 10, 15, 15, 10, 15, 15});
+        tabdet.setWidths(new int[]{7, 30, 15, 15, 15, 15, 12, 12});
 
 //        String[] champs = new String[]{"reference", "date_operation", "code_puce_destination", "montant", "balance"};
         String[] capts = new String[]{"Num", "Name", "Record Date", "Method", "Reason", "Op Date", "Payment", "Disburse"};
@@ -223,7 +229,7 @@ public class PaymentPeriodReport {
         DecimalFormat decf = new DecimalFormat("#,##0");
         DateFormat datf_show = new SimpleDateFormat("dd/MM/yyyy");
         Map<Integer, List<String>> maps = new HashMap();
-        double cumul_entree = 0, cumul_sortie = 0, cumul_nbre = 0, cumul_total_entree=0, cumul_total_sorite=0;
+        double cumul_entree = 0, cumul_sortie = 0, cumul_nbre = 0, cumul_total_entree=0, cumul_total_sortie=0;
         String st = "", date_old = null;
         System.out.println("Requetes paiement de periode : " + stat.toString());
         int num_lign = 0;
@@ -289,10 +295,10 @@ public class PaymentPeriodReport {
 //                cumul_total_sorite += cumul_sortie;
 //                cumul_total_entree += cumul_entree;
 //        }
-        tabdet.addCell(getCell("Total", 3, Element.ALIGN_CENTER, Font.BOLD));
-        tabdet.addCell(getCell(decf.format(num_lign), 1, Element.ALIGN_RIGHT, Font.BOLD));
-        tabdet.addCell(getCell(decf.format(cumul_total_entree), 1, Element.ALIGN_RIGHT, Font.BOLD));
-        tabdet.addCell(getCell(decf.format(cumul_total_sorite), 1, Element.ALIGN_RIGHT, Font.BOLD));
+        tabdet.addCell(getCell("Total", 6, Element.ALIGN_CENTER, Font.BOLD));
+//        tabdet.addCell(getCell(decf.format(num_lign), 1, Element.ALIGN_RIGHT, Font.BOLD));
+        tabdet.addCell(getCell(decf.format(cumul_entree), 1, Element.ALIGN_RIGHT, Font.BOLD));
+        tabdet.addCell(getCell(decf.format(cumul_sortie), 1, Element.ALIGN_RIGHT, Font.BOLD));
 
         document.add(tabdet);
 
@@ -309,7 +315,7 @@ public class PaymentPeriodReport {
     }
 
     public Cell getCell(String st, int colspan, int align, int font, Color color) throws Exception {
-        Cell cell = new Cell(new Chunk(st, FontFactory.getFont(FontFactory.TIMES, 11, font, null)));
+        Cell cell = new Cell(new Chunk(st==null? "": st, FontFactory.getFont(FontFactory.TIMES, 10, font, null)));
         cell.setBorder(1);
         cell.setColspan(colspan);
         cell.setHorizontalAlignment(align);

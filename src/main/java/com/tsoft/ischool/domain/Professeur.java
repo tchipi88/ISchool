@@ -52,8 +52,9 @@ public class Professeur extends Personne  {
     @Max(128)
     private Integer quotaHoraireHebdomadaire;
 
-    @Column
-    private Long idPerson;
+    @ManyToOne
+    private PersonEntity person;
+
 
     public Long getId() {
         return id;
@@ -103,12 +104,11 @@ public class Professeur extends Personne  {
         this.quotaHoraireHebdomadaire = quotaHoraireHebdomadaire;
     }
 
-    public Long getIdPerson() {
-        return idPerson;
+    public PersonEntity getPerson() {
+        return person;
     }
 
-    public void setIdPerson(Long idPerson) {
-        this.idPerson = idPerson;
+    public void setPerson(PersonEntity person) {
+        this.person = person;
     }
-
 }

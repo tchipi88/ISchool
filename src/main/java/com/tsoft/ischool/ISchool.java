@@ -4,6 +4,8 @@ package com.tsoft.ischool;
 
 import com.tsoft.ischool.config.ApplicationProperties;
 import com.tsoft.ischool.config.DefaultProfileUtil;
+import com.tsoft.ischool.service.reports.JournalCaisseReport;
+import com.tsoft.ischool.service.reports.PaymentPeriodReport;
 import io.github.jhipster.config.JHipsterConstants;
 
 import org.slf4j.Logger;
@@ -13,6 +15,7 @@ import org.springframework.boot.actuate.autoconfigure.*;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 
@@ -64,11 +67,21 @@ public class ISchool {
     public static void main(String[] args) throws UnknownHostException {
         SpringApplication app = new SpringApplication(ISchool.class);
         DefaultProfileUtil.addDefaultProfile(app);
+//        ApplicationContext ctx = app.run(args);
         Environment env = app.run(args).getEnvironment();
         String protocol = "http";
         if (env.getProperty("server.ssl.key-store") != null) {
             protocol = "https";
         }
+//        JournalCaisseReport journalCaisseReport = ctx.getBean(JournalCaisseReport.class);
+//        PaymentPeriodReport paymentPeriodReport = ctx.getBean(PaymentPeriodReport.class);
+//        try{
+//            journalCaisseReport.process("05/07/2019");
+//            paymentPeriodReport.process("05/07/2019", "12/07/2019");
+//        }catch(Exception ex){
+//            ex.printStackTrace();
+//        }
+
         log.info("\n----------------------------------------------------------\n\t" +
                 "Application '{}' is running! Access URLs:\n\t" +
                 "Local: \t\t{}://localhost:{}\n\t" +

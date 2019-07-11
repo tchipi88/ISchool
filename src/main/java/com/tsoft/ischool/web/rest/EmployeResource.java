@@ -69,10 +69,13 @@ public class EmployeResource {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new employe cannot already have an ID")).body(null);
         }
 
-        PersonEntity person = new PersonEntity(employe.getNom()+ employe.getPrenom()!=null? " "+employe.getPrenom() : "", TypePersonne.STAFF,
-                employe.getCivilite().name().equalsIgnoreCase(Civilite.MR.name())? Sexe.G : Sexe.F);
+        Civilite civil = employe.getCivilite();
+        Sexe sexe = civil==null? null : civil.equals(Civilite.MR) ? Sexe.G : Sexe.F;
+        String nom = employe.getNom()+ (employe.getPrenom()!=null? " "+employe.getPrenom() : "");
+        PersonEntity person = new PersonEntity(nom, TypePersonne.STAFF, sexe);
+        person.setCivilite(civil);
         person = personRepository.save(person);
-        employe.setIdPerson(person.getId());
+        employe.setPerson(person);
 
         Employe result = employeRepository.save(employe);
         employeSearchRepository.save(result);

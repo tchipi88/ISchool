@@ -95,10 +95,14 @@ public class ProfesseurResource {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new professeur cannot already have an ID")).body(null);
         }
 
-        PersonEntity person = new PersonEntity(professeur.getNom()+ professeur.getPrenom()!=null? " "+professeur.getPrenom() : "", TypePersonne.TEACHER,
-                professeur.getCivilite().name().equalsIgnoreCase(Civilite.MR.name())? Sexe.G : Sexe.F);
+        Civilite civil = professeur.getCivilite();
+        Sexe sexe = civil==null? null : civil.equals(Civilite.MR) ? Sexe.G : Sexe.F;
+        String nom = professeur.getNom()+ (professeur.getPrenom()!=null? " "+professeur.getPrenom() : "");
+        PersonEntity person = new PersonEntity(nom, TypePersonne.STAFF, sexe);
+        person.setCivilite(civil);
         person = personRepository.save(person);
-        professeur.setIdPerson(person.getId());
+
+        professeur.setPerson(person);
 
         //@todo  un professeur est un user
         Professeur result = professeurRepository.save(professeur);

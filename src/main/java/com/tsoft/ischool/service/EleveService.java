@@ -6,7 +6,9 @@
 package com.tsoft.ischool.service;
 
 import com.tsoft.ischool.domain.*;
+import com.tsoft.ischool.domain.enumeration.Civilite;
 import com.tsoft.ischool.domain.enumeration.EtatAnnee;
+import com.tsoft.ischool.domain.enumeration.Sexe;
 import com.tsoft.ischool.domain.enumeration.TypePersonne;
 import com.tsoft.ischool.repository.*;
 import com.tsoft.ischool.repository.search.CompteAnalytiqueSearchRepository;
@@ -55,12 +57,14 @@ public class EleveService {
 
     public Eleve create(Eleve eleve) throws Exception {
 
-        if(eleve.getPrenom()==null) {
-            PersonEntity person = new PersonEntity(eleve.getNom() + eleve.getPrenom() != null ? " " + eleve.getPrenom() : "", TypePersonne.STUDENT,
-                    eleve.getSexe());
-            person = personRepository.save(person);
-            eleve.setIdPerson(person.getId());
-        }
+        //if(eleve.getPrenom()==null) {
+
+
+        PersonEntity person = new PersonEntity(eleve.getNom() + (eleve.getPrenom() != null ? " " + eleve.getPrenom() : ""),
+                TypePersonne.STUDENT, eleve.getSexe());
+        person = personRepository.save(person);
+        eleve.setPerson(person);
+        //}
 
         Eleve result = eleveRepository.save(eleve);
         eleveSearchRepository.save(result);

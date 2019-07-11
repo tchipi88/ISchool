@@ -12,15 +12,7 @@ import com.tsoft.ischool.service.template.Label;
 import com.tsoft.ischool.service.template.Libelle;
 import com.tsoft.ischool.service.template.Phone;
 import java.time.LocalDate;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Lob;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.annotations.Cache;
@@ -96,8 +88,10 @@ public class Eleve extends AbstractAuditingEntity  {
     @JsonIgnore
     private CompteAnalytique  compte;
 
-    @Column
-    private Long idPerson;
+//    @Column
+//    private Long idPerson;
+    @ManyToOne
+    private PersonEntity person;
 
     public Long getId() {
         return id;
@@ -237,11 +231,19 @@ public class Eleve extends AbstractAuditingEntity  {
         this.compte = compte;
     }
 
-    public Long getIdPerson() {
-        return idPerson;
+//    public Long getIdPerson() {
+//        return idPerson;
+//    }
+//
+//    public void setIdPerson(Long idPerson) {
+//        this.idPerson = idPerson;
+//    }
+
+    public PersonEntity getPerson() {
+        return person;
     }
 
-    public void setIdPerson(Long idPerson) {
-        this.idPerson = idPerson;
+    public void setPerson(PersonEntity person) {
+        this.person = person;
     }
 }

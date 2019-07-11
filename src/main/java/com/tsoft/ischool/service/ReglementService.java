@@ -6,15 +6,15 @@
 package com.tsoft.ischool.service;
 
 import com.tsoft.ischool.config.ApplicationProperties;
-import com.tsoft.ischool.domain.CaisseEncaissement;
-import com.tsoft.ischool.domain.Compte;
-import com.tsoft.ischool.domain.CompteAnalytique;
-import com.tsoft.ischool.domain.Reglement;
+import com.tsoft.ischool.domain.*;
 import com.tsoft.ischool.domain.enumeration.CaisseMouvementMotif;
 import static com.tsoft.ischool.domain.enumeration.ModePaiement.CHEQUE;
 import static com.tsoft.ischool.domain.enumeration.ModePaiement.ESPECES;
 import static com.tsoft.ischool.domain.enumeration.ModePaiement.VIREMENT;
 import com.tsoft.ischool.domain.enumeration.SensEcritureComptable;
+import com.tsoft.ischool.domain.enumeration.TypePersonne;
+import com.tsoft.ischool.repository.EleveRepository;
+import com.tsoft.ischool.repository.PersonRepository;
 import com.tsoft.ischool.repository.ReglementRepository;
 import com.tsoft.ischool.service.dto.ReglementDto;
 import com.tsoft.ischool.web.rest.util.HeaderUtil;
@@ -64,6 +64,12 @@ public class ReglementService {
     @Autowired
     DataSource dataSource;
 
+    @Autowired
+    private PersonRepository personRepository;
+
+    @Autowired
+    private EleveRepository eleveRepository;
+
     public Reglement save(Reglement reglement) throws Exception {
         if (reglement.getId() != null) {
             throw new Exception("Mise à jour des reglement interdite");
@@ -85,7 +91,17 @@ public class ReglementService {
                 encaissement.setDateVersement(reglement.getDateVersement());
                 encaissement.setModePaiement(reglement.getModePaiement());
                 encaissement.setMotif(CaisseMouvementMotif.ECOLAGE);
-                encaissement.setCommentaires("Ecolage : " + reglement.getEleve().getNom());
+                Eleve eleve = reglement.getEleve();
+                PersonEntity person = eleve.getPerson();
+                if(person==null){
+                    person = new PersonEntity(eleve.getNom() + eleve.getPrenom() != null ? " " + eleve.getPrenom() : "", TypePersonne.STUDENT,
+                            eleve.getSexe());
+                    person = personRepository.save(person);
+                    eleve.setPerson(person);
+                    eleveRepository.save(eleve);
+                }
+                encaissement.setPerson(person);
+                encaissement.setCommentaires("Ecolage : " + eleve.getNom());
 
                 encaissementService.save(encaissement);
 

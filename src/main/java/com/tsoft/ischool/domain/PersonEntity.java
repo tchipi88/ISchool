@@ -39,12 +39,12 @@ public class PersonEntity extends AbstractAuditingEntity {
     @Column
     private String nomPrenom;
 
-    @Size(max = 15)
+//    @Size(max = 15)
     @Column(name="type_personne")
     @Enumerated(EnumType.STRING)
     private TypePersonne typePersonne;
 
-    @Size(max = 15)
+//    @Size(max = 15)
     @Column(name="sexe")
     @Enumerated(EnumType.STRING)
     private Sexe sexe;

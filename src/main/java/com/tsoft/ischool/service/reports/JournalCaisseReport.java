@@ -131,20 +131,12 @@ public class JournalCaisseReport {
 
         //information about school
         String imgEntete = resourceLoader.getResource("classpath:ischool/reports/logo-ecole.png").getFile().getAbsolutePath();
-        Table entete = new Table(1);
+        Table entete = new Table(7);
         entete.setBorderWidth(0);
         entete.setBorder(0);
-        entete.setWidth(80);
-        entete.setPadding(0);
+        entete.setWidth(100);
+        entete.setPadding(2);
         entete.setSpacing(0);
-
-        if (!StringUtils.isEmpty(imgEntete)) {
-            Image image3 = Image.getInstance(imgEntete);
-            Cell img = new Cell();
-            img.add(image3);
-            invisible(img);
-            entete.addCell(img);
-        }
 
         //information about school
         ApplicationProperties.Ecole ecole = app.getEcole();
@@ -152,20 +144,36 @@ public class JournalCaisseReport {
         if(!StringUtils.isEmpty(ecole.getNom())) {
             cell = new Cell(new Chunk(ecole.getNom(), FontFactory.getFont(FontFactory.TIMES, 12, Font.BOLD, null)));
             invisible(cell);
+            cell.setColspan(3);
+            cell.setRowspan(2);
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             entete.addCell(cell);
+        }
+
+        if (!StringUtils.isEmpty(imgEntete)) {
+            Image image3 = Image.getInstance(imgEntete);
+            image3.scaleAbsolute(150f, 150f);
+            image3.setAbsolutePosition(400f, 550f);
+            Cell img = new Cell();
+            img.add(image3);
+            img.setRowspan(2);
+            invisible(img);
+            entete.addCell(img);
         }
 
         if(!StringUtils.isEmpty(ecole.getSlogan())) {
             cell = new Cell(new Chunk(ecole.getSlogan(), FontFactory.getFont(FontFactory.TIMES, 12, Font.BOLD, null)));
             invisible(cell);
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            cell.setColspan(3);
+            cell.setRowspan(2);
             entete.addCell(cell);
         }
 
         if(!StringUtils.isEmpty(ecole.getTelephonePortable())) {
             cell = new Cell(new Chunk(ecole.getBoitePostale() + " Tel:" + ecole.getTelephonePortable(), FontFactory.getFont(FontFactory.TIMES, 12, Font.BOLD, null)));
             invisible(cell);
+            cell.setColspan(7);
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             entete.addCell(cell);
         }
@@ -176,8 +184,8 @@ public class JournalCaisseReport {
         prg.setAlignment(Element.ALIGN_CENTER);
         document.add(prg);
 
-        Table tabdet = new Table(5);
-        tabdet.setWidth(80);
+        Table tabdet = new Table(7);
+        tabdet.setWidth(100);
         tabdet.setBorder(0);
         tabdet.setPadding(2);
         tabdet.setWidths(new int[]{8, 40, 25, 15, 15, 15, 15});
@@ -263,7 +271,7 @@ public class JournalCaisseReport {
 //            aggs[0] += cumul_nbre;
 //            aggs[1] += cumul_montant;
 //        }
-        tabdet.addCell(getCell("Total", 4, Element.ALIGN_CENTER, Font.BOLD));
+        tabdet.addCell(getCell("Total", 5, Element.ALIGN_CENTER, Font.BOLD));
         tabdet.addCell(getCell(decf.format(cumul_versement), 1, Element.ALIGN_RIGHT, Font.BOLD));
         tabdet.addCell(getCell(decf.format(cumul_sortie), 1, Element.ALIGN_RIGHT, Font.BOLD));
                 
@@ -282,7 +290,7 @@ public class JournalCaisseReport {
     }
 
     public Cell getCell(String st, int colspan, int align, int font, Color color) throws Exception {
-        Cell cell = new Cell(new Chunk(st, FontFactory.getFont(FontFactory.TIMES, 11, font, null)));
+        Cell cell = new Cell(new Chunk(st==null?"": st, FontFactory.getFont(FontFactory.TIMES, 11, font, null)));
         cell.setBorder(1);
         cell.setColspan(colspan);
         cell.setHorizontalAlignment(align);
