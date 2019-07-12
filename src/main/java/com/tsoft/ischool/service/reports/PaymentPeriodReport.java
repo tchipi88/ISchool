@@ -234,47 +234,43 @@ public class PaymentPeriodReport {
         System.out.println("Requetes paiement de periode : " + stat.toString());
         int num_lign = 0;
 //        int compte_old=0;
+        String dateOperationOld=null;
         Color color = null;
         ResultSet res = stat.executeQuery();
         while (res.next()) {
-//            int compte = res.getInt("compteclient");
             color = (num_lign % 2) == 0 ? Color.LIGHT_GRAY : null;
-//            if(date_op!=null) dt = datf_show.format(date_op);
-//            st = dt;
-//            cumul_nbre++;
-//            if (compte_old != 0 && compte!=compte_old) {
+            Date date_op = res.getDate("date_operation");
+            String dt="";
+            dt="";
+            if(date_op!=null)
+                dt = datf_show.format(date_op);
+            if(!StringUtils.isEmpty(dateOperationOld) && !dt.equalsIgnoreCase(dateOperationOld)){
 //                //Inserer les sous totaux
-//                tabdet.addCell(getCell("Sous Total", 3, Element.ALIGN_RIGHT, Font.BOLD));
+                tabdet.addCell(getCell("Sous Total", 6, Element.ALIGN_RIGHT, Font.BOLD));
 //                tabdet.addCell(getCell(decf.format(cumul_nbre), 1, Element.ALIGN_RIGHT, Font.BOLD));
-//                tabdet.addCell(getCell(decf.format(cumul_entree), 1, Element.ALIGN_RIGHT, Font.BOLD));
-//                tabdet.addCell(getCell(decf.format(cumul_sortie), 1, Element.ALIGN_RIGHT, Font.BOLD));
-//                cumul_total_sorite += cumul_sortie;
-//                cumul_total_entree += cumul_entree;
-//                cumul_entree=0; cumul_nbre=0; cumul_sortie=0;
-//            }
-////            date_old=st;
-//            compte_old = compte;
-            cumul_nbre++;
+                tabdet.addCell(getCell(decf.format(cumul_entree), 1, Element.ALIGN_RIGHT, Font.BOLD));
+                tabdet.addCell(getCell(decf.format(cumul_sortie), 1, Element.ALIGN_RIGHT, Font.BOLD));
+                cumul_total_sortie += cumul_sortie;
+                cumul_total_entree += cumul_entree;
+                cumul_entree=0; cumul_nbre=0; cumul_sortie=0;
+            }
+            dateOperationOld = dt;
             num_lign++;
-//            tabdet.addCell(getCell(st, 1, Element.ALIGN_LEFT));
 
             tabdet.addCell(getCell(num_lign + "", 1, Element.ALIGN_RIGHT, Font.NORMAL, color));
-            tabdet.addCell(getCell(res.getString("nom_prenom"), 1, Element.ALIGN_CENTER, Font.NORMAL, color));
+            tabdet.addCell(getCell(res.getString("nom_prenom"), 1, Element.ALIGN_LEFT, Font.NORMAL, color));
 
             Date date_paie = res.getDate("date_enregistrement");
-            String dt="";
-            if(date_paie!=null)
-                dt = datf_show.format(date_paie);
-            tabdet.addCell(getCell(dt, 1, Element.ALIGN_CENTER, Font.NORMAL, color));
-
-            tabdet.addCell(getCell(res.getString("mode_paiement"), 1, Element.ALIGN_CENTER, Font.NORMAL, color));
-            tabdet.addCell(getCell(res.getString("motif"), 1, Element.ALIGN_CENTER, Font.NORMAL, color));
-
-            date_paie = res.getDate("date_operation");
             dt="";
             if(date_paie!=null)
                 dt = datf_show.format(date_paie);
             tabdet.addCell(getCell(dt, 1, Element.ALIGN_CENTER, Font.NORMAL, color));
+
+            tabdet.addCell(getCell(res.getString("mode_paiement"), 1, Element.ALIGN_LEFT, Font.NORMAL, color));
+            tabdet.addCell(getCell(res.getString("motif"), 1, Element.ALIGN_LEFT, Font.NORMAL, color));
+
+
+            tabdet.addCell(getCell(dt, 1, Element.ALIGN_LEFT, Font.NORMAL, color));
 
 //            list.add(dt);
             double entree = res.getDouble("entree");
@@ -286,19 +282,19 @@ public class PaymentPeriodReport {
 
         }
 
-//        if (compte_old !=0) {
-//                //Inserer les sous totaux
-//            tabdet.addCell(getCell("Sub Total", 3, Element.ALIGN_RIGHT, Font.BOLD));
+        if (!StringUtils.isEmpty(dateOperationOld)) {
+                //Inserer les sous totaux
+            tabdet.addCell(getCell("Sub Total", 6, Element.ALIGN_RIGHT, Font.BOLD));
 //                tabdet.addCell(getCell(decf.format(cumul_nbre), 1, Element.ALIGN_RIGHT, Font.BOLD));
-//                tabdet.addCell(getCell(decf.format(cumul_entree), 1, Element.ALIGN_RIGHT, Font.BOLD));
-//                tabdet.addCell(getCell(decf.format(cumul_sortie), 1, Element.ALIGN_RIGHT, Font.BOLD));
-//                cumul_total_sorite += cumul_sortie;
-//                cumul_total_entree += cumul_entree;
-//        }
+            tabdet.addCell(getCell(decf.format(cumul_entree), 1, Element.ALIGN_RIGHT, Font.BOLD));
+            tabdet.addCell(getCell(decf.format(cumul_sortie), 1, Element.ALIGN_RIGHT, Font.BOLD));
+            cumul_total_sortie += cumul_sortie;
+            cumul_total_entree += cumul_entree;
+        }
         tabdet.addCell(getCell("Total", 6, Element.ALIGN_CENTER, Font.BOLD));
 //        tabdet.addCell(getCell(decf.format(num_lign), 1, Element.ALIGN_RIGHT, Font.BOLD));
-        tabdet.addCell(getCell(decf.format(cumul_entree), 1, Element.ALIGN_RIGHT, Font.BOLD));
-        tabdet.addCell(getCell(decf.format(cumul_sortie), 1, Element.ALIGN_RIGHT, Font.BOLD));
+        tabdet.addCell(getCell(decf.format(cumul_total_entree), 1, Element.ALIGN_RIGHT, Font.BOLD));
+        tabdet.addCell(getCell(decf.format(cumul_total_sortie), 1, Element.ALIGN_RIGHT, Font.BOLD));
 
         document.add(tabdet);
 

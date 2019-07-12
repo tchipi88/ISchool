@@ -90,7 +90,8 @@ public class ReglementService {
                 encaissement.setMontant(reglement.getMontant());
                 encaissement.setDateVersement(reglement.getDateVersement());
                 encaissement.setModePaiement(reglement.getModePaiement());
-                encaissement.setMotif(CaisseMouvementMotif.ECOLAGE);
+//                encaissement.setMotif(CaisseMouvementMotif.ECOLAGE);
+                encaissement.setMotif(reglement.getMotif());
                 Eleve eleve = reglement.getEleve();
                 PersonEntity person = eleve.getPerson();
                 if(person==null){

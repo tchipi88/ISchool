@@ -67,8 +67,8 @@ public class ISchool {
     public static void main(String[] args) throws UnknownHostException {
         SpringApplication app = new SpringApplication(ISchool.class);
         DefaultProfileUtil.addDefaultProfile(app);
-//        ApplicationContext ctx = app.run(args);
-        Environment env = app.run(args).getEnvironment();
+        ApplicationContext ctx = app.run(args);
+        Environment env = ctx.getEnvironment();
         String protocol = "http";
         if (env.getProperty("server.ssl.key-store") != null) {
             protocol = "https";
@@ -76,8 +76,8 @@ public class ISchool {
 //        JournalCaisseReport journalCaisseReport = ctx.getBean(JournalCaisseReport.class);
 //        PaymentPeriodReport paymentPeriodReport = ctx.getBean(PaymentPeriodReport.class);
 //        try{
-//            journalCaisseReport.process("05/07/2019");
-//            paymentPeriodReport.process("05/07/2019", "12/07/2019");
+//            journalCaisseReport.process("12/07/2019");
+//            paymentPeriodReport.process("10/07/2019", "13/07/2019");
 //        }catch(Exception ex){
 //            ex.printStackTrace();
 //        }

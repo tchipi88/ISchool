@@ -248,10 +248,10 @@ public class JournalCaisseReport {
 //            tabdet.addCell(getCell(st, 1, Element.ALIGN_LEFT));
 
             tabdet.addCell(getCell(num_lign+"",1, Element.ALIGN_RIGHT, Font.NORMAL, color));
-            tabdet.addCell(getCell(res.getString("nom_prenom"),1, Element.ALIGN_CENTER, Font.NORMAL, color));
-            tabdet.addCell(getCell(res.getString("mode_paiement"),1, Element.ALIGN_CENTER, Font.NORMAL, color));
-            tabdet.addCell(getCell(res.getString("motif"),1, Element.ALIGN_CENTER, Font.NORMAL, color));
-            tabdet.addCell(getCell(datf_show.format(res.getDate("date_operation")),1, Element.ALIGN_CENTER, Font.NORMAL, color));
+            tabdet.addCell(getCell(res.getString("nom_prenom"),1, Element.ALIGN_LEFT, Font.NORMAL, color));
+            tabdet.addCell(getCell(res.getString("mode_paiement"),1, Element.ALIGN_LEFT, Font.NORMAL, color));
+            tabdet.addCell(getCell(res.getString("motif"),1, Element.ALIGN_LEFT, Font.NORMAL, color));
+            tabdet.addCell(getCell(datf_show.format(res.getDate("date_operation")),1, Element.ALIGN_LEFT, Font.NORMAL, color));
 
 //            list.add(dt);
             double entree = res.getDouble("entree");
