@@ -4,6 +4,7 @@ package com.tsoft.ischool;
 
 import com.tsoft.ischool.config.ApplicationProperties;
 import com.tsoft.ischool.config.DefaultProfileUtil;
+import com.tsoft.ischool.domain.enumeration.ModePaiement;
 import com.tsoft.ischool.service.reports.JournalCaisseReport;
 import com.tsoft.ischool.service.reports.PaymentPeriodReport;
 import io.github.jhipster.config.JHipsterConstants;
@@ -77,7 +78,7 @@ public class ISchool {
 //        PaymentPeriodReport paymentPeriodReport = ctx.getBean(PaymentPeriodReport.class);
 //        try{
 //            journalCaisseReport.process("12/07/2019");
-//            paymentPeriodReport.process("10/07/2019", "13/07/2019");
+//            paymentPeriodReport.process("10/07/2019", "13/07/2019", ModePaiement.ESPECES, null);
 //        }catch(Exception ex){
 //            ex.printStackTrace();
 //        }

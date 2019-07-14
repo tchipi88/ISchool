@@ -35,6 +35,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.tsoft.ischool.config.ApplicationProperties;
+import com.tsoft.ischool.domain.enumeration.CaisseMouvementMotif;
+import com.tsoft.ischool.domain.enumeration.ModePaiement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -76,11 +78,15 @@ public class PaymentPeriodReport {
 //    }
 //
 
-    public String process(String dateDebut, String dateFin) throws Exception {
+    public String process(String dateDebut, String dateFin, ModePaiement modePaiement, CaisseMouvementMotif motif) throws Exception {
 
         Map params = new HashMap();
         params.put("date_debut", dateDebut);
         params.put("date_fin", dateFin);
+
+        if(modePaiement!=null) params.put("modePaiement", modePaiement.name());
+        if(motif!=null) params.put("motifMouvement", motif.name());
+
         File uploadedfile = new File("." + File.separator + "reports");
         if (!uploadedfile.exists()) {
             uploadedfile.mkdirs();
@@ -94,6 +100,25 @@ public class PaymentPeriodReport {
 
         return destfile;
     }
+
+//    public String process(String dateDebut, String dateFin) throws Exception {
+//
+//        Map params = new HashMap();
+//        params.put("date_debut", dateDebut);
+//        params.put("date_fin", dateFin);
+//        File uploadedfile = new File("." + File.separator + "reports");
+//        if (!uploadedfile.exists()) {
+//            uploadedfile.mkdirs();
+//        }
+//        String destfile = uploadedfile.getAbsolutePath() + File.separator + "PaiementPeriode"
+//                + System.currentTimeMillis() + ".pdf";
+//
+//        // Implementer le corps de l'etat
+//        buildReport(params, destfile, jdbcTemplate.getDataSource().getConnection());
+//
+//
+//        return destfile;
+//    }
 //    @Override
 //    public String run(HttpSession session, HttpServletRequest request, Model m) throws Exception {
 //
@@ -216,14 +241,28 @@ public class PaymentPeriodReport {
         cal.add(Calendar.DAY_OF_YEAR, 1);
         date_f = cal.getTime();
 
+        String modePaie = (String) params.get("modePaiement");
+        String motif = (String) params.get("motifMouvement");
+
         String query = "select * from vuemouvementcaisse where date_enregistrement >= ? and date_enregistrement < ?";
+        if(!StringUtils.isEmpty(modePaie))
+            query+= " and mode_paiement=? ";
+        if(!StringUtils.isEmpty(motif))
+            query+= " and motif=? ";
 
         query += " order by date_operation, date_enregistrement, nom_prenom ";
         PreparedStatement stat = con.prepareStatement(query);
         stat.setDate(1, new java.sql.Date(date_deb.getTime()));
         stat.setDate(2, new java.sql.Date(date_f.getTime()));
         int num_params = 3;
-
+        if(!StringUtils.isEmpty(modePaie)) {
+            stat.setString(num_params, modePaie);
+            num_params++;
+        }
+        if(!StringUtils.isEmpty(motif)) {
+            stat.setString(num_params, motif);
+            num_params++;
+        }
 
 //        stat.setDate(2, date_s);
         DecimalFormat decf = new DecimalFormat("#,##0");

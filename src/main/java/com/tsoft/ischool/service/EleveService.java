@@ -59,7 +59,6 @@ public class EleveService {
 
         //if(eleve.getPrenom()==null) {
 
-
         PersonEntity person = new PersonEntity(eleve.getNom() + (eleve.getPrenom() != null ? " " + eleve.getPrenom() : ""),
                 TypePersonne.STUDENT, eleve.getSexe());
         person = personRepository.save(person);
