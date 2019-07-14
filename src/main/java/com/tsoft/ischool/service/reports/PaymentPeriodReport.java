@@ -19,6 +19,7 @@ import com.lowagie.text.pdf.PdfWriter;
 import java.awt.Color;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,6 +27,7 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -37,18 +39,30 @@ import javax.servlet.http.HttpSession;
 import com.tsoft.ischool.config.ApplicationProperties;
 import com.tsoft.ischool.domain.enumeration.CaisseMouvementMotif;
 import com.tsoft.ischool.domain.enumeration.ModePaiement;
+import com.tsoft.ischool.service.util.FileUtils;
+import com.tsoft.ischool.web.rest.util.HeaderUtil;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
  * @author Tedongmo
  */
-@Service
+@RestController
+@RequestMapping("/api")
 public class PaymentPeriodReport {
 
 
@@ -61,83 +75,38 @@ public class PaymentPeriodReport {
     @Autowired
     ApplicationProperties app;
 
-//    @Column
-//    @Temporal(javax.persistence.TemporalType.DATE)
-//    @NotNull
-//    private String date_debut;
-//    @Column
-//    @Temporal(javax.persistence.TemporalType.DATE)
-//    private String date_fin;
+    DateFormat datf = new SimpleDateFormat("yyyy/MM/dd");
 
-//    @Autowired
-//    DefaultParams dafaultparams;
-//
-//    @Override
-//    public String description() {
-//        return ("Journal de Caisse"); //To change body of generated methods, choose Tools | Templates.
-//    }
-//
 
-    public String process(String dateDebut, String dateFin, ModePaiement modePaiement, CaisseMouvementMotif motif) throws Exception {
+
+    @GetMapping(value = "/printPaymentPeriod",
+            produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
+    public ResponseEntity<byte[]> process(@RequestParam LocalDate dateDebut,@RequestParam LocalDate dateFin,@RequestParam ModePaiement modePaiement,@RequestParam(required = false) CaisseMouvementMotif motif) throws Exception {
 
         Map params = new HashMap();
-        params.put("date_debut", dateDebut);
-        params.put("date_fin", dateFin);
+        params.put("date_debut", dateDebut.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
+        params.put("date_fin", dateFin.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
 
         if(modePaiement!=null) params.put("modePaiement", modePaiement.name());
         if(motif!=null) params.put("motifMouvement", motif.name());
 
-        File uploadedfile = new File("." + File.separator + "reports");
-        if (!uploadedfile.exists()) {
-            uploadedfile.mkdirs();
-        }
-        String destfile = uploadedfile.getAbsolutePath() + File.separator + "PaiementPeriode"
-                + System.currentTimeMillis() + ".pdf";
+
+        String destfile = FileUtils.getUploadedfile().getAbsolutePath() + File.separator  + "PaiementPeriode"
+                + dateDebut.toString()+"Au" +dateFin.toString()+ ".pdf";
 
         // Implementer le corps de l'etat
         buildReport(params, destfile, jdbcTemplate.getDataSource().getConnection());
 
 
-        return destfile;
+        Resource resource = resourceLoader.getResource("file:" + destfile);
+        InputStream in = resource.getInputStream();
+        try {
+            return new ResponseEntity<>(IOUtils.toByteArray(in), HeaderUtil.downloadAlert(resource), HttpStatus.OK);
+        } finally {
+            IOUtils.closeQuietly(in);
+        }
     }
 
-//    public String process(String dateDebut, String dateFin) throws Exception {
-//
-//        Map params = new HashMap();
-//        params.put("date_debut", dateDebut);
-//        params.put("date_fin", dateFin);
-//        File uploadedfile = new File("." + File.separator + "reports");
-//        if (!uploadedfile.exists()) {
-//            uploadedfile.mkdirs();
-//        }
-//        String destfile = uploadedfile.getAbsolutePath() + File.separator + "PaiementPeriode"
-//                + System.currentTimeMillis() + ".pdf";
-//
-//        // Implementer le corps de l'etat
-//        buildReport(params, destfile, jdbcTemplate.getDataSource().getConnection());
-//
-//
-//        return destfile;
-//    }
-//    @Override
-//    public String run(HttpSession session, HttpServletRequest request, Model m) throws Exception {
-//
-//        Map params = new HashMap();
-//
-//        params.put("date_debut", request.getParameter("date_debut"));
-//        params.put("date_fin", request.getParameter("date_fin"));
-//        File uploadedfile = new File("." + File.separator + "reports");
-//        if (!uploadedfile.exists()) {
-//            uploadedfile.mkdirs();
-//        }
-//        String destfile = uploadedfile.getAbsolutePath() + File.separator + "PaiementPeriode"
-//                + System.currentTimeMillis() + ".pdf";
-//
-//        // Implementer le corps de l'etat
-//        buildReport(params, destfile, jdbcTemplate.getDataSource().getConnection());
-//
-//        return "download?file=" + destfile;
-//    }
 
     public void buildReport(Map params, String destfile, Connection con) throws Exception {
 
@@ -145,8 +114,6 @@ public class PaymentPeriodReport {
         com.lowagie.text.Document document = new com.lowagie.text.Document(com.lowagie.text.PageSize.A4);//instanciation du document pdf format paysage.
         String chemin = destfile;
         String date_debut = (String) params.get("date_debut");
-        if(StringUtils.isEmpty(date_debut))
-            date_debut = LocalDate.now().toString();
         String date_fin = (String) params.get("date_fin");
         if (StringUtils.isEmpty(date_fin)) {
             date_fin = date_debut;
@@ -233,7 +200,7 @@ public class PaymentPeriodReport {
             aggs[i] = 0;
         }
 
-        DateFormat datf = new SimpleDateFormat("yyyy/MM/dd");
+
         Date date_deb = datf.parse(formatDate(date_debut));
         Date date_f = datf.parse(formatDate(date_fin));
         Calendar cal = Calendar.getInstance();

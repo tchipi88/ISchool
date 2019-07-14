@@ -1,70 +1,205 @@
-<div class="bg-light lter b-b wrapper-md" >
-    <h1 class="m-n font-thin h3">Caisses</h1>
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h1">Caisses</h1>
     <small class="text-muted"></small>
 </div>
 <div>
     <jhi-alert></jhi-alert>
 </div>
 
-<div class="wrapper-md">
-    <div class="panel panel-default">
-        
-        <div class="panel-body table-responsive">
-            <table class="table table-striped table-bordered table-hover">
-                <thead>
-                    <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
-                        <th jh-sort-by="id"><span >ID</span> <span class="fa fa-sort"></span></th>
-                         <th jh-sort-by="gerant"><span >Gerant</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="etat"><span >Etat</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="soldeReel"><span >Solde Reel</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="sortie"><span >Sortie</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="entree"><span >Entree</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="soldeTheorique"><span >Solde Theorique</span> <span class="fa fa-sort"></span></th>
 
-                        <th >
-                            <button class="btn btn-primary" ui-sref="caisse.new"   tooltip="Créer Caisse">
+<div class="wrapper-md">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label" >Date <span
+                                        style="color:red">*</span></label>
+                                <div class="input-group">
+                                    <input id="date_journal" type="text" class="form-control"
+                                           name="dateJournal"
+                                           ng-required="true" uib-datepicker-popup="{{dateformat}}"
+                                           ng-model="vm.dateJournal"
+                                           is-open="vm.datePickerOpenStatus.dateJournal"
+                                    />
+                                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="vm.openCalendar('dateJournal')"><i
+                                class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <button type="button" ng-disabled="!vm.dateJournal" class="btn btn-primary"  ng-click="vm.printJournalCaisse()">
+                        <span class="fa fa-file-pdf-o"></span>&nbsp;<span
+                            >Journal de caisse</span>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-sm-6">
+            <div class="panel panel-default">
+
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label" >Date Start <span
+                                        style="color:red">*</span></label>
+                                <div class="input-group">
+                                    <input id="paiementReportDateStart" type="text" class="form-control"
+                                           name="paiementReportDateStart"
+                                           ng-required="true" uib-datepicker-popup="{{dateformat}}"
+                                           ng-model="vm.paiementReportDateStart"
+                                           is-open="vm.datePickerOpenStatus.paiementReportDateStart"
+                                    />
+                                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="vm.openCalendar('paiementReportDateStart')"><i
+                                class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label" >Date End <span
+                                        style="color:red">*</span></label>
+                                <div class="input-group">
+                                    <input id="datePaiementReportEnd" type="text" class="form-control"
+                                           name="paiementReportDateEnd"
+                                           ng-required="true" uib-datepicker-popup="{{dateformat}}"
+                                           ng-model="vm.paiementReportDateEnd"
+                                           is-open="vm.datePickerOpenStatus.paiementReportDateEnd"
+                                    />
+                                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="vm.openCalendar('paiementReportDateEnd')"><i
+                                class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label" for="field_modePaiement">Mode Paiement <span
+                                        style="color:red">*</span></label>
+                                <select class="form-control" name="modePaiement"
+                                        ng-model="vm.paiementReportModePaiement"
+                                        id="field_modePaiement" required>
+                                    <option value="ESPECES">ESPECES</option>
+                                    <option value="CHEQUE">CHEQUE</option>
+                                    <option value="CARTE_BANCAIRE">CARTE_BANCAIRE</option>
+                                    <option value="VIREMENT">VIREMENT</option>
+                                    <option value="PRELEVEMENT">PRELEVEMENT</option>
+                                    <option value="AUTRES">AUTRES</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label" for="field_motif">Motif </label>
+                                <select class="form-control" name="motif" ng-model="vm.paiementReportMotif"
+                                        id="field_motif"
+                                        >
+                                    <option value="PENSION">PENSION</option>
+                                    <option value="INSCRIPTION">INSCRIPTION</option>
+                                    <option value="DON">DON</option>
+                                    <option value="PARENTS">PARENTS</option>
+                                    <option value="SALAIRES">SALAIRES</option>
+                                    <option value="FACTURES">FACTURES</option>
+                                    <option value="TRANSFERT">TRANSFERT</option>
+                                    <option value="PRELEVEMENT">PRELEVEMENT</option>
+                                    <option value="AUTRES">AUTRES</option>
+                                    <option value="ECOLAGE">ECOLAGE</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="panel-footer">
+                    <button type="submit" ng-disabled="!vm.paiementReportDateStart && !vm.paiementReportDateStart && !vm.paiementReportModePaiement" class="btn btn-primary"
+                            ng-click="vm.printPaymentPeriod()">
+                        <span class="fa fa-file-pdf-o"></span>&nbsp;<span
+                            >Paiement Report</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="panel panel-default">
+
+            <div class="panel-body table-responsive">
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                    <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
+                        <th jh-sort-by="id"><span>ID</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="gerant"><span>Gerant</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="etat"><span>Etat</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="soldeReel"><span>Solde Reel</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="sortie"><span>Sortie</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="entree"><span>Entree</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="soldeTheorique"><span>Solde Theorique</span> <span class="fa fa-sort"></span>
+                        </th>
+
+                        <th>
+                            <button class="btn btn-primary" ui-sref="caisse.new" tooltip="Crï¿½er Caisse">
                                 <i class="fa fa-plus">
                                 </i>
                             </button>
                         </th>
                     </tr>
-                </thead>
-                <tbody>
+                    </thead>
+                    <tbody>
                     <tr ng-repeat="caisse in vm.caisses track by caisse.id">
                         <td>{{caisse.id}}</td>
-                         <td>{{caisse.gerant.nom}}</td>
- <td>{{caisse.etat}}</td>
- <td>{{caisse.soldeReel | number }}</td>
- <td>{{caisse.sortie | number }}</td>
- <td>{{caisse.entree | number }}</td>
- <td>{{caisse.soldeTheorique | number }}</td>
+                        <td>{{caisse.gerant.nom}}</td>
+                        <td>{{caisse.etat}}</td>
+                        <td>{{caisse.soldeReel | number }}</td>
+                        <td>{{caisse.sortie | number }}</td>
+                        <td>{{caisse.entree | number }}</td>
+                        <td>{{caisse.soldeTheorique | number }}</td>
 
-                        <td >
+                        <td>
 
-                           
-                            <button type="submit"   ui-sref="caisse.edit({id:caisse.id})" class="btn btn-sm btn-default"  tooltip="Modifier">
+
+                            <button type="submit" ui-sref="caisse.edit({id:caisse.id})" class="btn btn-sm btn-default"
+                                    tooltip="Modifier">
                                 <i class="fa fa-edit">
                                 </i>
                             </button>
 
-                            <button type="submit"  ui-sref="caisse.delete({id:caisse.id})"  class="btn btn-sm btn-danger"  tooltip="Supprimer">
+                            <button type="submit" ui-sref="caisse.delete({id:caisse.id})" class="btn btn-sm btn-danger"
+                                    tooltip="Supprimer">
                                 <i class="fa fa-trash">
                                 </i>
                             </button>
 
                         </td>
                     </tr>
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
 
-        </div>
-        <div class="panel-footer">
-            <div class="row">
-                <div class="col-sm-6">
-                    <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
-                </div>
-                <div class="col-sm-6 text-right text-center-xs">
-                    <uib-pagination class="pagination-sm" total-items="vm.totalItems" items-per-page="vm.itemsPerPage" ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <jhi-item-count page="vm.page" total="vm.queryCount"
+                                        items-per-page="vm.itemsPerPage"></jhi-item-count>
+                    </div>
+                    <div class="col-sm-6 text-right text-center-xs">
+                        <uib-pagination class="pagination-sm" total-items="vm.totalItems"
+                                        items-per-page="vm.itemsPerPage"
+                                        ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
+                    </div>
                 </div>
             </div>
         </div>

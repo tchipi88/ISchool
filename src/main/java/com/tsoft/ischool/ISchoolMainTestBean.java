@@ -17,7 +17,7 @@ class ISchoolMainTestBean {
         JournalCaisseReport journalCaisseReport = ctx.getBean(JournalCaisseReport.class);
 
         try{
-            journalCaisseReport.process("05/07/2019");
+          //  journalCaisseReport.process("05/07/2019");
         }catch(Exception ex){
             ex.printStackTrace();
         }
