@@ -10,6 +10,7 @@ import com.tsoft.ischool.domain.enumeration.TypePersonne;
 import com.tsoft.ischool.repository.EmployeRepository;
 import com.tsoft.ischool.repository.PersonRepository;
 import com.tsoft.ischool.repository.search.EmployeSearchRepository;
+import com.tsoft.ischool.repository.search.PersonSearchRepository;
 import com.tsoft.ischool.web.rest.util.HeaderUtil;
 import com.tsoft.ischool.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -46,12 +47,14 @@ public class EmployeResource {
 
     private final EmployeSearchRepository employeSearchRepository;
     private final PersonRepository personRepository;
+    private final PersonSearchRepository personSearchRepository;
 
     public EmployeResource(EmployeRepository employeRepository, EmployeSearchRepository employeSearchRepository,
-                           PersonRepository personRepository) {
+                           PersonRepository personRepository, PersonSearchRepository personSearchRepository) {
         this.employeRepository = employeRepository;
         this.employeSearchRepository = employeSearchRepository;
         this.personRepository = personRepository;
+        this.personSearchRepository = personSearchRepository;
     }
 
     /**
@@ -75,8 +78,9 @@ public class EmployeResource {
         PersonEntity person = new PersonEntity(nom, TypePersonne.STAFF, sexe);
         person.setCivilite(civil);
         person = personRepository.save(person);
-        employe.setPerson(person);
+        personSearchRepository.save(person);
 
+        employe.setPerson(person);
         Employe result = employeRepository.save(employe);
         employeSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/employes/" + result.getId()))

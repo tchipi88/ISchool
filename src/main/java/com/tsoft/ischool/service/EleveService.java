@@ -13,6 +13,7 @@ import com.tsoft.ischool.domain.enumeration.TypePersonne;
 import com.tsoft.ischool.repository.*;
 import com.tsoft.ischool.repository.search.CompteAnalytiqueSearchRepository;
 import com.tsoft.ischool.repository.search.EleveSearchRepository;
+import com.tsoft.ischool.repository.search.PersonSearchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +35,7 @@ public class EleveService {
     private final CompteAnalytiqueSearchRepository compteAnalytiqueSearchRepository;
 
     private final PersonRepository personRepository;
+    private final PersonSearchRepository personSearchRepository;
 
 //    public EleveResource(EleveRepository eleveRepository, EleveSearchRepository eleveSearchRepository,
 //                         CompteAnalytiqueRepository compteAnalytiqueRepository, CompteAnalytiqueSearchRepository compteAnalytiqueSearchRepository) {
@@ -45,12 +47,13 @@ public class EleveService {
 
     public EleveService(EleveRepository eleveRepository, EleveSearchRepository eleveSearchRepository,
                          CompteAnalytiqueRepository compteAnalytiqueRepository, CompteAnalytiqueSearchRepository compteAnalytiqueSearchRepository,
-                         PersonRepository personRepository) {
+                         PersonRepository personRepository, PersonSearchRepository personSearchRepository) {
         this.eleveRepository = eleveRepository;
         this.eleveSearchRepository = eleveSearchRepository;
         this.compteAnalytiqueRepository = compteAnalytiqueRepository;
         this.compteAnalytiqueSearchRepository = compteAnalytiqueSearchRepository;
         this.personRepository = personRepository;
+        this.personSearchRepository = personSearchRepository;
     }
 
 
@@ -63,6 +66,7 @@ public class EleveService {
                 TypePersonne.STUDENT, eleve.getSexe());
         person = personRepository.save(person);
         eleve.setPerson(person);
+        personSearchRepository.save(person);
         //}
 
         Eleve result = eleveRepository.save(eleve);

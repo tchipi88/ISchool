@@ -13,6 +13,7 @@ import com.tsoft.ischool.domain.enumeration.Sexe;
 import com.tsoft.ischool.domain.enumeration.TypePersonne;
 import com.tsoft.ischool.repository.PersonRepository;
 import com.tsoft.ischool.repository.ProfesseurRepository;
+import com.tsoft.ischool.repository.search.PersonSearchRepository;
 import com.tsoft.ischool.repository.search.ProfesseurSearchRepository;
 import com.tsoft.ischool.service.AnneeService;
 import com.tsoft.ischool.web.rest.util.HeaderUtil;
@@ -70,12 +71,14 @@ public class ProfesseurResource {
     ResourceLoader resourceLoader;
 
     private final PersonRepository personRepository;
+    private final PersonSearchRepository personSearchRepository;
 
     public ProfesseurResource(ProfesseurRepository professeurRepository, ProfesseurSearchRepository professeurSearchRepository,
-                              PersonRepository personRepository) {
+                              PersonRepository personRepository, PersonSearchRepository personSearchRepository) {
         this.professeurRepository = professeurRepository;
         this.professeurSearchRepository = professeurSearchRepository;
         this.personRepository = personRepository;
+        this.personSearchRepository = personSearchRepository;
     }
 
     /**
@@ -101,6 +104,7 @@ public class ProfesseurResource {
         PersonEntity person = new PersonEntity(nom, TypePersonne.STAFF, sexe);
         person.setCivilite(civil);
         person = personRepository.save(person);
+        personSearchRepository.save(person);
 
         professeur.setPerson(person);
 
