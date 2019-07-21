@@ -55,10 +55,19 @@ spring:
                   logs: target/elasticsearch/log
                   data: target/elasticsearch/data
     mail:
-        host: localhost
-        port: 25
-        username:
-        password:
+        default-encoding: UTF-8
+        host: smtp.gmail.com
+        username: devsolution.pvms@gmail.com
+        password: DevSolutionO
+        port: 587
+        properties:
+            mail:
+                smtp:
+                    auth: true
+                    starttls:
+                        enable: true
+        protocol: smtp
+        test-connection: false
     messages:
         cache-seconds: 1
     thymeleaf:
@@ -137,3 +146,12 @@ jhipster:
 # ===================================================================
 
 application:
+
+ischool:
+    report:
+        email: wtedongmo@gmail.com
+        time:
+            daily: 0 0 17 ? * MON-SAT
+            period: 0 10 17 ? * MON
+
+

@@ -8,6 +8,8 @@ package com.tsoft.ischool.service;
 import com.tsoft.ischool.domain.Compte;
 import com.tsoft.ischool.repository.CompteRepository;
 import java.math.BigDecimal;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +28,18 @@ public class CompteService {
     }
 
     public Compte getCompte(Integer numcompte, String intitule) throws Exception {
-        Compte c = compteRepository.findOne(numcompte);
+        Compte c = null;
+        if(numcompte!=null)
+            c = compteRepository.findOne(numcompte);
+        if(c==null) {
+            List<Compte> list = compteRepository.findByIntitule(intitule);
+            if(list.isEmpty()){
+                do {
+                    numcompte = Math.subtractExact(10, 9999);
+                }while(compteRepository.exists(numcompte));
+            }else
+                c = list.get(0);
+        }
         if (c == null) {
             c = new Compte();
             c.setId(numcompte);

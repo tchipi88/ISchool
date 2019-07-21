@@ -86,26 +86,6 @@ public class ReglementService {
                 compteCaisse.setCredit(reglement.getMontant().add(compteCaisse.getCredit()));
                 compteService.save(compteCaisse);
 
-                CaisseEncaissement encaissement = new CaisseEncaissement();
-                encaissement.setMontant(reglement.getMontant());
-                encaissement.setDateVersement(reglement.getDateVersement());
-                encaissement.setModePaiement(reglement.getModePaiement());
-//                encaissement.setMotif(CaisseMouvementMotif.ECOLAGE);
-                encaissement.setMotif(reglement.getMotif());
-                Eleve eleve = reglement.getEleve();
-                PersonEntity person = eleve.getPerson();
-                if(person==null){
-                    person = new PersonEntity(eleve.getNom() + eleve.getPrenom() != null ? " " + eleve.getPrenom() : "", TypePersonne.STUDENT,
-                            eleve.getSexe());
-                    person = personRepository.save(person);
-                    eleve.setPerson(person);
-                    eleveRepository.save(eleve);
-                }
-                encaissement.setPerson(person);
-                encaissement.setCommentaires("Ecolage : " + eleve.getNom());
-
-                encaissementService.save(encaissement);
-
                 break;
             }
             case CHEQUE: {
@@ -120,7 +100,33 @@ public class ReglementService {
                 compteService.save(compteBanque);
                 break;
             }
+            default: {
+                Compte compte = compteService.getCompte(null, reglement.getModePaiement().name());
+                compte.setCredit(reglement.getMontant().add(compte.getCredit()));
+                compteService.save(compte);
+                break;
+            }
         }
+
+        CaisseEncaissement encaissement = new CaisseEncaissement();
+        encaissement.setMontant(reglement.getMontant());
+        encaissement.setDateVersement(reglement.getDateVersement());
+        encaissement.setModePaiement(reglement.getModePaiement());
+//                encaissement.setMotif(CaisseMouvementMotif.ECOLAGE);
+        encaissement.setMotif(reglement.getMotif());
+        Eleve eleve = reglement.getEleve();
+        PersonEntity person = eleve.getPerson();
+        if(person==null){
+            person = new PersonEntity(eleve.getNom() + eleve.getPrenom() != null ? " " + eleve.getPrenom() : "", TypePersonne.STUDENT,
+                    eleve.getSexe());
+            person = personRepository.save(person);
+            eleve.setPerson(person);
+            eleveRepository.save(eleve);
+        }
+        encaissement.setPerson(person);
+        encaissement.setCommentaires(reglement.getMotif()+" : " + eleve.getNom());
+
+        encaissementService.save(encaissement);
 
         return reglementRepository.save(reglement);
     }

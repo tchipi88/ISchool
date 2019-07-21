@@ -8,6 +8,8 @@ package com.tsoft.ischool.repository;
 import com.tsoft.ischool.domain.Compte;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 /**
  *
  * @author tchipi
@@ -17,6 +19,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface CompteRepository extends JpaRepository<Compte, Integer> {
 
+        List<Compte> findByIntitule(String intitule);
     
 
 }

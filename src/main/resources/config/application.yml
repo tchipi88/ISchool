@@ -46,6 +46,7 @@ spring:
     thymeleaf:
         mode: XHTML
 
+
 security:
     basic:
         enabled: false
@@ -104,7 +105,7 @@ jhipster:
 # ===================================================================
 
 application:
-      ecole :
+    ecole :
           nom:  GROUPE SCOLAIRE BILINGUE NJIKE  / BILINGUAL NURSERY AND PRIMARY SCHOOL  NJIKE
           telephonePortable : 696 62 97 32
           telephoneFixe: 676 09 98 52
@@ -114,5 +115,3 @@ application:
           adresse: Situé en face de la Sous-préfecture de Mandjou
           slogan:  L'école de la réussite et de l'excellence/ School of success and excellent
           logo:
-       
-      

@@ -7,6 +7,7 @@ package com.tsoft.ischool.domain;
 
 import com.tsoft.ischool.domain.enumeration.CaisseMouvementMotif;
 import com.tsoft.ischool.domain.enumeration.ModePaiement;
+import com.tsoft.ischool.service.template.Image;
 import org.hibernate.FetchMode;
 import org.hibernate.annotations.Fetch;
 
@@ -66,6 +67,14 @@ public class CaisseMouvement extends AbstractAuditingEntity {
 //    @Fetch(FetchMode.JOIN)
     @ManyToOne
     private PersonEntity person;
+
+    @Lob
+    @Column(name = "image")
+    @Image
+    private byte[] image;
+
+    @Column(name = "image_content_type")
+    private String imageContentType;
 
     public String getCommentaires() {
         return commentaires;
@@ -129,6 +138,22 @@ public class CaisseMouvement extends AbstractAuditingEntity {
 
     public void setPerson(PersonEntity person) {
         this.person = person;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public String getImageContentType() {
+        return imageContentType;
+    }
+
+    public void setImageContentType(String imageContentType) {
+        this.imageContentType = imageContentType;
     }
 
     @Override

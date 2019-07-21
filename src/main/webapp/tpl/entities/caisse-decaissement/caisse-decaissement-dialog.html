@@ -113,7 +113,32 @@
             </select>
  </div>
  </div>
- <div class="col-sm-6">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label"  for="field_image">Image Ref</label>
+                    <div ngf-drop ngf-change="vm.setMimage($file, 'image')" ngf-pattern="'image/*'"    ngf-capture="'camera'">
+                        <img data-ng-src="{{'data:' + vm.caisseDecaissement.imageContentType  + ';base64,' + vm.caisseDecaissement.image}}" style="max-height: 100px;" ng-if="vm.caisseDecaissement.image"/>
+                        <div ng-if="vm.caisseDecaissement.image" class="help-block clearfix">
+                            <span class="pull-left">{{vm.caisseDecaissement.imageContentType}}, {{byteSize(vm.caisseDecaissement.image)}}</span>
+                            <button ng-click="vm.caisseDecaissement.image = null;vm.caisseDecaissement.imageContentType = null;"
+                                    class="btn btn-default btn-xs pull-right">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </button>
+                        </div>
+                        <button type="file" ngf-select class="btn btn-default btn-block"
+                                ngf-change="vm.setMimage($file,  'image')" accept="image/*" >
+                            Add image Ref File
+                        </button>
+                    </div>
+                    <input type="hidden" class="form-control" id="field_photo"  name="image"
+                           ng-model="vm.caisseDecaissement.image"      minbytes="5" />
+                    <input type="hidden" class="form-control" name="imageContentType" id="imageContentType"
+                           ng-model="vm.caisseDecaissement.imageContentType"/>
+
+                </div>
+            </div>
+
+            <div class="col-sm-6">
  <div class="form-group">
  <label class="control-label"  for="field_commentaires">Comment</label>
    <textarea class="form-control" rows="3"  cols="30"   id="field_commentaires" ng-model="vm.caisseDecaissement.commentaires"                     ng-readonly="false"  ng-required="false"                     > </textarea>

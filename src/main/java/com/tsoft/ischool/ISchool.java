@@ -6,6 +6,7 @@ import com.tsoft.ischool.config.ApplicationProperties;
 import com.tsoft.ischool.config.DefaultProfileUtil;
 import com.tsoft.ischool.domain.enumeration.ModePaiement;
 import com.tsoft.ischool.service.reports.JournalCaisseReport;
+import com.tsoft.ischool.service.reports.LaunchPaymentReport;
 import com.tsoft.ischool.service.reports.PaymentPeriodReport;
 import io.github.jhipster.config.JHipsterConstants;
 
@@ -19,6 +20,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import javax.annotation.PostConstruct;
 import java.net.InetAddress;
@@ -27,6 +29,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 @ComponentScan
+@EnableScheduling
 @EnableAutoConfiguration(exclude = {MetricFilterAutoConfiguration.class, MetricRepositoryAutoConfiguration.class})
 @EnableConfigurationProperties({LiquibaseProperties.class, ApplicationProperties.class})
 public class ISchool {
@@ -74,11 +77,14 @@ public class ISchool {
         if (env.getProperty("server.ssl.key-store") != null) {
             protocol = "https";
         }
+//        LaunchPaymentReport launchPaymentReport = ctx.getBean(LaunchPaymentReport.class);
 //        JournalCaisseReport journalCaisseReport = ctx.getBean(JournalCaisseReport.class);
 //        PaymentPeriodReport paymentPeriodReport = ctx.getBean(PaymentPeriodReport.class);
 //        try{
 //            journalCaisseReport.process("12/07/2019");
 //            paymentPeriodReport.process("10/07/2019", "13/07/2019", ModePaiement.ESPECES, null);
+//            launchPaymentReport.generateDailyCashReport();
+//            launchPaymentReport.sendMail();
 //        }catch(Exception ex){
 //            ex.printStackTrace();
 //        }

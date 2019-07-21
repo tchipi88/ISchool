@@ -91,8 +91,8 @@ public class PaymentPeriodReport {
         if(motif!=null) params.put("motifMouvement", motif.name());
 
 
-        String destfile = FileUtils.getUploadedfile().getAbsolutePath() + File.separator  + "PaiementPeriode"
-                + dateDebut.toString()+"Au" +dateFin.toString()+ ".pdf";
+        String destfile = FileUtils.getUploadedfile().getAbsolutePath() + File.separator  + "PaymentPeriod"
+                + dateDebut.toString()+"To" +dateFin.toString()+ ".pdf";
 
         // Implementer le corps de l'etat
         buildReport(params, destfile, jdbcTemplate.getDataSource().getConnection());
@@ -108,6 +108,24 @@ public class PaymentPeriodReport {
     }
 
 
+    public String generateReport(LocalDate dateDebut, LocalDate dateFin) throws Exception {
+
+        Map params = new HashMap();
+        params.put("date_debut", dateDebut.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
+        params.put("date_fin", dateFin.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
+
+//        if (modePaiement != null) params.put("modePaiement", modePaiement.name());
+//        if (motif != null) params.put("motifMouvement", motif.name());
+
+
+        String destfile = FileUtils.getUploadedfile().getAbsolutePath() + File.separator + "PaymentPeriod"
+                + dateDebut.toString() + "To" + dateFin.toString() + ".pdf";
+
+        // Implementer le corps de l'etat
+        buildReport(params, destfile, jdbcTemplate.getDataSource().getConnection());
+        return destfile;
+    }
+
     public void buildReport(Map params, String destfile, Connection con) throws Exception {
 
         String sep = File.separator;
@@ -121,7 +139,7 @@ public class PaymentPeriodReport {
 
 
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(chemin));
-        Phrase phrase = new Phrase(new Chunk("Imprime le : " + LocalDate.now().toString() + "\t\t", FontFactory.getFont(FontFactory.TIMES, 10, Font.NORMAL, null)));
+        Phrase phrase = new Phrase(new Chunk("Print at : " + LocalDate.now().toString() + "\t\t", FontFactory.getFont(FontFactory.TIMES, 10, Font.NORMAL, null)));
         document.setFooter(new HeaderFooter(phrase, true));
         document.open();
 
@@ -174,7 +192,7 @@ public class PaymentPeriodReport {
         }
         document.add(entete);
 
-        Paragraph prg = new Paragraph(new Chunk("\nListe des paiements du " + date_debut + " au " + date_fin, FontFactory.getFont(FontFactory.TIMES, 13, Font.BOLD, null)));
+        Paragraph prg = new Paragraph(new Chunk("\nList of Payments of " + date_debut + " to " + date_fin, FontFactory.getFont(FontFactory.TIMES, 13, Font.BOLD, null)));
         prg.setAlignment(Element.ALIGN_CENTER);
         document.add(prg);
 
@@ -252,7 +270,7 @@ public class PaymentPeriodReport {
                 dt = datf_show.format(date_op);
             if(!StringUtils.isEmpty(dateOperationOld) && !dt.equalsIgnoreCase(dateOperationOld)){
 //                //Inserer les sous totaux
-                tabdet.addCell(getCell("Sous Total", 6, Element.ALIGN_RIGHT, Font.BOLD));
+                tabdet.addCell(getCell("Sub Total", 6, Element.ALIGN_RIGHT, Font.BOLD));
 //                tabdet.addCell(getCell(decf.format(cumul_nbre), 1, Element.ALIGN_RIGHT, Font.BOLD));
                 tabdet.addCell(getCell(decf.format(cumul_entree), 1, Element.ALIGN_RIGHT, Font.BOLD));
                 tabdet.addCell(getCell(decf.format(cumul_sortie), 1, Element.ALIGN_RIGHT, Font.BOLD));

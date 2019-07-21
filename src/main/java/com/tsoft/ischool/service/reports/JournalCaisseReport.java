@@ -94,7 +94,7 @@ public class JournalCaisseReport {
         Map params = new HashMap();
         params.put("date_jour", dateJour.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
 
-        String destfile = FileUtils.getUploadedfile().getAbsolutePath()  + File.separator + "JournalCaisse"
+        String destfile = FileUtils.getUploadedfile().getAbsolutePath()  + File.separator + "CashJournal"
                 + dateJour.toString() + ".pdf";
 
         // Implementer le corps de l'etat
@@ -109,7 +109,19 @@ public class JournalCaisseReport {
         }
     }
 
+    public String generateReport(LocalDate dateJour)throws Exception {
 
+        Map params = new HashMap();
+        params.put("date_jour", dateJour.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
+
+        String destfile = FileUtils.getUploadedfile().getAbsolutePath()  + File.separator + "CashJournal"
+                + dateJour.toString() + ".pdf";
+
+        // Implementer le corps de l'etat
+        buildReport(params, destfile, jdbcTemplate.getDataSource().getConnection());
+
+        return destfile;
+    }
 
     public void buildReport(Map params, String destfile, Connection con) throws Exception {
 
@@ -120,7 +132,7 @@ public class JournalCaisseReport {
 
         if (date_debut == null || StringUtils.isEmpty(date_debut)) date_debut = LocalDate.now().toString();
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(chemin));
-        Phrase phrase = new Phrase(new Chunk("Imprime le : " + LocalDate.now().toString() + "\t\t", FontFactory.getFont(FontFactory.TIMES, 10, Font.NORMAL, null)));
+        Phrase phrase = new Phrase(new Chunk("Print at : " + LocalDate.now().toString() + "\t\t", FontFactory.getFont(FontFactory.TIMES, 10, Font.NORMAL, null)));
         document.setFooter(new HeaderFooter(phrase, true));
         document.open();
 
@@ -175,7 +187,7 @@ public class JournalCaisseReport {
 
         document.add(entete);
 
-        Paragraph prg = new Paragraph(new Chunk("\nJournal de caisse du " + date_debut, FontFactory.getFont(FontFactory.TIMES, 13, Font.BOLD, null)));
+        Paragraph prg = new Paragraph(new Chunk("\nCash journal of " + date_debut, FontFactory.getFont(FontFactory.TIMES, 13, Font.BOLD, null)));
         prg.setAlignment(Element.ALIGN_CENTER);
         document.add(prg);
 
