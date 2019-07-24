@@ -32,7 +32,7 @@ public class Employe extends Personne {
 //    @Column
 //    private Long idPerson;
     @ManyToOne
-    private PersonEntity person;
+    private Person person;
 
     @ManyToOne
     private EmployeFonction fonction;
@@ -76,11 +76,11 @@ public class Employe extends Personne {
 //    public void setIdPerson(Long idPerson) {
 //        this.idPerson = idPerson;
 //    }
-    public PersonEntity getPerson() {
+    public Person getPerson() {
         return person;
     }
 
-    public void setPerson(PersonEntity person) {
+    public void setPerson(Person person) {
         this.person = person;
     }
     

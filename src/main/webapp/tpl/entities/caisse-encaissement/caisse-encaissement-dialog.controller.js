@@ -5,9 +5,9 @@
         .module('app')
         .controller('CaisseEncaissementDialogController', CaisseEncaissementDialogController);
 
-    CaisseEncaissementDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', '$uibModal','DataUtils', 'entity', 'CaisseEncaissement','Caisse'];
+    CaisseEncaissementDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', '$uibModal','DataUtils', 'entity', 'CaisseEncaissement','Caisse','PersonSearch'];
 
-    function CaisseEncaissementDialogController ($timeout, $scope, $stateParams, $uibModalInstance,$uibModal, DataUtils, entity, CaisseEncaissement ,Caisse) {
+    function CaisseEncaissementDialogController ($timeout, $scope, $stateParams, $uibModalInstance,$uibModal, DataUtils, entity, CaisseEncaissement ,Caisse, PersonSearch) {
         var vm = this;
 
         vm.caisseEncaissement = entity;
@@ -18,8 +18,8 @@
         vm.openFile = DataUtils.openFile;
         vm.save = save;
         vm.caisses = Caisse.query();
-
-      
+        // vm.persons = Person.query();
+        vm.search = search
 
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();
@@ -48,6 +48,14 @@
             vm.isSaving = false;
         }
 
+        function search(query) {
+            if (query && query.length >= 4) {
+                PersonSearch.query({query: query},
+                    function (data) {
+                        vm.persons = data;
+                    });
+            }
+        }
 
          vm.datePickerOpenStatus.dateVersement = false;
 

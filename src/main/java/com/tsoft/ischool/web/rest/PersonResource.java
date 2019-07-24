@@ -4,7 +4,7 @@ package com.tsoft.ischool.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.tsoft.ischool.domain.Eleve;
 import com.tsoft.ischool.domain.Employe;
-import com.tsoft.ischool.domain.PersonEntity;
+import com.tsoft.ischool.domain.Person;
 import com.tsoft.ischool.domain.Professeur;
 import com.tsoft.ischool.domain.enumeration.Civilite;
 import com.tsoft.ischool.domain.enumeration.Sexe;
@@ -77,13 +77,13 @@ public class PersonResource {
      */
     @PostMapping("/persons")
     @Timed
-    public ResponseEntity<PersonEntity> createPerson(@Valid @RequestBody PersonEntity personR) throws URISyntaxException, Exception {
+    public ResponseEntity<Person> createPerson(@Valid @RequestBody Person personR) throws URISyntaxException, Exception {
         log.debug("REST request to save Person : {}", personR);
         if (personR.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new person cannot already have an ID")).body(null);
         }
 
-        PersonEntity person = personRepository.save(personR);
+        Person person = personRepository.save(personR);
         if(person.getTypePersonne().equals(TypePersonne.STAFF)){
             Employe employe = new Employe();
             employe.setNom(person.getNomPrenom());
@@ -123,12 +123,12 @@ public class PersonResource {
      */
     @PutMapping("/persons")
     @Timed
-    public ResponseEntity<PersonEntity> updateEmploye(@Valid @RequestBody PersonEntity person) throws URISyntaxException, Exception {
+    public ResponseEntity<Person> updateEmploye(@Valid @RequestBody Person person) throws URISyntaxException, Exception {
         log.debug("REST request to update Person : {}", person);
         if (person.getId() == null) {
             return createPerson(person);
         }
-        PersonEntity result = personRepository.save(person);
+        Person result = personRepository.save(person);
         personSearchRepository.save(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, person.getId().toString()))
@@ -142,9 +142,9 @@ public class PersonResource {
      */
     @GetMapping("/persons")
     @Timed
-    public ResponseEntity<List<PersonEntity>> getAllPersons(@ApiParam Pageable pageable) {
+    public ResponseEntity<List<Person>> getAllPersons(@ApiParam Pageable pageable) {
         log.debug("REST request to get all Person");
-        Page<PersonEntity> page = personRepository.findAll(pageable);
+        Page<Person> page = personRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/persons");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
@@ -157,9 +157,9 @@ public class PersonResource {
      */
     @GetMapping("/persons/{id}")
     @Timed
-    public ResponseEntity<PersonEntity> getPerson(@PathVariable Long id) {
+    public ResponseEntity<Person> getPerson(@PathVariable Long id) {
         log.debug("REST request to get Person : {}", id);
-        PersonEntity person = personRepository.findOne(id);
+        Person person = personRepository.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(person));
     }
 
@@ -187,9 +187,9 @@ public class PersonResource {
      */
     @GetMapping("/_search/persons")
     @Timed
-    public ResponseEntity<List<PersonEntity>> searchPersons(@RequestParam String query, @ApiParam Pageable pageable) {
+    public ResponseEntity<List<Person>> searchPersons(@RequestParam String query, @ApiParam Pageable pageable) {
         log.debug("REST request to search Persons for query {}", query);
-      Page<PersonEntity> page = personSearchRepository.search(queryStringQuery(query), pageable);
+      Page<Person> page = personSearchRepository.search(queryStringQuery(query), pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/persons");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }

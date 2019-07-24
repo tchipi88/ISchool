@@ -36,6 +36,7 @@
  <th jh-sort-by="montant"><span >Amount</span> <span class="fa fa-sort"></span></th>
  <th jh-sort-by="modePaiement"><span >Disbursement Method</span> <span class="fa fa-sort"></span></th>
  <th jh-sort-by="motif"><span >Reason</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="person"><span >Person</span> <span class="fa fa-sort"></span></th>
 
                     </tr>
                 </thead>
@@ -47,6 +48,7 @@
  <td>{{caisseDecaissement.montant | number }}</td>
  <td>{{caisseDecaissement.modePaiement}}</td>
  <td>{{caisseDecaissement.motif}}</td>
+                        <td>{{caisseDecaissement.person.nomPrenom}}</td>
 
                        
                     </tr>

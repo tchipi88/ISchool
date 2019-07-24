@@ -3,7 +3,7 @@ package com.tsoft.ischool.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.tsoft.ischool.domain.Employe;
-import com.tsoft.ischool.domain.PersonEntity;
+import com.tsoft.ischool.domain.Person;
 import com.tsoft.ischool.domain.enumeration.Civilite;
 import com.tsoft.ischool.domain.enumeration.Sexe;
 import com.tsoft.ischool.domain.enumeration.TypePersonne;
@@ -75,7 +75,7 @@ public class EmployeResource {
         Civilite civil = employe.getCivilite();
         Sexe sexe = civil==null? null : civil.equals(Civilite.MR) ? Sexe.G : Sexe.F;
         String nom = employe.getNom()+ (employe.getPrenom()!=null? " "+employe.getPrenom() : "");
-        PersonEntity person = new PersonEntity(nom, TypePersonne.STAFF, sexe);
+        Person person = new Person(nom, TypePersonne.STAFF, sexe);
         person.setCivilite(civil);
         person = personRepository.save(person);
         personSearchRepository.save(person);

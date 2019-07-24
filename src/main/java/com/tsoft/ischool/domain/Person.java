@@ -26,7 +26,7 @@ import java.time.LocalDate;
 @Table(name="person")
 //@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Document(indexName = "person")
-public class PersonEntity extends AbstractAuditingEntity {
+public class Person extends AbstractAuditingEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -81,9 +81,9 @@ public class PersonEntity extends AbstractAuditingEntity {
     @Column
     private String adresse;
 
-    public PersonEntity(){}
+    public Person(){}
 
-    public PersonEntity(String nomPrenom, TypePersonne typePersonne, Sexe sexe){
+    public Person(String nomPrenom, TypePersonne typePersonne, Sexe sexe){
         this.nomPrenom=nomPrenom;
         this.typePersonne = typePersonne;
         this.sexe = sexe;

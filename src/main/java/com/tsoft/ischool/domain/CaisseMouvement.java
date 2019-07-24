@@ -66,7 +66,7 @@ public class CaisseMouvement extends AbstractAuditingEntity {
 //    private Long idPerson;
 //    @Fetch(FetchMode.JOIN)
     @ManyToOne
-    private PersonEntity person;
+    private Person person;
 
     @Lob
     @Column(name = "image")
@@ -132,11 +132,11 @@ public class CaisseMouvement extends AbstractAuditingEntity {
         this.modePaiement = modePaiement;
     }
 
-    public PersonEntity getPerson() {
+    public Person getPerson() {
         return person;
     }
 
-    public void setPerson(PersonEntity person) {
+    public void setPerson(Person person) {
         this.person = person;
     }
 

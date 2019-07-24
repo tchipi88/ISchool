@@ -53,7 +53,7 @@ public class Professeur extends Personne  {
     private Integer quotaHoraireHebdomadaire;
 
     @ManyToOne
-    private PersonEntity person;
+    private Person person;
 
 
     public Long getId() {
@@ -104,11 +104,11 @@ public class Professeur extends Personne  {
         this.quotaHoraireHebdomadaire = quotaHoraireHebdomadaire;
     }
 
-    public PersonEntity getPerson() {
+    public Person getPerson() {
         return person;
     }
 
-    public void setPerson(PersonEntity person) {
+    public void setPerson(Person person) {
         this.person = person;
     }
 }

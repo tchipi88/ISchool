@@ -6,7 +6,7 @@
 package com.tsoft.ischool.repository.search;
 
 import com.tsoft.ischool.domain.Eleve;
-import com.tsoft.ischool.domain.PersonEntity;
+import com.tsoft.ischool.domain.Person;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
 /**
@@ -17,7 +17,7 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
 /**
  * Spring Data JPA repository for the Employe entity.
  */
-public interface PersonSearchRepository extends ElasticsearchRepository<PersonEntity, Long> {
+public interface PersonSearchRepository extends ElasticsearchRepository<Person, Long> {
 
     
 

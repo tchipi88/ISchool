@@ -6,7 +6,7 @@ import ar.com.fdvs.dj.domain.DynamicReport;
 import ar.com.fdvs.dj.domain.ImageBanner;
 import ar.com.fdvs.dj.domain.builders.FastReportBuilder;
 import com.codahale.metrics.annotation.Timed;
-import com.tsoft.ischool.domain.PersonEntity;
+import com.tsoft.ischool.domain.Person;
 import com.tsoft.ischool.domain.Professeur;
 import com.tsoft.ischool.domain.enumeration.Civilite;
 import com.tsoft.ischool.domain.enumeration.Sexe;
@@ -101,7 +101,7 @@ public class ProfesseurResource {
         Civilite civil = professeur.getCivilite();
         Sexe sexe = civil==null? null : civil.equals(Civilite.MR) ? Sexe.G : Sexe.F;
         String nom = professeur.getNom()+ (professeur.getPrenom()!=null? " "+professeur.getPrenom() : "");
-        PersonEntity person = new PersonEntity(nom, TypePersonne.STAFF, sexe);
+        Person person = new Person(nom, TypePersonne.STAFF, sexe);
         person.setCivilite(civil);
         person = personRepository.save(person);
         personSearchRepository.save(person);

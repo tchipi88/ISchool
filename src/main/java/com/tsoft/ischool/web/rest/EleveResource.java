@@ -3,7 +3,7 @@ package com.tsoft.ischool.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.tsoft.ischool.domain.CompteAnalytique;
 import com.tsoft.ischool.domain.Eleve;
-import com.tsoft.ischool.domain.PersonEntity;
+import com.tsoft.ischool.domain.Person;
 import com.tsoft.ischool.domain.enumeration.TypePersonne;
 import com.tsoft.ischool.repository.CompteAnalytiqueRepository;
 import com.tsoft.ischool.repository.EleveRepository;

@@ -115,9 +115,9 @@ public class ReglementService {
 //                encaissement.setMotif(CaisseMouvementMotif.ECOLAGE);
         encaissement.setMotif(reglement.getMotif());
         Eleve eleve = reglement.getEleve();
-        PersonEntity person = eleve.getPerson();
+        Person person = eleve.getPerson();
         if(person==null){
-            person = new PersonEntity(eleve.getNom() + eleve.getPrenom() != null ? " " + eleve.getPrenom() : "", TypePersonne.STUDENT,
+            person = new Person(eleve.getNom() + eleve.getPrenom() != null ? " " + eleve.getPrenom() : "", TypePersonne.STUDENT,
                     eleve.getSexe());
             person = personRepository.save(person);
             eleve.setPerson(person);

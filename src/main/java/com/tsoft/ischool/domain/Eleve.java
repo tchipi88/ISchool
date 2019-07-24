@@ -91,7 +91,7 @@ public class Eleve extends AbstractAuditingEntity  {
 //    @Column
 //    private Long idPerson;
     @ManyToOne
-    private PersonEntity person;
+    private Person person;
 
     public Long getId() {
         return id;
@@ -239,11 +239,11 @@ public class Eleve extends AbstractAuditingEntity  {
 //        this.idPerson = idPerson;
 //    }
 
-    public PersonEntity getPerson() {
+    public Person getPerson() {
         return person;
     }
 
-    public void setPerson(PersonEntity person) {
+    public void setPerson(Person person) {
         this.person = person;
     }
 }

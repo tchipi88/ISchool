@@ -39,29 +39,31 @@
                     </div> </div>
  </div>
             <div class="col-sm-6">
-                <div class="form-group">
-                    <label class="control-label"  for="field_person">Person <span style="color:red" >*</span></label>
-                    <div class="input-group">
-                        <ui-select ng-model="vm.caisseDecaissement.person"    ng-required="true" reset-search-input="false" >
-                            <ui-select-match placeholder="Type Person Name">{{$select.selected.nomPrenom}}</ui-select-match>
-                            <ui-select-choices repeat="person in vm.persons | filter: $select.search"
-                                               refresh="vm.search($select.search)"
-                                               refresh-delay="0">
-                                <div ng-bind-html="person.nomPrenom | highlight: $select.search"></div>
-                            </ui-select-choices>
-                        </ui-select>
-                        <span class="input-group-btn" >
-                            <button   ng-click="vm.zoomColumn('PersonEntity', 'person', 'person', vm.caisseDecaissement.person)"
+                        <div class="form-group">
+                            <label class="control-label"  for="field_person">Person <span style="color:red" >*</span></label>
+                            <div class="input-group">
+                                <ui-select ng-model="vm.caisseDecaissement.person"    ng-required="true" reset-search-input="false" >
+                                    <ui-select-match placeholder="Saisir Nom Person">{{$select.selected.nom}}</ui-select-match>
+                                    <ui-select-choices repeat="person in vm.persons | filter: $select.search"
+                                                       refresh="vm.search($select.search)"
+                                                       refresh-delay="0">
+                                        <div ng-bind-html="person.nomPrenom | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                                <span class="input-group-btn" >
+                            <button   ng-click="vm.zoomColumn('Person', 'person', 'person', vm.caisseDecaissement.person)"
                                       class="btn btn-default" type="button"  ng-hide="!vm.caisseDecaissement.person">
                                 <span class="fa fa-eye"></span>
                             </button>
-                            <button ng-click="vm.zoomColumn('PersonEntity', 'person', 'person', {})"
+                            <button ng-click="vm.zoomColumn('Person', 'person', 'person', {})"
                                     class="btn btn-default" type="button"  ng-hide="vm.caisseDecaissement.person">
                                 <span class="fa fa-plus fw"></span>
                             </button>
                         </span>
-                    </div> </div>
-            </div>
+                            </div> </div>
+                    </div>
+
+
  <div class="col-sm-6">
  <div class="form-group">
  <label class="control-label"  for="field_dateVersement">Operation Date <span style="color:red" >*</span></label>

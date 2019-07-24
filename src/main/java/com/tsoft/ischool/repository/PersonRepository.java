@@ -6,13 +6,13 @@
 package com.tsoft.ischool.repository;
 
 import com.tsoft.ischool.domain.Eleve;
-import com.tsoft.ischool.domain.PersonEntity;
+import com.tsoft.ischool.domain.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  * Spring Data JPA repository for the Person entity.
  */
-public interface PersonRepository extends JpaRepository<PersonEntity, Long> {
+public interface PersonRepository extends JpaRepository<Person, Long> {
 
 }
 

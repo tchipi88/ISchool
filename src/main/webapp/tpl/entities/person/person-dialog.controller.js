@@ -3,22 +3,21 @@
 
     angular
         .module('app')
-        .controller('CaisseMouvementDialogController', CaisseMouvementDialogController);
+        .controller('PersonDialogController', PersonDialogController);
 
-    CaisseMouvementDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', '$uibModal','DataUtils', 'entity', 'CaisseMouvement','Caisse','Person'];
+    PersonDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', '$uibModal','DataUtils', 'entity', 'Person'];
 
-    function CaisseMouvementDialogController ($timeout, $scope, $stateParams, $uibModalInstance,$uibModal, DataUtils, entity, CaisseMouvement ,Caisse,Person) {
+    function PersonDialogController ($timeout, $scope, $stateParams, $uibModalInstance,$uibModal, DataUtils, entity, Person ) {
         var vm = this;
 
-        vm.caisseMouvement = entity;
+        vm.person = entity;
         vm.clear = clear;
         vm.datePickerOpenStatus = {};
         vm.openCalendar = openCalendar;
         vm.byteSize = DataUtils.byteSize;
         vm.openFile = DataUtils.openFile;
         vm.save = save;
-        vm.caisses = Caisse.query();
-        vm.persons = Person.query();
+        
       
 
         $timeout(function (){
@@ -31,15 +30,15 @@
 
         function save () {
             vm.isSaving = true;
-            if (vm.caisseMouvement.id !== null) {
-                CaisseMouvement.update(vm.caisseMouvement, onSaveSuccess, onSaveError);
+            if (vm.person.id !== null) {
+                Person.update(vm.person, onSaveSuccess, onSaveError);
             } else {
-                CaisseMouvement.save(vm.caisseMouvement, onSaveSuccess, onSaveError);
+                Person.save(vm.person, onSaveSuccess, onSaveError);
             }
         }
 
         function onSaveSuccess (result) {
-            $scope.$emit('tkbrApp:caisseMouvementUpdate', result);
+            $scope.$emit('tkbrApp:personUpdate', result);
             $uibModalInstance.close(result);
             vm.isSaving = false;
         }
@@ -49,7 +48,8 @@
         }
 
 
-         vm.datePickerOpenStatus.dateVersement = false;
+         vm.datePickerOpenStatus.dateNaissance = false;
+ vm.datePickerOpenStatus.dateDelivranceCNI = false;
 
         
          function openCalendar (date) {
@@ -63,8 +63,8 @@
                 if ($file) {
                     DataUtils.toBase64($file, function (base64Data) {
                         $scope.$apply(function () {
-                            vm.caisseMouvement[fieldName] = base64Data;
-                            vm.caisseMouvement[fieldName + 'ContentType'] = $file.type;
+                            vm.person[fieldName] = base64Data;
+                            vm.person[fieldName + 'ContentType'] = $file.type;
                         });
                     });
                 }
@@ -83,7 +83,7 @@
                         }
                     }
                 }).result.then(function(item) {
-                        vm.caisseMouvement[fieldname] = item;
+                        vm.person[fieldname] = item;
                 }, function() {
                     
                 });

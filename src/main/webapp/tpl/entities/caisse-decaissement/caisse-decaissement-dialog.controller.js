@@ -5,9 +5,9 @@
         .module('app')
         .controller('CaisseDecaissementDialogController', CaisseDecaissementDialogController);
 
-    CaisseDecaissementDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', '$uibModal','DataUtils', 'entity', 'CaisseDecaissement','Caisse'];
-// , 'PersonSearch'
-    function CaisseDecaissementDialogController ($timeout, $scope, $stateParams, $uibModalInstance,$uibModal, DataUtils, entity, CaisseDecaissement ,Caisse) {
+    CaisseDecaissementDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', '$uibModal','DataUtils', 'entity', 'CaisseDecaissement','Caisse','PersonSearch'];
+
+    function CaisseDecaissementDialogController ($timeout, $scope, $stateParams, $uibModalInstance,$uibModal, DataUtils, entity, CaisseDecaissement ,Caisse, PersonSearch) {
         var vm = this;
 
         vm.caisseDecaissement = entity;
@@ -18,8 +18,9 @@
         vm.openFile = DataUtils.openFile;
         vm.save = save;
         vm.caisses = Caisse.query();
+        // vm.persons = Person.query();
+        vm.search = search;
 
-      
 
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();
@@ -48,15 +49,16 @@
             vm.isSaving = false;
         }
 
-        // function search(query) {
-        //     if (query && query.length >= 4) {
-        //         PersonSearch.query({query: query},
-        //             function (data) {
-        //                 vm.persons = data;
-        //             });
-        //     }
-        // }
-         vm.datePickerOpenStatus.dateVersement = false;
+        function search(query) {
+            if (query && query.length >= 4) {
+                PersonSearch.query({query: query},
+                    function (data) {
+                        vm.persons = data;
+                    });
+            }
+        }
+
+        vm.datePickerOpenStatus.dateVersement = false;
 
         
          function openCalendar (date) {

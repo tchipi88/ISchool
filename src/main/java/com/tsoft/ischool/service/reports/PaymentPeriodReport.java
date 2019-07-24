@@ -81,7 +81,8 @@ public class PaymentPeriodReport {
 
     @GetMapping(value = "/printPaymentPeriod",
             produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
-    public ResponseEntity<byte[]> process(@RequestParam LocalDate dateDebut,@RequestParam LocalDate dateFin,@RequestParam ModePaiement modePaiement,@RequestParam(required = false) CaisseMouvementMotif motif) throws Exception {
+    public ResponseEntity<byte[]> process(@RequestParam LocalDate dateDebut,@RequestParam LocalDate dateFin,
+                           @RequestParam(required = false) ModePaiement modePaiement,@RequestParam(required = false) CaisseMouvementMotif motif) throws Exception {
 
         Map params = new HashMap();
         params.put("date_debut", dateDebut.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
