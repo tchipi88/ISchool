@@ -218,7 +218,7 @@ public class TemplateService {
 
         if (!Files.exists(file.getParent())) {
             try {
-                Files.createDirectory(file.getParent());
+                Files.createDirectories(file.getParent());
             } catch (IOException e) {
                 System.err.println(e);
             }
