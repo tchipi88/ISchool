@@ -68,6 +68,9 @@ public class CaisseMouvement extends AbstractAuditingEntity {
     @ManyToOne
     private Person person;
 
+    @Column
+    private String reference;
+
     @Lob
     @Column(name = "image")
     @Image
@@ -154,6 +157,14 @@ public class CaisseMouvement extends AbstractAuditingEntity {
 
     public void setImageContentType(String imageContentType) {
         this.imageContentType = imageContentType;
+    }
+
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
     }
 
     @Override

@@ -4,7 +4,7 @@
     <div class="modal-header">
         <button type="button" class="btn btn-link pull-right" data-dismiss="modal" aria-hidden="true"
                 ng-click="vm.clear()"><i class="fa fa-remove"></i>  </button>
-        <h3 class="modal-title" id="myCaisseEncaissementLabel" >Create a Bursement</h3>
+        <h3 class="modal-title" id="myCaisseEncaissementLabel" >Create a Collection</h3>
          <small class="text-muted" >Fields with * are required</small>
     </div>
     <div class="modal-body">
@@ -18,7 +18,7 @@
  </div>
  <div class="col-sm-6">
  <div class="form-group">
- <label class="control-label"  for="field_caisse">Register <span style="color:red" >*</span></label>
+ <label class="control-label"  for="field_caisse">Cashier <span style="color:red" >*</span></label>
  <div class="input-group">
                         <ui-select ng-model="vm.caisseEncaissement.caisse"    ng-required="true">
                             <ui-select-match placeholder="Select Caisse">{{$select.selected.id}}</ui-select-match>
@@ -83,14 +83,12 @@
  <div class="form-group">
  <label class="control-label"  for="field_modePaiement">Collection Method <span style="color:red" >*</span></label>
  <select class="form-control" name="modePaiement"  ng-model="vm.caisseEncaissement.modePaiement"  id="field_modePaiement" required>
-<option value="ESPECES">CASH</option>
-<option value="CHEQUE">CHEQUE</option>
-<option value="CARTE_BANCAIRE">CARD</option>
-<option value="VIREMENT">TRANSFERY</option>
-<option value="PRELEVEMENT">TAKING</option>
-     <option value="OM">OM</option>
+     <option value="CASH">CASH</option>
+     <option value="BANK">BANK</option>
+     <option value="CHEQUE">CHEQUE</option>
      <option value="MOMO">MOMO</option>
-     <option value="AUTRES">OTHER</option>
+     <option value="OM">OM</option>
+     <option value="OTHER">OTHER</option>
  </select>
  </div>
  </div>
@@ -98,19 +96,24 @@
  <div class="form-group">
  <label class="control-label"  for="field_motif">Reason <span style="color:red" >*</span></label>
  <select class="form-control" name="motif"  ng-model="vm.caisseEncaissement.motif"  id="field_motif" required>
-     <option value="PENSION">PENSION</option>
      <option value="INSCRIPTION">INSCRIPTION</option>
-     <option value="DON">DONATION</option>
-     <option value="PARENTS">PARENTS</option>
-     <option value="SALAIRES">SALARIES</option>
-     <option value="FACTURES">BILLS</option>
-     <option value="TRANSFERT">TRANSFERT</option>
-     <option value="PRELEVEMENT">TAKING</option>
-     <option value="AUTRES">OTHER</option>
-     <option value="ECOLAGE">TRAINER</option>
-            </select>
+     <option value="SCHOOLING">SCHOOLING</option>
+     <option value="SALARY">SALARY</option>
+     <option value="HONORARY">HONORARY</option>
+     <option value="HOUSE">HOUSE</option>
+     <option value="BILL">BILL</option>
+     <option value="DONATION">DONATION</option>
+     <option value="OTHER">OTHER</option>
+
+ </select>
  </div>
  </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label" for="field_reference">Reference </label>
+                    <input class="form-control" type="text" autocomplete="off" id="field_reference" ng-model="vm.caisseEncaissement.reference" ng-readonly="false" ng-maxlength="255" />
+                </div>
+            </div>
             <div class="col-sm-6">
                 <div class="form-group">
                     <label class="control-label"  for="field_image">Image Ref</label>

@@ -59,7 +59,7 @@
                                 resolve: {
                                     entity: function () {
                                         return {
-                                            dateVersement: new Date(), modePaiement: 'ESPECES',motif:'ECOLAGE'
+                                            dateVersement: new Date(), modePaiement: 'CASH',motif:'ECOLAGE'
                                         };
                                     }
                                 }

@@ -26,14 +26,15 @@
                 <thead>
                     <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
                         <th jh-sort-by="id"><span >ID</span> <span class="fa fa-sort"></span></th>
-                        <th jh-sort-by="eleve"><span >Eleve</span> <span class="fa fa-sort"></span></th>
-                        <th jh-sort-by="caisse"><span >Caisse</span> <span class="fa fa-sort"></span></th>
-                        <th jh-sort-by="dateVersement"><span >Date Versement</span> <span class="fa fa-sort"></span></th>
-                        <th jh-sort-by="montant"><span >Montant</span> <span class="fa fa-sort"></span></th>
-                        <th jh-sort-by="modePaiement"><span >Mode Paiement</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="eleve"><span >Student</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="caisse"><span >Cashier</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="dateVersement"><span >Operation Date</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="montant"><span >Amount</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="modePaiement"><span >Method</span> <span class="fa fa-sort"></span></th>
                         <th jh-sort-by="motif"><span >Motif</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="motif"><span >Reference</span> <span class="fa fa-sort"></span></th>
 
-                        <th><button class="btn btn-primary" ui-sref="reglement.new"   tooltip="Cr�er Reglement">
+                        <th><button class="btn btn-primary" ui-sref="reglement.new"   tooltip="Create Payment">
                                 <i class="fa fa-plus">
                                 </i>
                             </button></th>
@@ -48,6 +49,7 @@
                         <td>{{reglement.montant| number }}</td>
                         <td>{{reglement.modePaiement}}</td>
                         <td>{{reglement.motif}}</td>
+                        <td>{{reglement.reference}}</td>
 
                         <td> <button type="button" ng-click="vm.printReglement(reglement.id);" class="btn btn-sm btn-default"  tooltip="Imprimer">
                                 <i class="fa fa-file-pdf-o">

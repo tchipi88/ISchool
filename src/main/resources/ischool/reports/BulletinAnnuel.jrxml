@@ -238,14 +238,14 @@ where e.id =$P{code_eleve}  and ei.annee_id=$P{code_annee} order by typematiere]
 						<textElement>
 							<font isBold="true"/>
 						</textElement>
-						<text><![CDATA[Sexe]]></text>
+						<text><![CDATA[Sex]]></text>
 					</staticText>
 					<staticText>
 						<reportElement x="205" y="17" width="100" height="15" uuid="d4214e78-5070-443b-8aeb-43dacbb18ca2"/>
 						<textElement>
 							<font isBold="true"/>
 						</textElement>
-						<text><![CDATA[Nom et Prenoms]]></text>
+						<text><![CDATA[Full Name]]></text>
 					</staticText>
 					<staticText>
 						<reportElement x="408" y="32" width="73" height="15" uuid="50216a8c-3bdf-4ae5-99e4-29f8c458be78"/>

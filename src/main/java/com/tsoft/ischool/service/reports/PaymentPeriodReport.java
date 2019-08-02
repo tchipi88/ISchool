@@ -295,7 +295,7 @@ public class PaymentPeriodReport {
             tabdet.addCell(getCell(res.getString("motif"), 1, Element.ALIGN_LEFT, Font.NORMAL, color));
 
 
-            tabdet.addCell(getCell(dt, 1, Element.ALIGN_LEFT, Font.NORMAL, color));
+            tabdet.addCell(getCell(dateOperationOld, 1, Element.ALIGN_LEFT, Font.NORMAL, color));
 
 //            list.add(dt);
             double entree = res.getDouble("entree");

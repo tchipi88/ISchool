@@ -94,10 +94,16 @@
         var dateFormat = 'yyyy-MM-dd';
         var paiementReportDateStart = $filter('date')(vm.paiementReportDateStart, dateFormat);
         var paiementReportDateEnd = $filter('date')(vm.paiementReportDateEnd, dateFormat);
-
+        var otherElmt="";
+        if(vm.paiementReportModePaiement!=null){
+            otherElmt ='&modePaiement='+vm.paiementReportModePaiement;
+        }
+           if(vm.paiementReportMotif!=null){
+               otherElmt +='&motif='+vm.paiementReportMotif;
+           }
         $http({
             method: 'GET',
-            url: 'api/printPaymentPeriod?dateDebut='+paiementReportDateStart+'&dateFin='+paiementReportDateEnd+'&modePaiement='+vm.paiementReportModePaiement,
+            url: 'api/printPaymentPeriod?dateDebut='+paiementReportDateStart+'&dateFin='+paiementReportDateEnd+otherElmt,
             responseType: 'arraybuffer',
             transformResponse: function (data, headersGetter, status) {
                 var file = null;

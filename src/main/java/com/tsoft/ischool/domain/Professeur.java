@@ -45,7 +45,7 @@ public class Professeur extends Personne  {
     @Column
     private boolean vacataire;
     @ManyToOne
-    @NotNull
+    // @NotNull
     private Matiere matiere;
     @Column
     @Min(1)

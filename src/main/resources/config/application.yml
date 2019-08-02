@@ -106,12 +106,12 @@ jhipster:
 
 application:
     ecole :
-          nom:  GROUPE SCOLAIRE BILINGUE NJIKE  / BILINGUAL NURSERY AND PRIMARY SCHOOL  NJIKE
-          telephonePortable : 696 62 97 32
-          telephoneFixe: 676 09 98 52
-          email: njikeschool@yahoo.fr
+          nom:  ST. FRANCIS NURSERY AND PRIMARY SCHOOL
+          telephonePortable : 677 568 629
+          telephoneFixe: 677 698 655
+          email: st-francis2013@yahoo.com
           siteWeb:
-          boitePostale:  B.P 340  BERTOUA
-          adresse: Situé en face de la Sous-préfecture de Mandjou
-          slogan:  L'école de la réussite et de l'excellence/ School of success and excellent
+          boitePostale:
+          adresse: Carrefour Obili, YAOUNDE
+          slogan:  Discipline – Hardwork – Success
           logo:

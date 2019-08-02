@@ -4,8 +4,8 @@
     <div class="modal-header">
         <button type="button" class="btn btn-link pull-right" data-dismiss="modal" aria-hidden="true"
                 ng-click="vm.clear()"><i class="fa fa-remove"></i>  </button>
-        <h3 class="modal-title" id="myEmployeLabel" >Cr�er ou modifier  Employe   {{vm.employe.id}}</h3>
-        <small class="text-muted" >Les champs * sont obligatoires</small>
+        <h3 class="modal-title" id="myEmployeLabel" >Create or modify Employee   {{vm.employe.id}}</h3>
+        <small class="text-muted" >Fields with * are required</small>
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
@@ -21,28 +21,29 @@
                             
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label"  for="field_nom">Nom <span style="color:red" >*</span></label>
+                                    <label class="control-label"  for="field_nom">Surname <span style="color:red" >*</span></label>
                                     <input  class="form-control"   type="text"  autocomplete="off"   id="field_nom" ng-model="vm.employe.nom"                     ng-readonly="false"  ng-required="true"    ng-maxlength="255"                      />
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label"  for="field_prenom">Prenom</label>
+                                    <label class="control-label"  for="field_prenom">Name</label>
                                     <input  class="form-control"   type="text"  autocomplete="off"   id="field_prenom" ng-model="vm.employe.prenom"                     ng-readonly="false"  ng-required="false"    ng-maxlength="255"                      />
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label"  for="field_civilite">Civilite</label>
+                                    <label class="control-label"  for="field_civilite">Civility</label>
                                     <select class="form-control" name="civilite"  ng-model="vm.employe.civilite"  id="field_civilite" >
                                         <option value="MR">MR</option>
-                                        <option value="MME">MME</option>
+                                        <option value="MRS">MRS</option>
+                                        <option value="MISS">MISS</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label"  for="field_fonction">Fonction</label>
+                                    <label class="control-label"  for="field_fonction">Function</label>
                                     <div class="input-group">
                                         <ui-select ng-model="vm.employe.fonction"    ng-required="false">
                                             <ui-select-match placeholder="Select EmployeFonction">{{$select.selected.libelle}}</ui-select-match>
@@ -64,7 +65,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label"  for="field_dateNaissance">Date Naissance</label>
+                                    <label class="control-label"  for="field_dateNaissance">Birth Date</label>
                                     <div class="input-group">
                                         <input  id="field_dateNaissance" type="text" class="form-control" name="dateNaissance"    ng-required="false"  uib-datepicker-popup="{{dateformat}}"  ng-model="vm.employe.dateNaissance"  is-open="vm.datePickerOpenStatus.dateNaissance"
                                                 />
@@ -76,7 +77,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label"  for="field_lieuNaissance">Lieu Naissance</label>
+                                    <label class="control-label"  for="field_lieuNaissance">Birth Place</label>
                                     <input  class="form-control"   type="text"  autocomplete="off"   id="field_lieuNaissance" ng-model="vm.employe.lieuNaissance"                     ng-readonly="false"  ng-required="false"    ng-minlength="0"     ng-maxlength="100"                      />
                                 </div>
                             </div>
@@ -84,7 +85,7 @@
                             
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label"  for="field_telephone">Telephone</label>
+                                    <label class="control-label"  for="field_telephone">Phone</label>
                                     <div class="input-group"> <input  class="form-control"   type="text"  autocomplete="off"  id="field_telephone"  ng-model="vm.employe.telephone"                     ng-readonly="false"  ng-required="false"                     /><span class="input-group-addon" >  <span >
                                                 <i class="fa fa-phone"></i>
                                             </span> </span>
@@ -93,7 +94,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label"  for="field_adresse">Adresse</label>
+                                    <label class="control-label"  for="field_adresse">Address</label>
                                     <input  class="form-control"   type="text"  autocomplete="off"   id="field_adresse" ng-model="vm.employe.adresse"                     ng-readonly="false"  ng-required="false"    ng-maxlength="255"                      />
                                 </div>
                             </div>
@@ -102,7 +103,7 @@
                     </uib-tab>
                     <uib-tab>
                         <uib-tab-heading  >
-                            Infos Complementaires
+                            Comments
                         </uib-tab-heading>
                         <br>
                         <div class="row">
@@ -117,7 +118,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label"  for="field_dateEntree">Date Entree</label>
+                                    <label class="control-label"  for="field_dateEntree">Entry Date</label>
                                     <div class="input-group">
                                         <input  id="field_dateEntree" type="text" class="form-control" name="dateEntree"    ng-required="false"  uib-datepicker-popup="{{dateformat}}"  ng-model="vm.employe.dateEntree"  is-open="vm.datePickerOpenStatus.dateEntree"
                                                 />
@@ -129,19 +130,19 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label"  for="field_salaire">Salaire</label>
+                                    <label class="control-label"  for="field_salaire">Salairy</label>
                                     <input  class="form-control"   type="number"  autocomplete="off"  id="field_salaire" ng-model="vm.employe.salaire"                     ng-readonly="false"  ng-required="false"                     />
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label"  for="field_numeroCNI">Numero CNI</label>
+                                    <label class="control-label"  for="field_numeroCNI">National ID Card</label>
                                     <input  class="form-control"   type="number"  autocomplete="off"  id="field_numeroCNI" ng-model="vm.employe.numeroCNI"                     ng-readonly="false"  ng-required="false"                     />
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label"  for="field_dateDelivranceCNI">Date Delivrance CNI</label>
+                                    <label class="control-label"  for="field_dateDelivranceCNI">Issue Date</label>
                                     <div class="input-group">
                                         <input  id="field_dateDelivranceCNI" type="text" class="form-control" name="dateDelivranceCNI"    ng-required="false"  uib-datepicker-popup="{{dateformat}}"  ng-model="vm.employe.dateDelivranceCNI"  is-open="vm.datePickerOpenStatus.dateDelivranceCNI"
                                                 />
@@ -153,7 +154,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label"  for="field_lieuDelivranceCNI">Lieu Delivrance CNI</label>
+                                    <label class="control-label"  for="field_lieuDelivranceCNI">Issue Place</label>
                                     <input  class="form-control"   type="text"  autocomplete="off"   id="field_lieuDelivranceCNI" ng-model="vm.employe.lieuDelivranceCNI"                     ng-readonly="false"  ng-required="false"    ng-maxlength="255"                      />
                                 </div>
                             </div>
@@ -168,10 +169,10 @@
     <div class="modal-footer">
 
         <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
-            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Annuler</span>
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Cancel</span>
         </button>
         <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
-            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Enregister</span>
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Save</span>
         </button>
     </div>
 </form>

@@ -78,7 +78,7 @@
 				<textElement>
 					<font size="8"/>
 				</textElement>
-				<text><![CDATA[Sexe]]></text>
+				<text><![CDATA[Sex]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="166" y="92" width="38" height="11" uuid="28759bfd-9055-48cc-b264-4a26602ccbb5"/>

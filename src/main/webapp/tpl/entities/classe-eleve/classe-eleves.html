@@ -43,7 +43,7 @@
                         <th ><span >Redoublant</span> </th>
 
                         <th >
-                            <button class="btn btn-primary" ui-sref="classe-eleve.new({classe:vm.classe})"   tooltip="Cr�er ClasseEleve">
+                            <button class="btn btn-primary" ui-sref="classe-eleve.new({classe:vm.classe})"   tooltip="Create ClasseEleve">
                                 <i class="fa fa-plus">
                                 </i>
                             </button>
@@ -54,7 +54,7 @@
                     <tr ng-repeat="classeEleve in vm.classeEleves track by classeEleve.id">
                         <td>{{classeEleve.eleve.id}}</td>
                         <td>
-                            <i class="fa fa-male"  ng-if="classeEleve.eleve.sexe==='G'">
+                            <i class="fa fa-male"  ng-if="classeEleve.eleve.sexe==='M'">
                             </i>
                             <i class="fa fa-female"  ng-if="classeEleve.eleve.sexe==='F'">
                             </i>

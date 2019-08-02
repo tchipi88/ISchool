@@ -6,7 +6,7 @@
     <li ui-sref-active="active">
         <a ui-sref="home">
             <i class="fa fa-home icon text-info-lter"></i>
-            <span class="font-bold" >Accueil</span>
+            <span class="font-bold" >Home</span>
         </a>
     </li>
     <li ng-class="{active: vm.$state.includes('admin')}"  has-authority="ROLE_ADMIN" >
@@ -16,12 +16,12 @@
                 <i class="fa fa-fw fa-angle-down text-active"></i>
             </span>
             <i class="glyphicon glyphicon-lock icon text-primary-dker"></i>
-            <span class="font-bold" >Securite</span>
+            <span class="font-bold" >Security</span>
         </a>
         <ul class="nav nav-sub dk">
             <li class="nav-sub-header">
                 <a href>
-                    <span >Securite</span>
+                    <span >Security</span>
                 </a>
             </li>
             <li ui-sref-active="active">
@@ -36,7 +36,7 @@
             </li>
             <li ui-sref-active="active">
                 <a ui-sref="privilege">
-                    <span>Privilèges</span>
+                    <span>Privileges</span>
                 </a>
             </li>
 
@@ -55,22 +55,27 @@
                 <i class="fa fa-fw fa-angle-down text-active"></i>
             </span>
             <i class="fa fa-users icon text-success"></i>
-            <span class="font-bold">Personnel</span>
+            <span class="font-bold">Staff</span>
         </a>
         <ul class="nav nav-sub dk">
             <li class="nav-sub-header">
                 <a href>
-                    <span>Personnel</span>
+                    <span>Staff</span>
                 </a>
             </li>
             <li ui-sref-active="active">
                 <a ui-sref="professeur">
-                    <span>Professeur</span>
+                    <span>Teacher</span>
                 </a>
             </li>
             <li ui-sref-active="active">
                 <a ui-sref="employe">
-                    <span>Employe</span>
+                    <span>Employee</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="person">
+                    <span>Person</span>
                 </a>
             </li>
         </ul>
@@ -83,32 +88,32 @@
                 <i class="fa fa-fw fa-angle-down text-active"></i>
             </span>
             <i class="fa fa-bank icon text-success"></i>
-            <span class="font-bold">Ecole</span>
+            <span class="font-bold">School</span>
         </a>
         <ul class="nav nav-sub dk">
             <li class="nav-sub-header">
                 <a href>
-                    <span>Ecole</span>
+                    <span>School</span>
                 </a>
             </li>
             <li ui-sref-active="active">
                 <a ui-sref="annee">
-                    <span>Annee</span>
+                    <span>Year</span>
                 </a>
             </li>
             <li ui-sref-active="active">
                 <a ui-sref="classe">
-                    <span>Classe</span>
+                    <span>Class</span>
                 </a>
             </li>
              <li ui-sref-active="active">
                 <a ui-sref="serie">
-                    <span>Serie</span>
+                    <span>Series</span>
                 </a>
             </li>
             <li ui-sref-active="active">
                 <a ui-sref="frais-scolarite">
-                    <span>Ecolage</span>
+                    <span>Schooling</span>
                 </a>
             </li>
            
@@ -123,22 +128,22 @@
                 <i class="fa fa-fw fa-angle-down text-active"></i>
             </span>
             <i class="fa fa-users icon text-success"></i>
-            <span class="font-bold">Eleve</span>
+            <span class="font-bold">Student</span>
         </a>
         <ul class="nav nav-sub dk">
             <li class="nav-sub-header">
                 <a href>
-                    <span>Eleve</span>
+                    <span>Student</span>
                 </a>
             </li>
             <li ui-sref-active="active">
                 <a ui-sref="eleve">
-                    <span>Eleves</span>
+                    <span>Students</span>
                 </a>
             </li>
             <li ui-sref-active="active">
                 <a ui-sref="classe-eleve">
-                    <span>Eleves Inscrits</span>
+                    <span>Registed Students</span>
                 </a>
             </li>
             <li ui-sref-active="active">
@@ -149,12 +154,12 @@
            
              <li ui-sref-active="active">
                 <a ui-sref="compte-analytique">
-                    <span>Compte Eleve</span>
+                    <span>Student Account</span>
                 </a>
             </li>
              <li ui-sref-active="active">
                 <a ui-sref="reglement">
-                    <span>Reglements</span>
+                    <span>Payment</span>
                 </a>
             </li>
            
@@ -169,27 +174,27 @@
                 <i class="fa fa-fw fa-angle-down text-active"></i>
             </span>
             <i class="fa fa-calendar icon text-success"></i>
-            <span class="font-bold">Emploi de temps</span>
+            <span class="font-bold">Timetable</span>
         </a>
         <ul class="nav nav-sub dk">
             <li class="nav-sub-header">
                 <a href>
-                    <span>Emploi de Temps</span>
+                    <span>Timetable</span>
                 </a>
             </li>
             <li ui-sref-active="active">
                 <a ui-sref="creneau">
-                    <span>Creneau</span>
+                    <span>Time</span>
                 </a>
             </li>
             <li ui-sref-active="active">
                 <a ui-sref="cours">
-                    <span>Cours</span>
+                    <span>Course</span>
                 </a>
             </li>
             <li ui-sref-active="active">
                 <a ui-sref="timetable">
-                    <span>Emploi de temps</span>
+                    <span>Timetable</span>
                 </a>
             </li>
 
@@ -208,28 +213,28 @@
                 <i class="fa fa-fw fa-angle-down text-active"></i>
             </span>
             <i class="glyphicon glyphicon-th-large icon text-success"></i>
-            <span class="font-bold"> Caisse</span>
+            <span class="font-bold">Cashier</span>
         </a>
         <ul class="nav nav-sub dk">
             <li class="nav-sub-header">
                 <a href>
-                    <span> Caisse</span>
+                    <span> Cashier</span>
                 </a>
             </li>
             <li ui-sref-active="active">
                 <a ui-sref="caisse">
-                    <span>Caisse</span>
+                    <span>Cashier</span>
                 </a>
             </li>
             <li ui-sref-active="active">
                 <a ui-sref="caisse-decaissement">
-                    <span>Decaissement</span>
+                    <span>Disbursement</span>
                 </a>
             </li>
 
             <li ui-sref-active="active">
                 <a ui-sref="caisse-encaissement">
-                    <span>Encaissement</span>
+                    <span>Collection</span>
                 </a>
             </li>
 
@@ -244,12 +249,12 @@
                 <i class="fa fa-fw fa-angle-down text-active"></i>
             </span>
             <i class="fa fa-money icon text-success"></i>
-            <span class="font-bold"> Comptabilite</span>
+            <span class="font-bold"> Accounting</span>
         </a>
         <ul class="nav nav-sub dk">
             <li class="nav-sub-header">
                 <a href>
-                    <span> Comptabilite</span>
+                    <span> Accounting</span>
                 </a>
             </li>
             <li ui-sref-active="active">
@@ -261,7 +266,7 @@
 
             <li ui-sref-active="active">
                 <a ui-sref="compte-analytique-ecriture">
-                    <span>Ecritures</span>
+                    <span>Accounting entries</span>
                 </a>
             </li>
 
@@ -286,7 +291,7 @@
             </li>
             <li ui-sref-active="active">
                 <a ui-sref="matiere">
-                    <span>Matiere</span>
+                    <span>Subject</span>
                 </a>
             </li>
             <li ui-sref-active="active">
@@ -301,7 +306,7 @@
             </li>
             <li ui-sref-active="active">
                 <a ui-sref="notes-periode">
-                    <span>Periode Saisie Notes</span>
+                    <span>Period of Entering Notes</span>
                 </a>
             </li>
             <li ui-sref-active="active">

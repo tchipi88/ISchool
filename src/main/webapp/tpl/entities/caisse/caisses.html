@@ -1,5 +1,5 @@
 <div class="bg-light lter b-b wrapper-md">
-    <h1 class="m-n font-thin h1">Caisses</h1>
+    <h1 class="m-n font-thin h1">Cashier</h1>
     <small class="text-muted"></small>
 </div>
 <div>
@@ -37,7 +37,7 @@
                 <div class="panel-footer">
                     <button type="button" ng-disabled="!vm.dateJournal" class="btn btn-primary"  ng-click="vm.printJournalCaisse()">
                         <span class="fa fa-file-pdf-o"></span>&nbsp;<span
-                            >Journal de caisse</span>
+                            >Daily Payment</span>
                     </button>
                 </div>
             </div>
@@ -88,17 +88,16 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="control-label" for="field_modePaiement">Mode Paiement <span
-                                        style="color:red">*</span></label>
+                                <label class="control-label" for="field_modePaiement">Method </label>
                                 <select class="form-control" name="modePaiement"
                                         ng-model="vm.paiementReportModePaiement"
                                         id="field_modePaiement" >
-                                    <option value="ESPECES">ESPECES</option>
+                                    <option value="CASH">CASH</option>
+                                    <option value="BANK">BANK</option>
                                     <option value="CHEQUE">CHEQUE</option>
-                                    <option value="CARTE_BANCAIRE">CARTE_BANCAIRE</option>
-                                    <option value="VIREMENT">VIREMENT</option>
-                                    <option value="PRELEVEMENT">PRELEVEMENT</option>
-                                    <option value="AUTRES">AUTRES</option>
+                                    <option value="MOMO">MOMO</option>
+                                    <option value="OM">OM</option>
+                                    <option value="OTHER">OTHER</option>
                                 </select>
                             </div>
                         </div>
@@ -108,16 +107,15 @@
                                 <select class="form-control" name="motif" ng-model="vm.paiementReportMotif"
                                         id="field_motif"
                                         >
-                                    <option value="PENSION">PENSION</option>
                                     <option value="INSCRIPTION">INSCRIPTION</option>
-                                    <option value="DON">DON</option>
-                                    <option value="PARENTS">PARENTS</option>
-                                    <option value="SALAIRES">SALAIRES</option>
-                                    <option value="FACTURES">FACTURES</option>
-                                    <option value="TRANSFERT">TRANSFERT</option>
-                                    <option value="PRELEVEMENT">PRELEVEMENT</option>
-                                    <option value="AUTRES">AUTRES</option>
-                                    <option value="ECOLAGE">ECOLAGE</option>
+                                    <option value="SCHOOLING">SCHOOLING</option>
+                                    <option value="SALARY">SALARY</option>
+                                    <option value="HONORARY">HONORARY</option>
+                                    <option value="HOUSE">HOUSE</option>
+                                    <option value="BILL">BILL</option>
+                                    <option value="DONATION">DONATION</option>
+                                    <option value="OTHER">OTHER</option>
+
                                 </select>
                             </div>
                         </div>
@@ -125,10 +123,10 @@
 
                 </div>
                 <div class="panel-footer">
-                    <button type="submit" ng-disabled="!vm.paiementReportDateStart && !vm.paiementReportDateStart && !vm.paiementReportModePaiement" class="btn btn-primary"
+                    <button type="submit" ng-disabled="!vm.paiementReportDateStart && !vm.paiementReportDateStart" class="btn btn-primary"
                             ng-click="vm.printPaymentPeriod()">
                         <span class="fa fa-file-pdf-o"></span>&nbsp;<span
-                            >Paiement Report</span>
+                            >Payment Period Report</span>
                     </button>
                 </div>
             </div>
@@ -142,16 +140,16 @@
                     <thead>
                     <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
                         <th jh-sort-by="id"><span>ID</span> <span class="fa fa-sort"></span></th>
-                        <th jh-sort-by="gerant"><span>Gerant</span> <span class="fa fa-sort"></span></th>
-                        <th jh-sort-by="etat"><span>Etat</span> <span class="fa fa-sort"></span></th>
-                        <th jh-sort-by="soldeReel"><span>Solde Reel</span> <span class="fa fa-sort"></span></th>
-                        <th jh-sort-by="sortie"><span>Sortie</span> <span class="fa fa-sort"></span></th>
-                        <th jh-sort-by="entree"><span>Entree</span> <span class="fa fa-sort"></span></th>
-                        <th jh-sort-by="soldeTheorique"><span>Solde Theorique</span> <span class="fa fa-sort"></span>
+                        <th jh-sort-by="gerant"><span>cashier</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="etat"><span>State</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="soldeReel"><span>Real Balance</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="sortie"><span>Spent</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="entree"><span>Enter</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="soldeTheorique"><span>Theoric Balance</span> <span class="fa fa-sort"></span>
                         </th>
 
                         <th>
-                            <button class="btn btn-primary" ui-sref="caisse.new" tooltip="Cr�er Caisse">
+                            <button class="btn btn-primary" ui-sref="caisse.new" tooltip="Create Caisse">
                                 <i class="fa fa-plus">
                                 </i>
                             </button>

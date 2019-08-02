@@ -31,15 +31,15 @@ public class CompteService {
         Compte c = null;
         if(numcompte!=null)
             c = compteRepository.findOne(numcompte);
-        if(c==null) {
-            List<Compte> list = compteRepository.findByIntitule(intitule);
-            if(list.isEmpty()){
-                do {
-                    numcompte = Math.subtractExact(10, 9999);
-                }while(compteRepository.exists(numcompte));
-            }else
-                c = list.get(0);
-        }
+//        if(c==null) {
+//            List<Compte> list = compteRepository.findByIntitule(intitule);
+//            if(list.isEmpty()){
+//                do {
+//                    numcompte = Math.random()(10, 9999);
+//                }while(compteRepository.exists(numcompte));
+//            }else
+//                c = list.get(0);
+//        }
         if (c == null) {
             c = new Compte();
             c.setId(numcompte);

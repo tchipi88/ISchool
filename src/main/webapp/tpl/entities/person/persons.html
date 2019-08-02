@@ -34,21 +34,21 @@
                 <thead>
                     <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
                         <th jh-sort-by="id"><span >ID</span> <span class="fa fa-sort"></span></th>
-                         <th jh-sort-by="nomPrenom"><span >Nom Prenom</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="typePersonne"><span >Type Personne</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="sexe"><span >Sexe</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="civilite"><span >Civilite</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="dateNaissance"><span >Date Naissance</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="lieuNaissance"><span >Lieu Naissance</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="numeroCNI"><span >Numero CNI</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="dateDelivranceCNI"><span >Date Delivrance CNI</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="lieuDelivranceCNI"><span >Lieu Delivrance CNI</span> <span class="fa fa-sort"></span></th>
+                         <th jh-sort-by="nomPrenom"><span >Full Name</span> <span class="fa fa-sort"></span></th>
+ <th jh-sort-by="typePersonne"><span >Person Type </span> <span class="fa fa-sort"></span></th>
+ <th jh-sort-by="sexe"><span >Sex</span> <span class="fa fa-sort"></span></th>
+ <!--<th jh-sort-by="civilite"><span >Civilite</span> <span class="fa fa-sort"></span></th>-->
+ <th jh-sort-by="dateNaissance"><span >Birth Date</span> <span class="fa fa-sort"></span></th>
+ <th jh-sort-by="lieuNaissance"><span >Birth Place</span> <span class="fa fa-sort"></span></th>
+ <th jh-sort-by="numeroCNI"><span >National ID</span> <span class="fa fa-sort"></span></th>
+ <th jh-sort-by="dateDelivranceCNI"><span >Date of issue</span> <span class="fa fa-sort"></span></th>
+ <th jh-sort-by="lieuDelivranceCNI"><span >Place of issue</span> <span class="fa fa-sort"></span></th>
  <th jh-sort-by="email"><span >Email</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="telephone"><span >Telephone</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="adresse"><span >Adresse</span> <span class="fa fa-sort"></span></th>
+ <th jh-sort-by="telephone"><span >Phone</span> <span class="fa fa-sort"></span></th>
+ <th jh-sort-by="adresse"><span >Address</span> <span class="fa fa-sort"></span></th>
 
                         <th >
-                            <button class="btn btn-primary" ui-sref="person.new"   tooltip="Créer Person">
+                            <button class="btn btn-primary" ui-sref="person.new"   tooltip="Create Person">
                                 <i class="fa fa-plus">
                                 </i>
                             </button>
@@ -61,7 +61,7 @@
                          <td>{{person.nomPrenom}}</td>
  <td>{{person.typePersonne}}</td>
  <td>{{person.sexe}}</td>
- <td>{{person.civilite}}</td>
+ <!--<td>{{person.civilite}}</td>-->
  <td>{{person.dateNaissance | date:'mediumDate'}}</td>
  <td>{{person.lieuNaissance}}</td>
  <td>{{person.numeroCNI}}</td>

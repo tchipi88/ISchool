@@ -9,8 +9,6 @@ import com.tsoft.ischool.config.ApplicationProperties;
 import com.tsoft.ischool.domain.*;
 import com.tsoft.ischool.domain.enumeration.CaisseMouvementMotif;
 import static com.tsoft.ischool.domain.enumeration.ModePaiement.CHEQUE;
-import static com.tsoft.ischool.domain.enumeration.ModePaiement.ESPECES;
-import static com.tsoft.ischool.domain.enumeration.ModePaiement.VIREMENT;
 import com.tsoft.ischool.domain.enumeration.SensEcritureComptable;
 import com.tsoft.ischool.domain.enumeration.TypePersonne;
 import com.tsoft.ischool.repository.EleveRepository;
@@ -80,7 +78,7 @@ public class ReglementService {
 //        comptePersonnel.setDebit(reglement.getMontant().add(comptePersonnel.getDebit()));
 //        compteService.save(comptePersonnel);
         switch (reglement.getModePaiement()) {
-            case ESPECES: {
+            case CASH: {
 
                 Compte compteCaisse = compteService.getCompteCaisse();
                 compteCaisse.setCredit(reglement.getMontant().add(compteCaisse.getCredit()));
@@ -94,7 +92,7 @@ public class ReglementService {
                 compteService.save(compteCheque);
                 break;
             }
-            case VIREMENT: {
+            case BANK: {
                 Compte compteBanque = compteService.getCompteBanque();
                 compteBanque.setCredit(reglement.getMontant().add(compteBanque.getCredit()));
                 compteService.save(compteBanque);
@@ -139,6 +137,9 @@ public class ReglementService {
         //recuperation de la classe
         params.put("code_annee", as.getAnneeCourante().getId());
         params.put("code_versement", reglement.getId());
+        params.put("mode_paiement", reglement.getModePaiement().name());
+        params.put("motif", reglement.getMotif().name());
+        params.put("reference", reglement.getReference());
         CompteAnalytique compte = compteAnalytiqueService.getCompteEleve(reglement.getEleve());
         params.put("solde", compte.getSolde());
 

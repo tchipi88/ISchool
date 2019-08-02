@@ -10,5 +10,5 @@ package com.tsoft.ischool.domain.enumeration;
  * @author tchipnangngansopa
  */
 public enum Cycle {
-    MATERNELLE, PRIMAIRE, SECONDAIRE;
+    MATERNAL, PRIMARY, SECONDARY;
 }

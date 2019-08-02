@@ -73,7 +73,7 @@ public class EmployeResource {
         }
 
         Civilite civil = employe.getCivilite();
-        Sexe sexe = civil==null? null : civil.equals(Civilite.MR) ? Sexe.G : Sexe.F;
+        Sexe sexe = civil==null? null : civil.equals(Civilite.MR) ? Sexe.M : Sexe.F;
         String nom = employe.getNom()+ (employe.getPrenom()!=null? " "+employe.getPrenom() : "");
         Person person = new Person(nom, TypePersonne.STAFF, sexe);
         person.setCivilite(civil);

@@ -18,7 +18,7 @@
  </div>
  <div class="col-sm-6">
  <div class="form-group">
- <label class="control-label"  for="field_caisse">Register <span style="color:red" >*</span></label>
+ <label class="control-label"  for="field_caisse">Cashier <span style="color:red" >*</span></label>
  <div class="input-group">
                         <ui-select ng-model="vm.caisseDecaissement.caisse"    ng-required="true">
                             <ui-select-match placeholder="Select Caisse">{{$select.selected.id}}</ui-select-match>
@@ -84,15 +84,15 @@
  </div>
  <div class="col-sm-6">
  <div class="form-group">
- <label class="control-label"  for="field_modePaiement">Disbursement Method<span style="color:red" >*</span></label>
+ <label class="control-label"  for="field_modePaiement">Method<span style="color:red" >*</span></label>
  <select class="form-control" name="modePaiement"  ng-model="vm.caisseDecaissement.modePaiement"  id="field_modePaiement" required>
-<option value="ESPECES">CASH</option>
-<option value="CHEQUE">CHEQUE</option>
-<option value="CARTE_BANCAIRE">CARD</option>
-<option value="VIREMENT">TRANSFER</option>
-<option value="OM">OM</option>
-<option value="MOMO">MOMO</option>
-<option value="AUTRES">OTHER</option>
+     <option value="CASH">CASH</option>
+     <option value="BANK">BANK</option>
+     <option value="CHEQUE">CHEQUE</option>
+     <option value="MOMO">MOMO</option>
+     <option value="OM">OM</option>
+     <option value="OTHER">OTHER</option>
+
             </select>
  </div>
  </div>
@@ -100,21 +100,24 @@
  <div class="form-group">
  <label class="control-label"  for="field_motif">Reason <span style="color:red" >*</span></label>
  <select class="form-control" name="motif"  ng-model="vm.caisseDecaissement.motif"  id="field_motif" required>
-<option value="MAISON">HOUSE</option>
-<option value="EAU_LUMIERE">WATER & LIGHT</option>
-<option value="PENSION">PENSION</option>
-<option value="INSCRIPTION">INSCRIPTION</option>
-<option value="DON">DONATION</option>
-<option value="PARENTS">PARENTS</option>
-<option value="SALAIRES">SALARIES</option>
-<option value="FACTURES">BILLS</option>
-<option value="TRANSFERT">TRANSFERT</option>
-<option value="PRELEVEMENT">TAKING</option>
-<option value="AUTRES">OTHER</option>
-<option value="ECOLAGE">TRAINER</option>
+     <option value="INSCRIPTION">INSCRIPTION</option>
+     <option value="SCHOOLING">SCHOOLING</option>
+     <option value="SALARY">SALARY</option>
+     <option value="HONORARY">HONORARY</option>
+     <option value="HOUSE">HOUSE</option>
+     <option value="BILL">BILL</option>
+     <option value="OTHER">OTHER</option>
+
             </select>
  </div>
  </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label" for="field_reference">Reference </label>
+                    <input class="form-control" type="text" autocomplete="off" id="field_reference" ng-model="vm.caisseDecaissement.reference" ng-readonly="false" ng-maxlength="255" />
+                </div>
+            </div>
+
             <div class="col-sm-6">
                 <div class="form-group">
                     <label class="control-label"  for="field_image">Image Ref</label>

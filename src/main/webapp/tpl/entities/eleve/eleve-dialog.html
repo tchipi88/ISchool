@@ -4,8 +4,8 @@
     <div class="modal-header">
         <button type="button" class="btn btn-link pull-right" data-dismiss="modal" aria-hidden="true"
                 ng-click="vm.clear()"><i class="fa fa-remove"></i>  </button>
-        <h3 class="modal-title" id="myEleveLabel" >Cr�er ou modifier  Eleve   {{vm.eleve.id}}</h3>
-        <small class="text-muted" >Les champs * sont obligatoires</small>
+        <h3 class="modal-title" id="myEleveLabel" >Create or modify Student   {{vm.eleve.id}}</h3>
+        <small class="text-muted" >Fields with * are required</small>
     </div>
     <div class="modal-body">
        
@@ -49,28 +49,28 @@
                             
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label"  for="field_nom">Nom <span style="color:red" >*</span></label>
+                                    <label class="control-label"  for="field_nom">Surname <span style="color:red" >*</span></label>
                                     <input  class="form-control"   type="text"  autocomplete="off"   id="field_nom" ng-model="vm.eleve.nom"                     ng-readonly="false"  ng-required="true"    ng-maxlength="255"                      />
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label"  for="field_prenom">Prenom</label>
+                                    <label class="control-label"  for="field_prenom">First Name</label>
                                     <input  class="form-control"   type="text"  autocomplete="off"   id="field_prenom" ng-model="vm.eleve.prenom"                     ng-readonly="false"  ng-required="false"    ng-maxlength="255"                      />
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label"  for="field_sexe">Sexe   <span style="color:red" >*</span></label>
+                                    <label class="control-label"  for="field_sexe">Sex <span style="color:red" >*</span></label>
                                     <select class="form-control" name="sexe"  ng-model="vm.eleve.sexe"  id="field_sexe"   required>
-                                        <option value="G">Garcon</option>
-                                        <option value="F">Fille</option>
+                                        <option value="M">Male</option>
+                                        <option value="F">Female</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label"  for="field_dateNaissance">Date Naissance<span style="color:red" >*</span></label>
+                                    <label class="control-label"  for="field_dateNaissance">Birth Date<span style="color:red" >*</span></label>
                                     <div class="input-group">
                                         <input  id="field_dateNaissance" type="text" class="form-control" name="dateNaissance"    ng-required="true"  uib-datepicker-popup="{{dateformat}}"  ng-model="vm.eleve.dateNaissance"  is-open="vm.datePickerOpenStatus.dateNaissance"
                                                 />
@@ -82,7 +82,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label"  for="field_lieuNaissance">Lieu Naissance</label>
+                                    <label class="control-label"  for="field_lieuNaissance">Birth PLace</label>
                                     <input  class="form-control"   type="text"  autocomplete="off"   id="field_lieuNaissance" ng-model="vm.eleve.lieuNaissance"                     ng-readonly="false"  ng-required="false"    ng-minlength="0"     ng-maxlength="100"                      />
                                 </div>
                             </div>
@@ -90,7 +90,7 @@
 
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label"  for="field_telephone">Telephone</label>
+                                    <label class="control-label"  for="field_telephone">Phone</label>
                                     <div class="input-group"> <input  class="form-control"   type="text"  autocomplete="off"  id="field_telephone"  ng-model="vm.eleve.telephone"                     ng-readonly="false"  ng-required="false"                     /><span class="input-group-addon" >  <span >
                                                 <i class="fa fa-phone"></i>
                                             </span> </span>
@@ -99,7 +99,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label"  for="field_adresse">Adresse</label>
+                                    <label class="control-label"  for="field_adresse">Address</label>
                                     <input  class="form-control"   type="text"  autocomplete="off"   id="field_adresse" ng-model="vm.eleve.adresse"                     ng-readonly="false"  ng-required="false"    ng-maxlength="255"                      />
                                 </div>
                             </div>
@@ -114,31 +114,31 @@
                         <div class="row">
                            <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label"  for="field_nomPere">Nom Pere</label>
+                                    <label class="control-label"  for="field_nomPere">Father's Name</label>
                                     <input  class="form-control"   type="text"  autocomplete="off"   id="field_nomPere" ng-model="vm.eleve.nomPere"                     ng-readonly="false"  ng-required="false"    ng-maxlength="255"                      />
                                 </div>
                             </div>
                              <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label"  for="field_nomMere">Nom Mere</label>
+                                    <label class="control-label"  for="field_nomMere">Mother's Name</label>
                                     <input  class="form-control"   type="text"  autocomplete="off"   id="field_nomMere" ng-model="vm.eleve.nomMere"                     ng-readonly="false"  ng-required="false"    ng-maxlength="255"                      />
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label"  for="field_professionPere">Profession Pere</label>
+                                    <label class="control-label"  for="field_professionPere">Father Profession </label>
                                     <input  class="form-control"   type="text"  autocomplete="off"   id="field_professionPere" ng-model="vm.eleve.professionPere"                     ng-readonly="false"  ng-required="false"    ng-maxlength="255"                      />
                                 </div>
                             </div>
                              <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label"  for="field_professionMere">Profession Mere</label>
+                                    <label class="control-label"  for="field_professionMere">Mother Profession</label>
                                     <input  class="form-control"   type="text"  autocomplete="off"   id="field_professionMere" ng-model="vm.eleve.professionMere"                     ng-readonly="false"  ng-required="false"    ng-maxlength="255"                      />
                                 </div>
                             </div> 
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label"  for="field_telephonePere">Telephone Pere</label>
+                                    <label class="control-label"  for="field_telephonePere">Father Phone</label>
                                     <div class="input-group"> <input  class="form-control"   type="text"  autocomplete="off"  id="field_telephonePere"  ng-model="vm.eleve.telephonePere"                     ng-readonly="false"  ng-required="false"                     /><span class="input-group-addon" >  <span >
                                                 <i class="fa fa-phone"></i>
                                             </span> </span>
@@ -148,7 +148,7 @@
                            
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label"  for="field_telephoneMere">Telephone Mere</label>
+                                    <label class="control-label"  for="field_telephoneMere">Mother Phone</label>
                                     <div class="input-group"> <input  class="form-control"   type="text"  autocomplete="off"  id="field_telephoneMere"  ng-model="vm.eleve.telephoneMere"                     ng-readonly="false"  ng-required="false"                     /><span class="input-group-addon" >  <span >
                                                 <i class="fa fa-phone"></i>
                                             </span> </span>
@@ -167,10 +167,10 @@
     <div class="modal-footer">
 
         <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
-            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Annuler</span>
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Cancel</span>
         </button>
         <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
-            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Enregister</span>
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Save</span>
         </button>
     </div>
 </form>

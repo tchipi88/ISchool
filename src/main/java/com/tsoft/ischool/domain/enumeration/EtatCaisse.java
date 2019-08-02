@@ -11,7 +11,5 @@ package com.tsoft.ischool.domain.enumeration;
  * @author tchipi
  */
 public enum EtatCaisse {
-    
-    FERME,
-    OUVERT;
+    FERME, OUVERT;
 }

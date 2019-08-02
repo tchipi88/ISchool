@@ -12,12 +12,15 @@ package com.tsoft.ischool.domain.enumeration;
 
 public enum ModePaiement  {
 
-    ESPECES,
-    CHEQUE,
-    CARTE_BANCAIRE,
-    VIREMENT,
-    PRELEVEMENT,
-    AUTRES;
+    CASH, BANK, CHEQUE, MOMO, OM, OTHER;
+//    ESPECES,
+//    CHEQUE,
+//    CARTE_BANCAIRE,
+//    VIREMENT,
+//    PRELEVEMENT,
+//    MOMO,
+//    OM,
+//    AUTRES;
     
     
 }

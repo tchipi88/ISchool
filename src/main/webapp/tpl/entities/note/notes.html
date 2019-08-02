@@ -52,12 +52,12 @@
                     <thead>
                         <tr >
                             <th >Matricule</th>
-                            <th >Nom Prenom</th>
+                            <th >Full Name</th>
 
                             <th >Notes(/20)
 
                             </th>
-                            <th >Statut</th>
+                            <th >Status</th>
 
 
                         </tr>
@@ -65,7 +65,7 @@
                     <tbody>
                         <tr ng-repeat="note in vm.notes track by note.classeEleve.id">
                             <td>{{note.classeEleve.eleve.id}}</td>
-                            <td><i class="fa fa-male"  ng-if="note.classeEleve.eleve.sexe === 'G'">
+                            <td><i class="fa fa-male"  ng-if="note.classeEleve.eleve.sexe === 'M'">
                                 </i>
                                 <i class="fa fa-female"  ng-if="note.classeEleve.eleve.sexe === 'F'">
                                 </i>

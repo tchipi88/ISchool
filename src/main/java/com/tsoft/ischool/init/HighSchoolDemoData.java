@@ -110,7 +110,7 @@ public class HighSchoolDemoData implements DemoData {
         matieres.forEach((m) -> {
             for (int i = 0; i < 2; i++) {
                 Professeur u = new Professeur();
-                u.setCivilite(i % 2 == 0 ? Civilite.MR : Civilite.MME);
+                u.setCivilite(i % 2 == 0 ? Civilite.MR : Civilite.MRS);
                 u.setNom(df.getName());
                 u.setDateNaissance(LocalDate.now());
                 u.setEmail(df.getEmailAddress());
@@ -138,7 +138,7 @@ public class HighSchoolDemoData implements DemoData {
 
                 for (int j = 0; j < 50; j++) {
                     Eleve e = new Eleve();
-                    e.setSexe(j % 2 == 0 ? Sexe.F : Sexe.G);
+                    e.setSexe(j % 2 == 0 ? Sexe.F : Sexe.M);
                     e.setNom(df.getName());
                     e.setDateNaissance(LocalDate.now());
                     e.setTelephone("237 " + df.getNumberText(8));

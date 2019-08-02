@@ -24,6 +24,9 @@
 	<parameter name="adress_ecole" class="java.lang.String"/>
 	<parameter name="logo_ecole" class="java.io.InputStream" isForPrompting="false"/>
 	<parameter name="slogan_ecole" class="java.lang.String"/>
+	<parameter name="mode_paiement" class="java.lang.String"/>
+	<parameter name="motif" class="java.lang.String"/>
+	<parameter name="reference" class="java.lang.String"/>
 	<parameter name="print_message" class="java.lang.String"/>
 	<parameter name="code_versement" class="java.lang.Long">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -145,7 +148,7 @@
 					<textElement>
 						<font isBold="true"/>
 					</textElement>
-					<text><![CDATA[Nom et Prenoms]]></text>
+					<text><![CDATA[Full Name]]></text>
 				</staticText>
 				<image hAlign="Center" vAlign="Middle" onErrorType="Blank">
 					<reportElement x="206" y="2" width="136" height="41" uuid="fde6d6e8-a6eb-4e57-bdcf-7e1c4aa62aa5"/>
@@ -158,7 +161,7 @@
 						<textElement textAlignment="Center" verticalAlignment="Middle">
 							<font isBold="true" isItalic="false" isUnderline="false"/>
 						</textElement>
-						<text><![CDATA[RECU VERSEMENT N°]]></text>
+						<text><![CDATA[PAYMENT RECEIPT N°]]></text>
 					</staticText>
 					<textField>
 						<reportElement x="142" y="1" width="42" height="14" uuid="d7e7e012-1467-45b3-8304-9fc97134b4dc"/>
@@ -178,7 +181,7 @@
 					<textElement>
 						<font isBold="true"/>
 					</textElement>
-					<text><![CDATA[Classe:]]></text>
+					<text><![CDATA[Class:]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
 					<reportElement x="220" y="97" width="74" height="15" uuid="e0490df9-e943-4249-8aa8-7317a23bc255"/>
@@ -206,28 +209,52 @@
 	<detail>
 		<band height="50" splitType="Stretch">
 			<textField isBlankWhenNull="true">
-				<reportElement x="0" y="20" width="90" height="20" uuid="9bf9f799-e474-4801-a2c4-2c894bfb7ece"/>
+				<reportElement x="0" y="20" width="42" height="20" uuid="9bf9f799-e474-4801-a2c4-2c894bfb7ece"/>
 				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="91" y="0" width="129" height="20" uuid="609baed4-7bd0-44e0-be0e-65689881284d"/>
-				<text><![CDATA[Date reglement]]></text>
+				<reportElement x="42" y="0" width="97" height="20" uuid="609baed4-7bd0-44e0-be0e-65689881284d"/>
+				<text><![CDATA[Payment Date]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1" y="0" width="90" height="20" uuid="ee227816-e01c-4abc-89d6-9003d1486278"/>
+				<reportElement x="1" y="0" width="41" height="20" uuid="ee227816-e01c-4abc-89d6-9003d1486278"/>
 				<text><![CDATA[N°]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="220" y="0" width="144" height="20" uuid="88e5f276-5453-45ef-913e-d427b5632c75"/>
-				<text><![CDATA[Montant]]></text>
+				<reportElement x="139" y="0" width="80" height="20" uuid="88e5f276-5453-45ef-913e-d427b5632c75"/>
+				<text><![CDATA[Amount]]></text>
 			</staticText>
 			<textField pattern="#,##0" isBlankWhenNull="true">
-				<reportElement x="220" y="20" width="144" height="20" uuid="fb115ddb-b5e3-4955-903f-73da5d6ee25b"/>
+				<reportElement x="139" y="20" width="80" height="20" uuid="fb115ddb-b5e3-4955-903f-73da5d6ee25b"/>
 				<textFieldExpression><![CDATA[$F{montant}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd MMMMM yyyy" isBlankWhenNull="true">
-				<reportElement x="91" y="20" width="129" height="20" uuid="eec05c1b-818e-4db7-bb10-f73cba30c5c5"/>
+				<reportElement x="42" y="20" width="97" height="20" uuid="eec05c1b-818e-4db7-bb10-f73cba30c5c5"/>
 				<textFieldExpression><![CDATA[$F{date_versement}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="219" y="0" width="118" height="20" uuid="2268ca26-6819-4965-84bf-a67e2c5dfba3"/>
+				<text><![CDATA[Method]]></text>
+			</staticText>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="336" y="20" width="84" height="20" uuid="7915d500-63c7-4a57-8ff6-4089e10d01ac"/>
+				<textFieldExpression><![CDATA[$P{motif}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="420" y="20" width="80" height="20" uuid="b2fc1714-102f-441b-9b8d-7f64fa46557f"/>
+				<textFieldExpression><![CDATA[$P{reference}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="420" y="0" width="80" height="20" uuid="7884f7de-1600-4713-9725-66484912ad76"/>
+				<text><![CDATA[Reference]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="337" y="0" width="83" height="20" uuid="de0e2a89-e5df-4236-9d47-79745ca935aa"/>
+				<text><![CDATA[Motif]]></text>
+			</staticText>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="219" y="20" width="117" height="20" uuid="84d874ba-c7a2-4c1f-ad8d-68b3c41bbb02"/>
+				<textFieldExpression><![CDATA[$P{mode_paiement}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -257,14 +284,14 @@
 			</staticText>
 			<staticText>
 				<reportElement x="-1" y="60" width="100" height="20" uuid="e2e4326f-b34d-467f-954d-1b90a5241b86"/>
-				<text><![CDATA[Le Client]]></text>
+				<text><![CDATA[Customer]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="0" width="200" height="20" uuid="0787f487-007f-4ffc-bf57-f3848ae0fec3"/>
 				<textElement>
 					<font isBold="true" isUnderline="true"/>
 				</textElement>
-				<text><![CDATA[Somme de tous les  versements]]></text>
+				<text><![CDATA[Total of all Payments]]></text>
 			</staticText>
 			<textField pattern="#,##0" isBlankWhenNull="true">
 				<reportElement x="200" y="0" width="100" height="20" uuid="5bd0bcf3-efad-41f9-8904-b59771fbb59c"/>
@@ -279,7 +306,7 @@
 				<textElement>
 					<font isBold="true" isUnderline="true"/>
 				</textElement>
-				<text><![CDATA[Reste Inscription]]></text>
+				<text><![CDATA[Rest of Inscription]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
 				<reportElement x="436" y="77" width="119" height="20" uuid="9a72c5c5-9aa8-4062-993d-81747fdf3715"/>

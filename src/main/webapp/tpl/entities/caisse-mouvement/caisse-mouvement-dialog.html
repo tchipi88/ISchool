@@ -3,8 +3,8 @@
     <div class="modal-header">
         <button type="button" class="btn btn-link pull-right" data-dismiss="modal" aria-hidden="true"
                 ng-click="vm.clear()"><i class="fa fa-remove"></i></button>
-        <h3 class="modal-title" id="myCaisseMouvementLabel">Cr�er ou modifier CaisseMouvement</h3>
-        <small class="text-muted">Les champs * sont obligatoires</small>
+        <h3 class="modal-title" id="myCaisseMouvementLabel">Create or modifyMouvment casing</h3>
+        <small class="text-muted">Fields with * are required</small>
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
@@ -87,15 +87,15 @@
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label class="control-label" for="field_modePaiement">Mode Paiement <span style="color:red">*</span></label>
+                    <label class="control-label" for="field_modePaiement">Method <span style="color:red">*</span></label>
                     <select class="form-control" name="modePaiement" ng-model="vm.caisseMouvement.modePaiement"
                             id="field_modePaiement" required>
-                        <option value="ESPECES">ESPECES</option>
+                        <option value="CASH">CASH</option>
+                        <option value="BANK">BANK</option>
                         <option value="CHEQUE">CHEQUE</option>
-                        <option value="CARTE_BANCAIRE">CARTE_BANCAIRE</option>
-                        <option value="VIREMENT">VIREMENT</option>
-                        <option value="PRELEVEMENT">PRELEVEMENT</option>
-                        <option value="AUTRES">AUTRES</option>
+                        <option value="MOMO">MOMO</option>
+                        <option value="OM">OM</option>
+                        <option value="OTHER">OTHER</option>
                     </select>
                 </div>
             </div>
@@ -104,16 +104,15 @@
                     <label class="control-label" for="field_motif">Motif <span style="color:red">*</span></label>
                     <select class="form-control" name="motif" ng-model="vm.caisseMouvement.motif" id="field_motif"
                             required>
-                        <option value="PENSION">PENSION</option>
                         <option value="INSCRIPTION">INSCRIPTION</option>
-                        <option value="DON">DON</option>
-                        <option value="PARENTS">PARENTS</option>
-                        <option value="SALAIRES">SALAIRES</option>
-                        <option value="FACTURES">FACTURES</option>
-                        <option value="TRANSFERT">TRANSFERT</option>
-                        <option value="PRELEVEMENT">PRELEVEMENT</option>
-                        <option value="AUTRES">AUTRES</option>
-                        <option value="ECOLAGE">ECOLAGE</option>
+                        <option value="SCHOOLING">SCHOOLING</option>
+                        <option value="SALARY">SALARY</option>
+                        <option value="HONORARY">HONORARY</option>
+                        <option value="HOUSE">HOUSE</option>
+                        <option value="BILL">BILL</option>
+                        <option value="DONATION">DONATION</option>
+                        <option value="OTHER">OTHER</option>
+
                     </select>
                 </div>
             </div>
@@ -132,11 +131,11 @@
     <div class="modal-footer">
 
         <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
-            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Annuler</span>
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Cancel</span>
         </button>
         <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
             <span class="glyphicon glyphicon-save"></span>&nbsp;<span
-                data-translate="entity.action.save">Enregister</span>
+                data-translate="entity.action.save">Save</span>
         </button>
     </div>
 </form>

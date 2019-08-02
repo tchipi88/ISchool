@@ -12,7 +12,7 @@ angular.module('app')
 
       // config
       $scope.app = {
-        name: 'GSB NJIKE',
+        name: 'ST FRANCIS',
         version: '2.0.0',
         // for chart colors
         color: {

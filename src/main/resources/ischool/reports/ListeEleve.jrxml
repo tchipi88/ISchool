@@ -124,7 +124,7 @@
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[NOM ET PRENOMS]]></text>
+				<text><![CDATA[Full Name]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="355" y="19" width="101" height="15" uuid="5521e421-2e12-4cd5-861e-a5d0b1f82a9f"/>

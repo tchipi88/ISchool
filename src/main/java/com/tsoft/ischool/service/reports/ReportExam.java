@@ -75,13 +75,13 @@ public class ReportExam {
 
         result.setEffectif(eleveMoy.keySet().size());
 
-        Long nbremoyG = eleveMoy.entrySet().stream().filter(map -> Sexe.G.equals(map.getKey().getEleve().getSexe())).map(map -> map.getValue()).filter(moy -> moy >= 10).count();
+        Long nbremoyG = eleveMoy.entrySet().stream().filter(map -> Sexe.M.equals(map.getKey().getEleve().getSexe())).map(map -> map.getValue()).filter(moy -> moy >= 10).count();
         Long nbremoyF = eleveMoy.entrySet().stream().filter(map -> Sexe.F.equals(map.getKey().getEleve().getSexe())).map(map -> map.getValue()).filter(moy -> moy >= 10).count();
 
         result.setNbremoyG(nbremoyG);
         result.setNbremoyF(nbremoyF);
 
-        Long nbresousmoyG = eleveMoy.entrySet().stream().filter(map -> Sexe.G.equals(map.getKey().getEleve().getSexe())).map(map -> map.getValue()).filter(moy -> moy < 10).count();
+        Long nbresousmoyG = eleveMoy.entrySet().stream().filter(map -> Sexe.M.equals(map.getKey().getEleve().getSexe())).map(map -> map.getValue()).filter(moy -> moy < 10).count();
         Long nbresousmoyF = eleveMoy.entrySet().stream().filter(map -> Sexe.F.equals(map.getKey().getEleve().getSexe())).map(map -> map.getValue()).filter(moy -> moy < 10).count();
 
         result.setNbresousmoyG(nbresousmoyG);
@@ -94,7 +94,7 @@ public class ReportExam {
         result.setMinmoy(moyGenerale.getMin());
         result.setMaxmoy(moyGenerale.getMax());
 
-        DoubleSummaryStatistics moyGarcon = eleveMoy.entrySet().stream().filter(map -> Sexe.G.equals(map.getKey().getEleve().getSexe())).map(map -> map.getValue()).collect(DoubleSummaryStatistics::new, DoubleSummaryStatistics::accept,
+        DoubleSummaryStatistics moyGarcon = eleveMoy.entrySet().stream().filter(map -> Sexe.M.equals(map.getKey().getEleve().getSexe())).map(map -> map.getValue()).collect(DoubleSummaryStatistics::new, DoubleSummaryStatistics::accept,
                 DoubleSummaryStatistics::combine);
 
         result.setAvgmoyG(moyGarcon.getAverage());
@@ -108,7 +108,7 @@ public class ReportExam {
         result.setMinmoyF(moyFille.getMin());
         result.setMaxmoyF(moyFille.getMax());
 
-        Long tableauHonneurGarcon = eleveMoy.entrySet().stream().filter(map -> Sexe.G.equals(map.getKey().getEleve().getSexe())).map(map -> map.getValue()).filter(moy -> moy >= 12).count();
+        Long tableauHonneurGarcon = eleveMoy.entrySet().stream().filter(map -> Sexe.M.equals(map.getKey().getEleve().getSexe())).map(map -> map.getValue()).filter(moy -> moy >= 12).count();
         Long tableauHonneurMoyFille = eleveMoy.entrySet().stream().filter(map -> Sexe.F.equals(map.getKey().getEleve().getSexe())).map(map -> map.getValue()).filter(moy -> moy >= 12).count();
 
         result.setThG(tableauHonneurGarcon);

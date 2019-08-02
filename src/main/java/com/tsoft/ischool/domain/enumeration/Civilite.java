@@ -10,5 +10,5 @@ package com.tsoft.ischool.domain.enumeration;
  * @author tchipi
  */
 public enum Civilite {
-    MR,MME;
+    MR,MRS, MISS;
 }

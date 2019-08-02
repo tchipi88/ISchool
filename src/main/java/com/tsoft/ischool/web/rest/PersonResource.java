@@ -84,26 +84,28 @@ public class PersonResource {
         }
 
         Person person = personRepository.save(personR);
-        if(person.getTypePersonne().equals(TypePersonne.STAFF)){
-            Employe employe = new Employe();
-            employe.setNom(person.getNomPrenom());
-            employe.setCivilite(person.getSexe().equals(Sexe.G)? Civilite.MR : Civilite.MME);
-            employe.setPerson(person);
-            employeRepository.save(employe);
-            employeSearchRepository.save(employe);
-        } else if(person.getTypePersonne().equals(TypePersonne.STAFF)){
-            Professeur prof = new Professeur();
-            prof.setNom(person.getNomPrenom());
-            prof.setCivilite(person.getSexe().equals(Sexe.G)? Civilite.MR : Civilite.MME);
-            prof.setPerson(person);
-            professeurRepository.save(prof);
-            professeurSearchRepository.save(prof);
-        }else if(person.getTypePersonne().equals(TypePersonne.STAFF)){
-            Eleve eleve = new Eleve();
-            eleve.setNom(person.getNomPrenom());
-            eleve.setSexe(person.getSexe());
-            eleve.setPerson(person);
-            eleveService.create(eleve);
+        if(person.getTypePersonne()!=null) {
+            if (person.getTypePersonne().equals(TypePersonne.STAFF)) {
+                Employe employe = new Employe();
+                employe.setNom(person.getNomPrenom());
+                employe.setCivilite(person.getSexe().equals(Sexe.M) ? Civilite.MR : Civilite.MRS);
+                employe.setPerson(person);
+                employeRepository.save(employe);
+                employeSearchRepository.save(employe);
+            } else if (person.getTypePersonne().equals(TypePersonne.TEACHER)) {
+                Professeur prof = new Professeur();
+                prof.setNom(person.getNomPrenom());
+                prof.setCivilite(person.getSexe().equals(Sexe.M) ? Civilite.MR : Civilite.MRS);
+                prof.setPerson(person);
+                professeurRepository.save(prof);
+                professeurSearchRepository.save(prof);
+            } else if (person.getTypePersonne().equals(TypePersonne.STUDENT)) {
+                Eleve eleve = new Eleve();
+                eleve.setNom(person.getNomPrenom());
+                eleve.setSexe(person.getSexe());
+                eleve.setPerson(person);
+                eleveService.create(eleve);
+            }
         }
 
         personSearchRepository.save(person);

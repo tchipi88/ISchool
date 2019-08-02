@@ -26,7 +26,7 @@ spring:
         serialization.indent_output: true
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:mysql://localhost:3306/ischool?useUnicode=true&characterEncoding=utf8&useSSL=false
+        url: jdbc:mysql://localhost:3306/ischool2?useUnicode=true&characterEncoding=utf8&useSSL=false
         username: root
         password:
         hikari:
@@ -149,7 +149,7 @@ application:
 
 ischool:
     report:
-        email: wtedongmo@gmail.com
+        email: wtedongmo@gmail.com,yengwiatony@yahoo.com
         time:
             daily: 0 0 17 ? * MON-SAT
             period: 0 10 17 ? * MON

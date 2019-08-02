@@ -10,13 +10,14 @@ package com.tsoft.ischool.domain.enumeration;
  * @author tchipi
  */
 public enum CaisseMouvementMotif {
-    PENSION,
-    INSCRIPTION,
-    DON,
-    PARENTS,
-    SALAIRES,
-    FACTURES,
-    TRANSFERT,
-    PRELEVEMENT,
-    AUTRES, ECOLAGE;
+    INSCRIPTION, SCHOOLING, SALARY, HONORARY, HOUSE, BILL, DONATION, OTHER;
+//    PENSION,
+//    INSCRIPTION,
+//    DON,
+//    PARENTS,
+//    SALAIRES,
+//    FACTURES,
+//    TRANSFERT,
+//    PRELEVEMENT,
+//    AUTRES, ECOLAGE;
 }

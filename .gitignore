@@ -29,6 +29,7 @@ npm-debug.log.*
 .metadata
 tmp/
 tmp/**/*
+*.zip
 *.tmp
 *.bak
 *.swp

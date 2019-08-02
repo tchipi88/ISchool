@@ -43,9 +43,8 @@ public class Reglement extends AbstractAuditingEntity {
     @NotNull
     private BigDecimal montant;
 
-//    @Column
-//    @Fichier
-//    private String fileReference;
+    @Column
+    private String reference;
 
     @Enumerated(EnumType.STRING)
     @NotNull
@@ -151,13 +150,13 @@ public class Reglement extends AbstractAuditingEntity {
     }
 
 
-//    public String getFileReference() {
-//        return fileReference;
-//    }
-//
-//    public void setFileReference(String fileReference) {
-//        this.fileReference = fileReference;
-//    }
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
+    }
 
 
     public byte[] getImage() {

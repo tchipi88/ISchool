@@ -144,7 +144,7 @@ public class HighSchoolRealData implements RealData {
             s.setId(serie.getKey().split("_")[1]);
             s.setDescription(serie.getKey().split("_")[0]);
             s.setNiveau(serie.getValue());
-            s.setCycle(Cycle.SECONDAIRE);
+            s.setCycle(Cycle.SECONDARY);
             s.setSection(Section.FRANCOPHONE);
 
             seriess.add(s);

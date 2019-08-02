@@ -220,14 +220,14 @@ where e.id =$P{code_eleve} and ei.annee_id= $P{code_annee} order by typematiere;
 						<textElement>
 							<font isBold="true"/>
 						</textElement>
-						<text><![CDATA[Nom et Prenom:]]></text>
+						<text><![CDATA[Full Name:]]></text>
 					</staticText>
 					<staticText>
 						<reportElement x="408" y="32" width="73" height="15" uuid="f1e09088-2154-4d6a-9a41-6d6200045a18"/>
 						<textElement>
 							<font isBold="true"/>
 						</textElement>
-						<text><![CDATA[Classe:]]></text>
+						<text><![CDATA[Class:]]></text>
 					</staticText>
 					<textField isBlankWhenNull="true">
 						<reportElement x="481" y="32" width="66" height="15" uuid="318359ef-153d-4a1f-bd12-2f9aef5b75b5"/>

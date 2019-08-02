@@ -10,5 +10,5 @@ package com.tsoft.ischool.domain.enumeration;
  * @author tchipnangngansopa
  */
 public enum EtatAnnee {
-  EN_COURS,TERMINE;  
+  EN_COURS,TERMINE;
 }

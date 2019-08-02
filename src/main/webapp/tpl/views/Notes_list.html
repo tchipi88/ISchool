@@ -45,12 +45,12 @@
                         st-safe-src="listsObjects"  st-table="displayedCollection">
                     <thead>
                     <th >Matricule</th>
-                    <th >Nom Prenom</th>
+                    <th >Full Name</th>
                     <th >Notes(/20)</th>
                     </thead>
                     <tbody>
                         <tr  ng-if="displayedCollection.length==0">
-                            <td colspan="3">Aucune donnée à afficher</td>
+                            <td colspan="3">No Data to display</td>
                         </tr>
                         <tr  ng-repeat="n in displayedCollection">
                             <td>{{n.matricule}} </td> 
