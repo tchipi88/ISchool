@@ -1,5 +1,5 @@
 # ===================================================================
-# Spring Boot configuration for the "dev" profile.
+# Spring Boot configuration for the "prod" profile.
 #
 # This configuration overrides the application.yml file.
 #
@@ -14,21 +14,16 @@
 # ===================================================================
 
 spring:
-    profiles:
-        active: dev
-        include: swagger
     devtools:
         restart:
-            enabled: true
+            enabled: false
         livereload:
-            enabled: false # we use gulp + BrowserSync for livereload
-    jackson:
-        serialization.indent_output: true
+            enabled: false
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:mysql://localhost:3306/ischool2?useUnicode=true&characterEncoding=utf8&useSSL=false
+        url: jdbc:mysql://localhost:3306/TKBR?useUnicode=true&characterEncoding=utf8&useSSL=false
         username: root
-        password:
+        password: root
         hikari:
             data-source-properties:
                 cachePrepStmts: true
@@ -38,43 +33,27 @@ spring:
     jpa:
         database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
         database: MYSQL
-        show-sql: true
+        show-sql: false
         properties:
             hibernate.id.new_generator_mappings: true
             hibernate.cache.use_second_level_cache: true
             hibernate.cache.use_query_cache: false
-            hibernate.generate_statistics: true
-            hibernate.hbm2ddl.auto: update
+            hibernate.generate_statistics: false
             hibernate.cache.region.factory_class: io.github.jhipster.config.jcache.NoDefaultJCacheRegionFactory
     data:
         elasticsearch:
             cluster-name:
-            cluster-nodes:
-            properties:
-                path:
-                  logs: target/elasticsearch/log
-                  data: target/elasticsearch/data
+            cluster-nodes: localhost:9300
     mail:
-        default-encoding: UTF-8
-        host: smtp.gmail.com
-        username: stfrancisobili@gmail.com
-        password: StFrancis
-        port: 587
-        properties:
-            mail:
-                smtp:
-                    auth: true
-                    starttls:
-                        enable: true
-        protocol: smtp
-        test-connection: false
-    messages:
-        cache-seconds: 1
+        host: localhost
+        port: 25
+        username:
+        password:
     thymeleaf:
-        cache: false
+        cache: true
 
 liquibase:
-    contexts: dev
+    contexts: prod
 
 # ===================================================================
 # To enable SSL, generate a certificate using:
@@ -86,7 +65,7 @@ liquibase:
 # Then, modify the server.ssl properties so your "server" configuration looks like:
 #
 # server:
-#    port: 8443
+#    port: 443
 #    ssl:
 #        key-store: keystore.p12
 #        key-store-password: <your-password>
@@ -95,6 +74,10 @@ liquibase:
 # ===================================================================
 server:
     port: 8080
+    compression:
+        enabled: true
+        mime-types: text/html,text/xml,text/plain,text/css, application/javascript, application/json
+        min-response-size: 1024
 
 # ===================================================================
 # JHipster specific properties
@@ -105,25 +88,27 @@ server:
 jhipster:
     http:
         version: V_1_1 # To use HTTP/2 you will need SSL support (see above the "server.ssl" configuration)
+        cache: # Used by the CachingHttpHeadersFilter
+            timeToLiveInDays: 1461
     cache: # Cache configuration
         ehcache: # Ehcache configuration
             time-to-live-seconds: 3600 # By default objects stay 1 hour in the cache
-            max-entries: 100 # Number of objects in each cache entry
+            max-entries: 1000 # Number of objects in each cache entry
     security:
         remember-me:
             # security key (this key should be unique for your application, and kept secret)
             key: 96d7aa5b25b900d259884a7da184ffcf762c201a
     mail: # specific JHipster mail property, for standard properties see MailProperties
         from: TKBR_@localhost
-        base-url: http://127.0.0.1:8080
+        base-url: http://my-server-url-to-change # Modify according to your server's URL
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx.enabled: true
-        graphite: # Use the "graphite" Maven profile to have the Graphite dependencies
+        graphite:
             enabled: false
             host: localhost
             port: 2003
             prefix: TKBR_
-        prometheus: # Use the "prometheus" Maven profile to have the Prometheus dependencies
+        prometheus:
             enabled: false
             endpoint: /prometheusMetrics
         logs: # Reports Dropwizard metrics in the logs
@@ -146,12 +131,3 @@ jhipster:
 # ===================================================================
 
 application:
-
-ischool:
-    report:
-        email: wtedongmo@gmail.com,yengwiatony@yahoo.com
-        time:
-            daily: 0 0 17 ? * MON-SAT
-            period: 0 10 17 ? * MON
-
-

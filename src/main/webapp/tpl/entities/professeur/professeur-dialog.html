@@ -21,19 +21,19 @@
                            
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label"  for="field_nom">Nom <span style="color:red" >*</span></label>
+                                    <label class="control-label"  for="field_nom">Surname <span style="color:red" >*</span></label>
                                     <input  class="form-control"   type="text"  autocomplete="off"   id="field_nom" ng-model="vm.professeur.nom"                     ng-readonly="false"  ng-required="true"    ng-maxlength="255"                      />
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label"  for="field_prenom">Prenom</label>
+                                    <label class="control-label"  for="field_prenom">Given Name</label>
                                     <input  class="form-control"   type="text"  autocomplete="off"   id="field_prenom" ng-model="vm.professeur.prenom"                     ng-readonly="false"  ng-required="false"    ng-maxlength="255"                      />
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label"  for="field_civilite">Civilite</label>
+                                    <label class="control-label"  for="field_civilite">Civility</label>
                                     <select class="form-control" name="civilite"  ng-model="vm.professeur.civilite"  id="field_civilite" >
                                         <option value="MR">MR</option>
                                         <option value="MRS">MRS</option>
@@ -41,28 +41,34 @@
                                     </select>
                                 </div>
                             </div>
-                              <div class="col-sm-6">
+                            <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label"  for="field_matiere">Matiere <span style="color:red" >*</span></label>
-                                    <div class="input-group">
-                                        <ui-select ng-model="vm.professeur.matiere"    ng-required="true">
-                                            <ui-select-match placeholder="Select Matiere">{{$select.selected.libelle}}</ui-select-match>
-                                            <ui-select-choices repeat="matiere in vm.matieres | filter: $select.search">
-                                                <div ng-bind-html="matiere.libelle | highlight: $select.search"></div>
-                                            </ui-select-choices>
-                                        </ui-select>  
-                                        <span class="input-group-btn" >
-                                            <button   ng-click="vm.zoomColumn('Matiere', 'matiere', 'matiere', vm.professeur.matiere)" 
-                                                      class="btn btn-default" type="button"  ng-hide="!vm.professeur.matiere">
-                                                <span class="fa fa-eye"></span>
-                                            </button>
-                                            <button ng-click="vm.zoomColumn('Matiere', 'matiere', 'matiere', {})"      
-                                                    class="btn btn-default" type="button"  ng-hide="vm.professeur.matiere">
-                                                <span class="fa fa-plus fw"></span>
-                                            </button>
-                                        </span>
-                                    </div> </div>
+                                    <label class="control-label"  for="field_classe">Class <span style="color:red" >*</span></label>
+                                    <input  class="form-control" type="text" autocomplete="off" id="field_classe" ng-model="vm.professeur.classe" ng-readonly="false" ng-required="false" ng-maxlength="20"  />
+                                </div>
                             </div>
+                              <!--<div class="col-sm-6">-->
+                                <!--<div class="form-group">-->
+                                    <!--<label class="control-label"  for="field_classe">Class <span style="color:red" >*</span></label>-->
+                                    <!--<div class="input-group">-->
+                                        <!--<ui-select ng-model="vm.professeur.classe"    ng-required="false">-->
+                                            <!--<ui-select-match placeholder="Select Classe">{{$select.selected.id}}</ui-select-match>-->
+                                            <!--<ui-select-choices repeat="classe in vm.classes | filter: $select.search">-->
+                                                <!--<div ng-bind-html="matiere.id | highlight: $select.search"></div>-->
+                                            <!--</ui-select-choices>-->
+                                        <!--</ui-select>  -->
+                                        <!--<span class="input-group-btn" >-->
+                                            <!--<button   ng-click="vm.zoomColumn('Classe', 'classe', 'classe', vm.professeur.classe)" -->
+                                                      <!--class="btn btn-default" type="button"  ng-hide="!vm.professeur.classe">-->
+                                                <!--<span class="fa fa-eye"></span>-->
+                                            <!--</button>-->
+                                            <!--<button ng-click="vm.zoomColumn('Classe', 'classe', 'classe', {})"      -->
+                                                    <!--class="btn btn-default" type="button"  ng-hide="vm.professeur.classe">-->
+                                                <!--<span class="fa fa-plus fw"></span>-->
+                                            <!--</button>-->
+                                        <!--</span>-->
+                                    <!--</div> </div>-->
+                            <!--</div>-->
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="control-label"  for="field_dateNaissance">Birth Date</label>
@@ -93,7 +99,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label"  for="field_telephone">Telephone</label>
+                                    <label class="control-label"  for="field_telephone">Phone</label>
                                     <div class="input-group"> <input  class="form-control"   type="text"  autocomplete="off"  id="field_telephone"  ng-model="vm.professeur.telephone"                     ng-readonly="false"  ng-required="false"                     /><span class="input-group-addon" >  <span >
                                                 <i class="fa fa-phone"></i>
                                             </span> </span>
@@ -102,7 +108,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label"  for="field_adresse">Adresse</label>
+                                    <label class="control-label"  for="field_adresse">Address</label>
                                     <input  class="form-control"   type="text"  autocomplete="off"   id="field_adresse" ng-model="vm.professeur.adresse"                     ng-readonly="false"  ng-required="false"    ng-maxlength="255"                      />
                                 </div>
                             </div>
@@ -117,7 +123,7 @@
                         <div class="row">
                              <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label"  for="field_dateRecrutement">Date Recrutement</label>
+                                    <label class="control-label"  for="field_dateRecrutement">Hiring Date </label>
                                     <div class="input-group">
                                         <input  id="field_dateRecrutement" type="text" class="form-control" name="dateRecrutement"    ng-required="false"  uib-datepicker-popup="{{dateformat}}"  ng-model="vm.professeur.dateRecrutement"  is-open="vm.datePickerOpenStatus.dateRecrutement"
                                                 />
@@ -129,7 +135,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label"  for="field_diplome">Diplome</label>
+                                    <label class="control-label"  for="field_diplome">Diploma</label>
                                     <input  class="form-control"   type="text"  autocomplete="off"   id="field_diplome" ng-model="vm.professeur.diplome"                     ng-readonly="false"  ng-required="false"    ng-maxlength="255"                      />
                                 </div>
                             </div>
@@ -151,13 +157,13 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label"  for="field_numeroCNI">Numero CNI</label>
+                                    <label class="control-label"  for="field_numeroCNI">ID Card Number</label>
                                     <input  class="form-control"   type="number"  autocomplete="off"  id="field_numeroCNI" ng-model="vm.professeur.numeroCNI"                     ng-readonly="false"  ng-required="false"                     />
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label"  for="field_dateDelivranceCNI">Date Delivrance CNI</label>
+                                    <label class="control-label"  for="field_dateDelivranceCNI">Date CNI</label>
                                     <div class="input-group">
                                         <input  id="field_dateDelivranceCNI" type="text" class="form-control" name="dateDelivranceCNI"    ng-required="false"  uib-datepicker-popup="{{dateformat}}"  ng-model="vm.professeur.dateDelivranceCNI"  is-open="vm.datePickerOpenStatus.dateDelivranceCNI"
                                                 />
@@ -169,7 +175,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label"  for="field_lieuDelivranceCNI">Lieu Delivrance CNI</label>
+                                    <label class="control-label"  for="field_lieuDelivranceCNI">Place Issue CNI</label>
                                     <input  class="form-control"   type="text"  autocomplete="off"   id="field_lieuDelivranceCNI" ng-model="vm.professeur.lieuDelivranceCNI"                     ng-readonly="false"  ng-required="false"    ng-maxlength="255"                      />
                                 </div>
                             </div>

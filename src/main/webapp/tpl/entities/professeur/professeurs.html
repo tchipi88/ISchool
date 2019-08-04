@@ -1,5 +1,5 @@
 <div class="bg-light lter b-b wrapper-md" >
-    <h1 class="m-n font-thin h3">Professeurs</h1>
+    <h1 class="m-n font-thin h3">Teachers</h1>
     <small class="text-muted"></small>
 </div>
 <div>
@@ -34,10 +34,10 @@
                 <thead>
                     <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
                         <th jh-sort-by="id"><span >ID</span> <span class="fa fa-sort"></span></th>
-                         <th jh-sort-by="civilite"><span >Civilite</span> <span class="fa fa-sort"></span></th>
-                        <th jh-sort-by="nom"><span >Nom</span> <span class="fa fa-sort"></span></th>
-                        <th jh-sort-by="matiere"><span >Matiere</span> <span class="fa fa-sort"></span></th>
-                        <th jh-sort-by="telephone"><span >Telephone</span> <span class="fa fa-sort"></span></th>
+                         <th jh-sort-by="civilite"><span >Civility</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="nom"><span >Name</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="classe"><span >Class</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="telephone"><span >Phone</span> <span class="fa fa-sort"></span></th>
                        
 
                         <th >
@@ -57,7 +57,7 @@
                         <td>{{professeur.id}}</td>
                          <td>{{professeur.civilite}}</td>
                         <td>{{professeur.nom}}   {{professeur.prenom}}</td>
-                         <td>{{professeur.matiere.libelle}}</td>
+                         <td>{{professeur.classe}}</td>
                         <td>{{professeur.telephone}}</td>
                       
 

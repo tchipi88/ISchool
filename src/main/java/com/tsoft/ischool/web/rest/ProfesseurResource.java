@@ -237,11 +237,12 @@ public class ProfesseurResource {
         drb.addFirstPageImageBanner(resourceLoader.getResource("classpath:ischool/reports/logo-ecole.png").getFile().getAbsolutePath(), new Integer(300), new Integer(60), ImageBanner.ALIGN_RIGHT);
         drb.addColumn("Matricule ", "id", Long.class.getName(), 30)
                 .addColumn("Civilité", "civilite", Civilite.class, 15)
-                .addColumn("Nom", "nom", String.class.getName(), 30)
-                .addColumn("Prenom", "prenom", String.class.getName(), 30)
+                .addColumn("Name", "nom", String.class.getName(), 30)
+                .addColumn("Other Name", "prenom", String.class.getName(), 30)
                 .addColumn("Tel", "telephone", String.class.getName(), 30)
                 .addColumn("Matiere", "matiere.libelle", String.class.getName(), 30)
-                .setTitle("Liste Professeurs     Annee :" + annneService.getAnneeCourante().getId())
+                .addColumn("Class", "classe", String.class.getName(), 30)
+                .setTitle("List of teachers    Year :" + annneService.getAnneeCourante().getId())
                 //.setSubtitle("This report was generated at " + LocalDate.now())
                 .setPrintBackgroundOnOddRows(true)
                 .setUseFullPageWidth(true);

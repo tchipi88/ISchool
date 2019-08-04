@@ -47,6 +47,9 @@ public class Professeur extends Personne  {
     @ManyToOne
     // @NotNull
     private Matiere matiere;
+
+    @Column
+    private String classe;
     @Column
     @Min(1)
     @Max(128)
@@ -86,6 +89,14 @@ public class Professeur extends Personne  {
 
     public void setVacataire(boolean vacataire) {
         this.vacataire = vacataire;
+    }
+
+    public String getClasse() {
+        return classe;
+    }
+
+    public void setClasse(String classe) {
+        this.classe = classe;
     }
 
     public Matiere getMatiere() {
