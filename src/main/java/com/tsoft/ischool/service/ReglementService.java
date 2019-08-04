@@ -141,7 +141,8 @@ public class ReglementService {
         params.put("motif", reglement.getMotif().name());
         params.put("reference", reglement.getReference());
         CompteAnalytique compte = compteAnalytiqueService.getCompteEleve(reglement.getEleve());
-        params.put("solde", compte.getSolde());
+        params.put("cumul", compte.getSolde());
+//        params.put("solde", compte.getSolde());
 
         //information about school
         ApplicationProperties.Ecole ecole = app.getEcole();

@@ -81,13 +81,6 @@
 			<frame>
 				<reportElement x="-1" y="1" width="555" height="117" uuid="c0078640-dbdb-476f-b3d5-c8e1c92c5000"/>
 				<staticText>
-					<reportElement x="0" y="16" width="178" height="10" uuid="80f78113-1f3d-4c25-b949-95521b521ba7"/>
-					<textElement textAlignment="Center">
-						<font size="8"/>
-					</textElement>
-					<text><![CDATA[Ministere de l'Education de Base]]></text>
-				</staticText>
-				<staticText>
 					<reportElement x="0" y="0" width="178" height="10" uuid="0156e195-a881-4b21-9b9a-2e61e7612417"/>
 					<textElement textAlignment="Center">
 						<font size="9"/>
@@ -123,7 +116,7 @@
 					<text><![CDATA[Ministry of Secondary Education]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="0" y="26" width="178" height="13" uuid="1ec61e80-04d1-4db7-bdcf-896a80ecba73"/>
+					<reportElement x="0" y="26" width="178" height="32" uuid="1ec61e80-04d1-4db7-bdcf-896a80ecba73"/>
 					<textElement textAlignment="Center">
 						<font isBold="true"/>
 					</textElement>
@@ -151,7 +144,7 @@
 					<text><![CDATA[Full Name]]></text>
 				</staticText>
 				<image hAlign="Center" vAlign="Middle" onErrorType="Blank">
-					<reportElement x="206" y="2" width="136" height="41" uuid="fde6d6e8-a6eb-4e57-bdcf-7e1c4aa62aa5"/>
+					<reportElement x="233" y="2" width="83" height="41" uuid="fde6d6e8-a6eb-4e57-bdcf-7e1c4aa62aa5"/>
 					<imageExpression><![CDATA[$P{logo_ecole}]]></imageExpression>
 				</image>
 				<frame>
@@ -188,20 +181,6 @@
 					<textElement>
 						<font isBold="true"/>
 					</textElement>
-				</textField>
-				<textField isBlankWhenNull="true">
-					<reportElement x="0" y="39" width="178" height="10" uuid="4a1cee54-7fa0-44fe-ade1-49520551710a"/>
-					<textElement textAlignment="Center">
-						<font size="8" isBold="false" isItalic="true"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$P{slogan_ecole}]]></textFieldExpression>
-				</textField>
-				<textField isBlankWhenNull="true">
-					<reportElement x="0" y="48" width="178" height="10" uuid="b0c605df-7c74-48de-b32d-e7df740702a7"/>
-					<textElement textAlignment="Center">
-						<font size="8" isBold="false" isItalic="true"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$P{adress_ecole}]]></textFieldExpression>
 				</textField>
 			</frame>
 		</band>
