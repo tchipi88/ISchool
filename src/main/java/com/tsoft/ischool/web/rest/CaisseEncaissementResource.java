@@ -3,6 +3,7 @@ package com.tsoft.ischool.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.tsoft.ischool.domain.CaisseEncaissement;
 import com.tsoft.ischool.repository.CaisseEncaissementRepository;
+import com.tsoft.ischool.service.EncaissementService;
 import com.tsoft.ischool.web.rest.util.HeaderUtil;
 import com.tsoft.ischool.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -34,10 +35,12 @@ public class CaisseEncaissementResource {
     private static final String ENTITY_NAME = "caisseEncaissement";
         
     private final CaisseEncaissementRepository caisseEncaissementRepository;
+    private final EncaissementService encaissementService;
 
 
-    public CaisseEncaissementResource(CaisseEncaissementRepository caisseEncaissementRepository) {
+    public CaisseEncaissementResource(CaisseEncaissementRepository caisseEncaissementRepository, EncaissementService encaissementService) {
         this.caisseEncaissementRepository = caisseEncaissementRepository;
+        this.encaissementService = encaissementService;
     }
 
     /**
@@ -59,7 +62,8 @@ public class CaisseEncaissementResource {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "badDate", "A new Cashing cannot be after now")).body(null);
         }
 
-        CaisseEncaissement result = caisseEncaissementRepository.save(caisseEncaissement);
+//        CaisseEncaissement result = caisseEncaissementRepository.save(caisseEncaissement);
+        CaisseEncaissement result = encaissementService.save(caisseEncaissement);
         return ResponseEntity.created(new URI("/api/caisse-encaissements/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);

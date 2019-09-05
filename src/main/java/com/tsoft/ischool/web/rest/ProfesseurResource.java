@@ -101,7 +101,7 @@ public class ProfesseurResource {
         Civilite civil = professeur.getCivilite();
         Sexe sexe = civil==null? null : civil.equals(Civilite.MR) ? Sexe.M : Sexe.F;
         String nom = professeur.getNom()+ (professeur.getPrenom()!=null? " "+professeur.getPrenom() : "");
-        Person person = new Person(nom, TypePersonne.STAFF, sexe);
+        Person person = new Person(nom, TypePersonne.TEACHER, sexe);
         person.setCivilite(civil);
         person = personRepository.save(person);
         personSearchRepository.save(person);

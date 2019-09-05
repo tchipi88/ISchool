@@ -5,9 +5,9 @@
             .module('app')
             .controller('ReglementDialogController', ReglementDialogController);
 
-    ReglementDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', '$uibModal', 'DateUtils', 'DataUtils', 'entity', 'Reglement', 'EleveSearch', 'Caisse'];
+    ReglementDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', '$uibModal', 'DateUtils', 'DataUtils', 'entity', 'Reglement', 'EleveSearch', 'Caisse', 'Classe'];
 
-    function ReglementDialogController($timeout, $scope, $stateParams, $uibModalInstance, $uibModal, DateUtils, DataUtils, entity, Reglement, EleveSearch, Caisse) {
+    function ReglementDialogController($timeout, $scope, $stateParams, $uibModalInstance, $uibModal, DateUtils, DataUtils, entity, Reglement, EleveSearch, Caisse, Classe) {
         var vm = this;
 
         vm.reglement = entity;
@@ -18,6 +18,7 @@
         vm.openFile = DataUtils.openFile;
         vm.save = save;
         vm.caisses = Caisse.query();
+        vm.classes = Classe.query();
         vm.search = search;
 
 

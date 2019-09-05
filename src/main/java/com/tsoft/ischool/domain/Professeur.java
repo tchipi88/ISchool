@@ -48,7 +48,9 @@ public class Professeur extends Personne  {
     // @NotNull
     private Matiere matiere;
 
+//    @ManyToOne
     @Column
+//    private Classe classe;
     private String classe;
     @Column
     @Min(1)

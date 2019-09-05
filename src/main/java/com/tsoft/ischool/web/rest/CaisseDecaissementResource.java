@@ -2,7 +2,9 @@ package com.tsoft.ischool.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.tsoft.ischool.domain.CaisseDecaissement;
+import com.tsoft.ischool.domain.CaisseEncaissement;
 import com.tsoft.ischool.repository.CaisseDecaissementRepository;
+import com.tsoft.ischool.service.DecaissementService;
 import com.tsoft.ischool.web.rest.util.HeaderUtil;
 import com.tsoft.ischool.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -34,10 +36,12 @@ public class CaisseDecaissementResource {
     private static final String ENTITY_NAME = "caisseCaisseDecaissement";
         
     private final CaisseDecaissementRepository caisseDecaissementRepository;
+    private final DecaissementService decaissementService;
 
 
-    public CaisseDecaissementResource(CaisseDecaissementRepository caisseDecaissementRepository) {
+    public CaisseDecaissementResource(CaisseDecaissementRepository caisseDecaissementRepository, DecaissementService decaissementService) {
         this.caisseDecaissementRepository = caisseDecaissementRepository;
+        this.decaissementService = decaissementService;
     }
 
     /**
@@ -58,7 +62,8 @@ public class CaisseDecaissementResource {
         if (dateDecaiss.isAfter(LocalDate.now())) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "badDate", "A new Disbursement cannot be after now")).body(null);
         }
-        CaisseDecaissement result = caisseDecaissementRepository.save(caisseCaisseDecaissement);
+//        CaisseDecaissement result = caisseDecaissementRepository.save(caisseCaisseDecaissement);
+        CaisseDecaissement result = decaissementService.save(caisseCaisseDecaissement);
         return ResponseEntity.created(new URI("/api/caisse-decaissements/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);

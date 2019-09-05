@@ -53,6 +53,8 @@ public class Reglement extends AbstractAuditingEntity {
     @NotNull
     private CaisseMouvementMotif motif;
 
+    @ManyToOne
+    private Classe classe;
     @Lob
     @Column(name = "image")
     @Image
@@ -158,6 +160,13 @@ public class Reglement extends AbstractAuditingEntity {
         this.reference = reference;
     }
 
+    public Classe getClasse() {
+        return classe;
+    }
+
+    public void setClasse(Classe classe) {
+        this.classe = classe;
+    }
 
     public byte[] getImage() {
         return image;

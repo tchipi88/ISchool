@@ -35,6 +35,19 @@
                     </div> </div>
             </div>
 
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label"  for="field_classe">Class </label>
+                    <!--<span style="color:red" >*</span>-->
+                    <ui-select ng-model="vm.reglement.classe"    ng-required="false"   >
+                        <ui-select-match placeholder="Select Classe">{{$select.selected.id}}</ui-select-match>
+                        <ui-select-choices repeat="classe in vm.classes | filter: $select.search" >
+                            <div ng-bind-html="classe.id | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+
+                </div>
+            </div>
 
             <div class="col-sm-6">
                 <div class="form-group">
@@ -58,6 +71,7 @@
                         </span>
                     </div> </div>
             </div>
+
             <div class="col-sm-6">
                 <div class="form-group">
                     <label class="control-label"  for="field_dateVersement">Operation Date <span style="color:red" >*</span></label>

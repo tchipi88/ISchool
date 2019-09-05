@@ -28,6 +28,7 @@
 	<parameter name="motif" class="java.lang.String"/>
 	<parameter name="reference" class="java.lang.String"/>
 	<parameter name="print_message" class="java.lang.String"/>
+	<parameter name="classe" class="java.lang.String"/>
 	<parameter name="code_versement" class="java.lang.Long">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -181,6 +182,7 @@
 					<textElement>
 						<font isBold="true"/>
 					</textElement>
+					<textFieldExpression><![CDATA[$P{classe}]]></textFieldExpression>
 				</textField>
 			</frame>
 		</band>
@@ -238,31 +240,16 @@
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="19">
-			<textField pattern="dd/MM/yyyy HH.mm.ss">
-				<reportElement x="364" y="0" width="190" height="15" uuid="6b8fd1ab-4e6a-46e2-aa14-3ccf483d130a"/>
-				<textElement textAlignment="Right">
-					<font size="7"/>
-				</textElement>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
-			</textField>
-			<textField pattern="dd/MM/yyyy HH.mm.ss">
-				<reportElement x="0" y="0" width="75" height="15" uuid="21237bbb-6c47-47cd-8fe5-55c9c5b39752"/>
-				<textElement textAlignment="Left">
-					<font size="7"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{print_message}]]></textFieldExpression>
-			</textField>
-		</band>
+		<band height="19"/>
 	</pageFooter>
 	<summary>
 		<band height="97">
 			<staticText>
-				<reportElement x="436" y="60" width="100" height="20" uuid="0a7bc3ea-6c2d-4647-add5-4d0fef354fc8"/>
+				<reportElement x="436" y="40" width="100" height="20" uuid="0a7bc3ea-6c2d-4647-add5-4d0fef354fc8"/>
 				<text><![CDATA[Agent]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="-1" y="60" width="100" height="20" uuid="e2e4326f-b34d-467f-954d-1b90a5241b86"/>
+				<reportElement x="1" y="57" width="100" height="20" uuid="e2e4326f-b34d-467f-954d-1b90a5241b86"/>
 				<text><![CDATA[Customer]]></text>
 			</staticText>
 			<staticText>
@@ -288,8 +275,22 @@
 				<text><![CDATA[Rest of Inscription]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="436" y="77" width="119" height="20" uuid="9a72c5c5-9aa8-4062-993d-81747fdf3715"/>
+				<reportElement x="436" y="60" width="119" height="20" uuid="9a72c5c5-9aa8-4062-993d-81747fdf3715"/>
 				<textFieldExpression><![CDATA[$F{created_by}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy HH.mm.ss">
+				<reportElement x="364" y="82" width="190" height="15" uuid="6b8fd1ab-4e6a-46e2-aa14-3ccf483d130a"/>
+				<textElement textAlignment="Right">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy HH.mm.ss">
+				<reportElement x="1" y="80" width="75" height="15" uuid="21237bbb-6c47-47cd-8fe5-55c9c5b39752"/>
+				<textElement textAlignment="Left">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{print_message}]]></textFieldExpression>
 			</textField>
 		</band>
 	</summary>

@@ -40,11 +40,14 @@ public class ClasseEleveService {
         // if(! anneeService.getAnneeCourante().equals(eleveInscrit.getAnnee())) throw  new Exception("Inscription ")
         //determine les frais d'ecolage
         FraisScolarite fraisScolarite = fraisScolariteRepository.findByAnneeAndSerie(anneeService.getAnneeCourante(), eleveInscrit.getClasse().getSerie());
-        if (fraisScolarite == null) {
-            throw new Exception("Aucun Frais de Scolarite défini pour l'annee courante et la serie " + eleveInscrit.getClasse().getSerie().getId());
+//        if (fraisScolarite == null) {
+//            throw new Exception("Aucun Frais de Scolarite défini pour l'annee courante et la serie " + eleveInscrit.getClasse().getSerie().getId());
+//        }
+        if(fraisScolarite!= null){
+            ecritureCompteAnalytiqueService.create(eleveInscrit.getEleve(), fraisScolarite.getTotalScolarite(), SensEcritureComptable.D, "Inscription  en " + eleveInscrit.getClasse().getId() + " pour Année: " + eleveInscrit.getAnnee().getId());
+
         }
 
-        ecritureCompteAnalytiqueService.create(eleveInscrit.getEleve(), fraisScolarite.getTotalScolarite(), SensEcritureComptable.D, "Inscription  en " + eleveInscrit.getClasse().getId() + " pour Année: " + eleveInscrit.getAnnee().getId());
 
         return eleveInscritRepository.save(eleveInscrit);
     }

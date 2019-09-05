@@ -43,31 +43,22 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label"  for="field_classe">Class <span style="color:red" >*</span></label>
+                                    <label class="control-label"  for="field_classe">Class </label>
                                     <input  class="form-control" type="text" autocomplete="off" id="field_classe" ng-model="vm.professeur.classe" ng-readonly="false" ng-required="false" ng-maxlength="20"  />
                                 </div>
                             </div>
-                              <!--<div class="col-sm-6">-->
+                            <!--<div class="col-sm-6">-->
                                 <!--<div class="form-group">-->
-                                    <!--<label class="control-label"  for="field_classe">Class <span style="color:red" >*</span></label>-->
-                                    <!--<div class="input-group">-->
-                                        <!--<ui-select ng-model="vm.professeur.classe"    ng-required="false">-->
-                                            <!--<ui-select-match placeholder="Select Classe">{{$select.selected.id}}</ui-select-match>-->
-                                            <!--<ui-select-choices repeat="classe in vm.classes | filter: $select.search">-->
-                                                <!--<div ng-bind-html="matiere.id | highlight: $select.search"></div>-->
-                                            <!--</ui-select-choices>-->
-                                        <!--</ui-select>  -->
-                                        <!--<span class="input-group-btn" >-->
-                                            <!--<button   ng-click="vm.zoomColumn('Classe', 'classe', 'classe', vm.professeur.classe)" -->
-                                                      <!--class="btn btn-default" type="button"  ng-hide="!vm.professeur.classe">-->
-                                                <!--<span class="fa fa-eye"></span>-->
-                                            <!--</button>-->
-                                            <!--<button ng-click="vm.zoomColumn('Classe', 'classe', 'classe', {})"      -->
-                                                    <!--class="btn btn-default" type="button"  ng-hide="vm.professeur.classe">-->
-                                                <!--<span class="fa fa-plus fw"></span>-->
-                                            <!--</button>-->
-                                        <!--</span>-->
-                                    <!--</div> </div>-->
+                                    <!--<label class="control-label"  for="field_classe">Class </label>-->
+                                    <!--&lt;!&ndash;<span style="color:red" >*</span>&ndash;&gt;-->
+                                    <!--<ui-select ng-model="vm.professeur.classe"    ng-required="false"   >-->
+                                        <!--<ui-select-match placeholder="Select Classe">{{$select.selected.id}}</ui-select-match>-->
+                                        <!--<ui-select-choices repeat="classe in vm.classes | filter: $select.search" >-->
+                                            <!--<div ng-bind-html="classe.id | highlight: $select.search"></div>-->
+                                        <!--</ui-select-choices>-->
+                                    <!--</ui-select>-->
+
+                                <!--</div>-->
                             <!--</div>-->
                             <div class="col-sm-6">
                                 <div class="form-group">

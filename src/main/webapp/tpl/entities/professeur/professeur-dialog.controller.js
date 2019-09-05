@@ -7,6 +7,7 @@
 
     ProfesseurDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', '$uibModal','DataUtils', 'entity', 'Professeur','Matiere'];
 
+// , Classe
     function ProfesseurDialogController ($timeout, $scope, $stateParams, $uibModalInstance,$uibModal, DataUtils, entity, Professeur ,Matiere) {
         var vm = this;
 
@@ -18,6 +19,7 @@
         vm.openFile = DataUtils.openFile;
         vm.save = save;
         vm.matieres = Matiere.query();
+        // vm.classes = Classe.query();
 
       
 

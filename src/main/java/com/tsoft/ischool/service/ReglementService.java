@@ -11,6 +11,7 @@ import com.tsoft.ischool.domain.enumeration.CaisseMouvementMotif;
 import static com.tsoft.ischool.domain.enumeration.ModePaiement.CHEQUE;
 import com.tsoft.ischool.domain.enumeration.SensEcritureComptable;
 import com.tsoft.ischool.domain.enumeration.TypePersonne;
+import com.tsoft.ischool.repository.ClasseEleveRepository;
 import com.tsoft.ischool.repository.EleveRepository;
 import com.tsoft.ischool.repository.PersonRepository;
 import com.tsoft.ischool.repository.ReglementRepository;
@@ -68,10 +69,30 @@ public class ReglementService {
     @Autowired
     private EleveRepository eleveRepository;
 
+    @Autowired
+    private ClasseEleveService classeEleveService;
+    @Autowired
+    private ClasseEleveRepository classeEleveRepository;
+    @Autowired
+    private AnneeService anneeService;
+
     public Reglement save(Reglement reglement) throws Exception {
         if (reglement.getId() != null) {
             throw new Exception("Mise à jour des reglement interdite");
         }
+
+        //Create Student class if not exists
+        Annee annee = anneeService.getAnneeCourante();
+
+        ClasseEleve classeEleve = classeEleveRepository.findByAnneeAndEleve(annee, reglement.getEleve());
+        if(classeEleve==null){
+            classeEleve = new ClasseEleve();
+            classeEleve.setAnnee(annee);
+            classeEleve.setEleve(reglement.getEleve());
+            classeEleve.setClasse(reglement.getClasse());
+            classeEleveService.create(classeEleve);
+        }
+
         ecritureCompteAnalytiqueService.create(reglement.getEleve(), reglement.getMontant(), SensEcritureComptable.C, "Ecolage ");
 
 //        //Compte comptePersonnel = compteService.getComptePersonnel();
@@ -126,7 +147,9 @@ public class ReglementService {
 
         encaissementService.save(encaissement);
 
-        return reglementRepository.save(reglement);
+        Reglement result = reglementRepository.save(reglement);
+
+        return result;
     }
 
     public ResponseEntity<byte[]> print(Reglement reglement) throws Exception {
@@ -140,9 +163,11 @@ public class ReglementService {
         params.put("mode_paiement", reglement.getModePaiement().name());
         params.put("motif", reglement.getMotif().name());
         params.put("reference", reglement.getReference());
+        String classId = reglement.getClasse().getSerie().getId();
+        params.put("classe", classId==null?"":classId );
         CompteAnalytique compte = compteAnalytiqueService.getCompteEleve(reglement.getEleve());
-        params.put("cumul", compte.getSolde());
-//        params.put("solde", compte.getSolde());
+        params.put("cumul", compte.getCredit());
+        params.put("solde", compte.getSolde());
 
         //information about school
         ApplicationProperties.Ecole ecole = app.getEcole();
