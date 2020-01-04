@@ -21,3 +21,9 @@ update reglement set classe_id='CLASS 11' where classe_id is null;
 select count(*) from classe_eleve;
  
 update reglement r join classe_eleve ce on r.eleve_id=ce.eleve_id set r.classe_id=ce..classe_id;
+
+delete from classe where id!='CLASS 11';
+select distinct classe_id from reglement;
+
+update reglement r join classe c on r.classe_id=c.id left join classe_eleve ce on r.eleve_id=ce.eleve_id and c.id=ce.classe_id set r.classe_id=null where ce.id is null;
+
